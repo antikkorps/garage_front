@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HeroSection from '@/components/HeroSection.vue'
+</script>
 
 <template>
   <main>
-    <div class="hero">Ici le Hero</div>
+    <HeroSection />
     <div class="presentation">Ici la présentation</div>
   </main>
 </template>
