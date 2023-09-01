@@ -23,7 +23,7 @@ const toggleMenu = () => {
           type="button"
           class="text-white bg-red-700 hover:bg-red-800 transition-colors duration-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
         >
-          Se connecter
+          <router-link to="/login">Se connecter</router-link>
         </button>
         <button
           data-collapse-toggle="navbar-cta"

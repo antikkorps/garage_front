@@ -1,6 +1,6 @@
 <template>
-  <div class="contact_form bg-gray-900 px-10 pt-50 mx-auto">
-    <div class="container w-full sm:w-1/2">
+  <div class="contact_form bg-gray-900 px-10 flex justify-center">
+    <div class="container w-full sm:w-1/2 py-30">
       <h2 class="text-gray-500 text-center text-2xl sm:text-4xl">Formulaire de Contact</h2>
       <h4 class="text-gray-500 text-center my-3">Nous reprendrons rapidement contact avec vous</h4>
 
