@@ -94,6 +94,7 @@ import { RouterLink } from 'vue-router'
 img:hover {
   scale: 1.2;
   overflow: hidden;
+  translate: 0% -10%;
   transition: all 0.2s ease-in-out;
 }
 img {
