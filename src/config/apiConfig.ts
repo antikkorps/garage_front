@@ -6,6 +6,7 @@ const apiConfig = {
       login: '/auth/signin',
       profile: '/users/me',
       annoncesAll: '/annonces/all',
+      annoncesQuery: '/annonces/search',
       annnonceDetails: '/annnonces/:id',
       contactsAll: '/contacts/all',
       contactDetails: '/contacts/:id',

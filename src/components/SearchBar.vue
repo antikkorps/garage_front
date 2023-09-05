@@ -5,23 +5,33 @@ import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
 const baseUrl = apiConfig.development.baseUrl
-const endpoint = apiConfig.development.endpoints.annoncesAll
-const searchQuery = `${baseUrl}${endpoint}/search?q=`
+const endpoint = apiConfig.development.endpoints.annoncesQuery
+const searchQuery = `${baseUrl}${endpoint}/?q=`
 const q = ref('')
 
 const route = useRoute()
 const router = useRouter()
 
-const searchCar = async () => {
-  console.log('searching for ' + q.value)
-  try {
-    const response = await axios.get(searchQuery + q.value)
-    console.log(response.data)
+let searchTimeout: NodeJS.Timeout | null = null
 
-    router.push({ name: 'search', query: { q: q.value } })
-  } catch (error) {
-    console.error('Erreur lors de la recherche de voitures :', error)
+const searchCar = async () => {
+  // Annuler le délai précédent s'il existe
+  if (searchTimeout !== null) {
+    clearTimeout(searchTimeout)
   }
+
+  // Définir un nouveau délai d'une seconde (1000 millisecondes)
+  searchTimeout = setTimeout(async () => {
+    try {
+      console.log('searching for ' + q.value)
+      const response = await axios.get(searchQuery + q.value)
+      console.log(response.data)
+
+      router.push({ name: 'search', query: { q: q.value } })
+    } catch (error) {
+      console.error('Erreur lors de la recherche des annonces:', error)
+    }
+  }, 1000)
 }
 </script>
 
@@ -57,7 +67,7 @@ const searchCar = async () => {
           class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Voiture, modèle, année..."
           required
-          @keyup="searchCar"
+          @input="searchCar"
           v-model="q"
         />
         <!-- <button
