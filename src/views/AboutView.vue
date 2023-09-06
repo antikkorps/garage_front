@@ -2,9 +2,9 @@
 import HorairesTable from '@/components/HorairesTable.vue'
 </script>
 <template>
-  <div class="about">
+  <div class="about my-10">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
-      <h1 class="font-bold text-2xl my-5 text-center">A propos du garage</h1>
+      <h1 class="font-bold text-2xl text-center">A propos du garage</h1>
       <div class="presentation my-10">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, quibusdam,
