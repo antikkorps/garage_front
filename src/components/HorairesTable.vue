@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
@@ -38,6 +38,21 @@ const fetchHoraires = async () => {
 onMounted(() => {
   fetchHoraires()
 })
+
+const sortedHoraires = computed(() => {
+  return horaires.value.slice().sort((a, b) => {
+    const joursDeLaSemaine = [
+      'Lundi',
+      'Mardi',
+      'Mercredi',
+      'Jeudi',
+      'Vendredi',
+      'Samedi',
+      'Dimanche'
+    ]
+    return joursDeLaSemaine.indexOf(a.jourDeLaSemaine) - joursDeLaSemaine.indexOf(b.jourDeLaSemaine)
+  })
+})
 </script>
 
 <template>
@@ -53,7 +68,7 @@ onMounted(() => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="horaire in horaires" :key="horaire.id">
+        <tr v-for="horaire in sortedHoraires" :key="horaire.id">
           <td>{{ horaire.jourDeLaSemaine }}</td>
           <td>{{ horaire.openingAm }} - {{ horaire.closingAm }}</td>
           <td>{{ horaire.openingPm }} - {{ horaire.closingPm }}</td>
