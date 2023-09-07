@@ -4,7 +4,7 @@ import HorairesTable from '@/components/HorairesTable.vue'
 <template>
   <div class="about my-10">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
-      <h1 class="font-bold text-2xl text-center">A propos du garage</h1>
+      <h1 class="Titre_about">A propos du garage</h1>
       <div class="presentation my-10">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, quibusdam,
@@ -19,9 +19,14 @@ import HorairesTable from '@/components/HorairesTable.vue'
           quas natus.
         </p>
       </div>
-      <HorairesTable />
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.Titre_about {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+</style>

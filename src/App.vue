@@ -4,9 +4,19 @@ import NavbarMain from './components/NavbarMain.vue'
 import FooterSection from './components/FooterSection.vue'
 </script>
 
+<script lang="ts">
+export default {
+  data() {
+    return {
+      currentPage: 'home'
+    }
+  }
+}
+</script>
+
 <template>
   <header>
-    <NavbarMain />
+    <NavbarMain :current-page="currentPage" />
   </header>
 
   <RouterView />
