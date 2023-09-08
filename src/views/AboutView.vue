@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import HorairesTable from '@/components/HorairesTable.vue'
+import NavbarMain from '@/components/NavbarMain.vue'
+import FooterSection from '@/components/FooterSection.vue'
 </script>
 <template>
+  <NavbarMain :current-page="about" />
   <div class="about my-10">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
       <h1 class="Titre_about">A propos du garage</h1>
@@ -21,6 +23,7 @@ import HorairesTable from '@/components/HorairesTable.vue'
       </div>
     </div>
   </div>
+  <FooterSection />
 </template>
 
 <style scoped>
