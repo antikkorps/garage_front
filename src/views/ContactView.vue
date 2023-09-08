@@ -2,9 +2,11 @@
 import ContactForm from '@/components/ContactForm.vue'
 import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
+
+const currentPage = 'contact'
 </script>
 <template>
-  <NavbarMain :current-page="contact" />
+  <NavbarMain :current-page="currentPage" />
   <main class="bg-white dark:bg-gray-900 flex justify-center">
     <div class="sm:w-1/2 justify-center">
       <ContactForm class="Contact_form" />

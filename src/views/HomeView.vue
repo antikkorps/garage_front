@@ -4,11 +4,13 @@ import OurServices from '@/components/OurServices.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
+
+const currentPage = 'home'
 </script>
 
 <template>
   <main>
-    <NavbarMain :current-page="home" />
+    <NavbarMain :current-page="currentPage" />
     <HeroSection />
     <OurServices />
     <SearchBar />

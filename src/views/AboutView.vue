@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
+
+const currentPage = 'about'
 </script>
 <template>
-  <NavbarMain :current-page="about" />
+  <NavbarMain :current-page="currentPage" />
   <div class="about my-10">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
       <h1 class="Titre_about">A propos du garage</h1>
