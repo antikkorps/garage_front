@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import type { PropType } from 'vue'
+import ProgessIndicator from '@/components/ProgessIndicator.vue'
 
 const isMenuVisible = ref(false)
 const loggedIn = ref(false) // Changez cet état en fonction de l'état de l'utilisateur
@@ -17,7 +18,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <nav class="bg-white border-gray-200 dark:bg-gray-900">
+  <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 z-50 w-full">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <RouterLink to="/" class="flex items-center">
         <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
@@ -124,6 +125,7 @@ const props = defineProps({
       </div>
     </div>
   </nav>
+  <ProgessIndicator />
 </template>
 
 <style scoped></style>
