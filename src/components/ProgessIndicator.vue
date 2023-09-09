@@ -42,7 +42,7 @@ $vue-red: rgb(185 28 28);
 .progress-indicator-wrapper {
   position: fixed;
   height: $progress-indicator-height;
-  background-color: #eee;
+  background-color: rgb(17 24 39);
   width: 100%;
   top: $header-height;
   .progress-indicator {
