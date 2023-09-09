@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { ref, PropType, computed } from 'vue'
+import { ref } from 'vue'
+import type { PropType } from 'vue'
 
 const isMenuVisible = ref(false)
 const loggedIn = ref(false) // Changez cet état en fonction de l'état de l'utilisateur
@@ -12,13 +13,6 @@ const toggleMenu = () => {
 // Déclarez la prop currentPage et spécifiez son type
 const props = defineProps({
   currentPage: String as PropType<string>
-})
-
-const linkClasses = computed(() => {
-  return {
-    'text-red-700': props.currentPage === 'home', // Mettez en rouge si currentPage est 'home'
-    'text-gray-900': props.currentPage !== 'home' // Sinon, utilisez la couleur par défaut
-  }
 })
 </script>
 
@@ -87,7 +81,6 @@ const linkClasses = computed(() => {
             <RouterLink
               to="/"
               class="block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark:text-red-500 transition-colors duration-300"
-              :aria-current="currentPage === 'home' ? 'page' : null"
               >Accueil</RouterLink
             >
           </li>
@@ -95,8 +88,7 @@ const linkClasses = computed(() => {
             <RouterLink
               to="/about"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
-              :class="linkClasses"
-              :aria-current="currentPage === 'about' ? 'page' : null"
+              :class="{ 'underline underline-offset-8': props.currentPage === 'about' }"
               >A Propos</RouterLink
             >
           </li>
@@ -104,7 +96,9 @@ const linkClasses = computed(() => {
             <RouterLink
               to="/services"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
-              :aria-current="currentPage === 'services' ? 'page' : null"
+              :class="{
+                'underline underline-offset-8': props.currentPage === 'services'
+              }"
               >Services</RouterLink
             >
           </li>
@@ -112,7 +106,9 @@ const linkClasses = computed(() => {
             <RouterLink
               to="/annonces"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
-              :aria-current="currentPage === 'annonces' ? 'page' : null"
+              :class="{
+                'underline underline-offset-8': props.currentPage === 'annonces'
+              }"
               >Nos véhicules</RouterLink
             >
           </li>
@@ -120,7 +116,7 @@ const linkClasses = computed(() => {
             <RouterLink
               to="/contact"
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
-              :aria-current="currentPage === 'contact' ? 'page' : null"
+              :class="{ 'underline underline-offset-8': props.currentPage === 'contact' }"
               >Contact</RouterLink
             >
           </li>
