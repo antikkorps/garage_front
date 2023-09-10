@@ -35,19 +35,36 @@ watchEffect(() => {
 <style scoped lang="scss">
 // SCSS variables
 $header-height: 7.5vh;
+$header-height-mobile: 15vh;
 $progress-indicator-height: 0.5vh;
 $vue-red: rgb(185 28 28);
 
 // Progress Indicator
+
 .progress-indicator-wrapper {
   position: fixed;
   height: $progress-indicator-height;
   background-color: rgb(17 24 39);
   width: 100%;
-  top: $header-height;
+  top: $header-height-mobile;
+  z-index: 60;
   .progress-indicator {
     height: $progress-indicator-height;
     background: $vue-red;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .progress-indicator-wrapper {
+    position: fixed;
+    height: $progress-indicator-height;
+    background-color: rgb(17 24 39);
+    width: 100%;
+    top: $header-height;
+    .progress-indicator {
+      height: $progress-indicator-height;
+      background: $vue-red;
+    }
   }
 }
 </style>
