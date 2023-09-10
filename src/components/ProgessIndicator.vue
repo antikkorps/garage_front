@@ -54,7 +54,7 @@ $vue-red: rgb(185 28 28);
   }
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 422px) {
   .progress-indicator-wrapper {
     position: fixed;
     height: $progress-indicator-height;

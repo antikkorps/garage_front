@@ -6,7 +6,7 @@ const currentPage = 'about'
 </script>
 <template>
   <NavbarMain :current-page="currentPage" />
-  <div class="about my-10">
+  <div class="about my-20">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
       <h1 class="Titre_about">A propos du garage</h1>
       <div class="presentation my-10">
