@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
+import { state } from '@/stores/state'
 
 const optionsAvecListeDeroulante = ref([])
 
@@ -11,12 +12,14 @@ const toggleDeroulante = (option: HTMLElement) => {
   }
 }
 
-const state = reactive({
-  showSidebar: false
-})
-
 const toggleSidebar = () => {
   state.showSidebar = !state.showSidebar
+  optionsAvecListeDeroulante.value.forEach((option: HTMLElement) => {
+    const deroulante = option.querySelector('.deroulante')
+    if (deroulante) {
+      deroulante.classList.add('hidden')
+    }
+  })
 }
 
 const router = useRouter()
@@ -125,16 +128,65 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des annonces
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Polizas
+                  Ajouter une annonce
                 </RouterLink>
+              </li>
+            </ul>
+          </li>
+          <li class="optionAvecListeDeroulante">
+            <div class="flex items-center justify-between p-2 hover:bg-gray-700">
+              <div class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 mr-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  />
+                </svg>
+                <span>Media</span>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+            </div>
+            <ul class="deroulante ml-4 hidden">
+              <li>
+                <a href="#" class="p-2 hover:bg-gray-700 flex items-center">
+                  <i class="fas fa-chevron-right mr-2 text-xs"></i>
+                  Liste des media
+                </a>
+              </li>
+              <li>
+                <a href="#" class="p-2 hover:bg-gray-700 flex items-center">
+                  <i class="fas fa-chevron-right mr-2 text-xs"></i>
+                  Ajouter un media
+                </a>
               </li>
             </ul>
           </li>
@@ -174,13 +226,13 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des utilisateurs
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des rôles
                 </RouterLink>
@@ -223,15 +275,9 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Presupuestos
-                </RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/dashboard" class="block p-2 hover:bg-gray-700 flex items-center">
-                  <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Informe médico
+                  Contacts
                 </RouterLink>
               </li>
             </ul>
@@ -250,10 +296,10 @@ onMounted(() => {
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span>Media</span>
+                <span class="cursor-pointer">Horaires</span>
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -272,16 +318,10 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Firmas pendientes
-                </a>
-              </li>
-              <li>
-                <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                  <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Documentos
-                </a>
+                  Liste des demandes de contacts
+                </RouterLink>
               </li>
             </ul>
           </li>
