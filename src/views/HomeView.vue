@@ -3,6 +3,7 @@ import HeroSection from '@/components/HeroSection.vue'
 import OurServices from '@/components/OurServices.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import NavbarMain from '@/components/NavbarMain.vue'
+import KeyIndicators from '@/components/KeyIndicators.vue'
 import FooterSection from '@/components/FooterSection.vue'
 
 const currentPage = 'home'
@@ -14,6 +15,7 @@ const currentPage = 'home'
     <HeroSection />
     <OurServices />
     <SearchBar />
+    <KeyIndicators />
   </main>
   <FooterSection />
 </template>

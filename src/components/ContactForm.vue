@@ -8,12 +8,14 @@ const postUrl = `${apiUrl}${contact}`
 </script>
 
 <template>
-  <div class="contact_form bg-gray-900 px-10 flex justify-center">
+  <div class="contact_form dark:bg-gray-900 px-10 flex justify-center my-25 rounded-xl bg-gray-50">
     <div class="container w-full sm:w-1/2 py-30">
-      <h2 class="text-gray-500 text-center text-2xl sm:text-4xl">Formulaire de Contact</h2>
-      <h4 class="text-gray-500 text-center my-3">Nous reprendrons rapidement contact avec vous</h4>
+      <h2 class="dark:text-gray-500 text-center text-2xl sm:text-4xl">Formulaire de Contact</h2>
+      <h4 class="dark:text-gray-500 text-center my-3">
+        Nous reprendrons rapidement contact avec vous
+      </h4>
 
-      <form class="bg-gray-900 px-10 py-6 m-auto w-90 sm:w-50" method="POST" :action="postUrl">
+      <form class="dark:bg-gray-900 px-10 py-6 m-auto w-90 sm:w-50" method="POST" :action="postUrl">
         <div class="relative z-0 w-full mb-6 group">
           <input
             type="text"

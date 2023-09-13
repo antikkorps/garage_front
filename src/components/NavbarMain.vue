@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import type { PropType } from 'vue'
 import ProgessIndicator from '@/components/ProgessIndicator.vue'
+import ToggleDarkMode from './ToggleDarkMode.vue'
 
 const isMenuVisible = ref(false)
 const loggedIn = ref(false) // Changez cet état en fonction de l'état de l'utilisateur
@@ -27,6 +28,7 @@ const props = defineProps({
         >
       </RouterLink>
       <div class="flex md:order-2">
+        <ToggleDarkMode />
         <button
           type="button"
           class="text-white bg-red-700 hover:bg-red-800 transition-colors duration-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mx-1"
