@@ -20,9 +20,7 @@ const updateTheme = () => {
   }
 }
 
-// Exécuter le code lors de la création du composant
 onMounted(() => {
-  // Récupérer le thème depuis le stockage local (si défini)
   const savedTheme = localStorage.getItem('color-theme')
   if (savedTheme === 'dark') {
     isDarkTheme.value = true

@@ -6,10 +6,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
 
 const progress = ref('0%')
-const route = useRoute() // Accéder à la route avec useRoute()
 
 const updateProgressIndicator = () => {
   const { documentElement, body } = document
@@ -38,19 +36,20 @@ $header-height-lg: 7vh;
 $header-height: 7.5vh;
 $header-height-mobile: 15vh;
 $progress-indicator-height: 0.5vh;
+$progress-indicator-height-mobile: 0.8vh;
 $vue-red: rgb(185 28 28);
 
 // Progress Indicator
 
 .progress-indicator-wrapper {
   position: fixed;
-  height: $progress-indicator-height;
+  height: $progress-indicator-height-mobile;
   background-color: rgb(17 24 39);
   width: 100%;
   top: $header-height-mobile;
   z-index: 60;
   .progress-indicator {
-    height: $progress-indicator-height;
+    height: $progress-indicator-height-mobile;
     background: $vue-red;
   }
 }
@@ -58,12 +57,12 @@ $vue-red: rgb(185 28 28);
 @media screen and (min-width: 422px) {
   .progress-indicator-wrapper {
     position: fixed;
-    height: $progress-indicator-height;
+    height: $progress-indicator-height-mobile;
     background-color: rgb(17 24 39);
     width: 100%;
     top: $header-height;
     .progress-indicator {
-      height: $progress-indicator-height;
+      height: $progress-indicator-height-mobile;
       background: $vue-red;
     }
   }
