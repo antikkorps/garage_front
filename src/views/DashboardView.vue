@@ -24,6 +24,6 @@ import { state } from '@/stores/state'
   position: relative;
 }
 .ml-64 {
-  margin-left: 64px; /* Ajustez cette valeur en fonction de la largeur de votre sidebar */
+  margin-left: 64px; /* Adjust to the sidebar width */
 }
 </style>
