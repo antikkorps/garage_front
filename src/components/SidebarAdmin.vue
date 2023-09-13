@@ -51,7 +51,7 @@ onMounted(() => {
       </h1>
     </div>
     <div class="flex items-center space-x-4">
-      <button class="text-white" @click="toggleSidebar">
+      <button v-if="!state.showSidebar" class="text-white open_menu" @click="toggleSidebar">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -65,6 +65,18 @@ onMounted(() => {
             stroke-linejoin="round"
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
+        </svg>
+      </button>
+      <button v-else class="text-white close_menu" @click="toggleSidebar">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
       <svg
@@ -87,10 +99,7 @@ onMounted(() => {
   <!-- Sidebar -->
   <transition name="sidebar-slide" mode="out-in">
     <aside
-      :class="[
-        'sidebar bg-gray-800 text-white w-64 min-h-screen p-4',
-        { hidden: !state.showSidebar }
-      ]"
+      :class="['sidebar bg-gray-800 text-white w-64 p-4', { hidden: !state.showSidebar }]"
       key="sidebar"
     >
       <nav>
@@ -335,10 +344,18 @@ onMounted(() => {
   </transition>
 </template>
 <style scoped lang="scss">
+.open_menu {
+  transition: all 0.4s ease;
+}
+
+.close_menu {
+  transition: all 0.4s ease;
+}
 .sidebar {
   float: left;
   z-index: 100;
   transition: all 0.4s ease;
+  min-height: 93vh;
 }
 @media screen and (min-width: 768px) {
   .sidebar {
