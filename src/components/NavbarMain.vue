@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { PropType } from 'vue'
 import ProgessIndicator from '@/components/ProgessIndicator.vue'
 import ToggleDarkMode from './ToggleDarkMode.vue'
@@ -11,6 +11,23 @@ const loggedIn = ref(false) // Changez cet état en fonction de l'état de l'uti
 const toggleMenu = () => {
   isMenuVisible.value = !isMenuVisible.value
 }
+
+const checkLoggedIn = () => {
+  if (localStorage.getItem('jwt_token')) {
+    loggedIn.value = true
+  } else {
+    loggedIn.value = false
+  }
+}
+
+const logOutUser = () => {
+  localStorage.removeItem('jwt_token')
+  loggedIn.value = false
+}
+
+onMounted(() => {
+  checkLoggedIn()
+})
 
 // Déclarez la prop currentPage et spécifiez son type
 const props = defineProps({
@@ -42,6 +59,7 @@ const props = defineProps({
             type="button"
             class="text-white bg-red-700 hover:bg-red-800 transition-colors duration-300 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 mx-1"
             v-if="loggedIn"
+            @click="logOutUser"
           >
             <router-link to="/">Se déconnecter</router-link>
           </button>
@@ -54,7 +72,7 @@ const props = defineProps({
           aria-expanded="false"
           @click="toggleMenu"
         >
-          <span class="sr-only">Open main menu</span>
+          <span class="sr-only">menu principal ouvert</span>
           <svg
             class="w-5 h-5"
             aria-hidden="true"
@@ -121,6 +139,15 @@ const props = defineProps({
               class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
               :class="{ 'underline underline-offset-8': props.currentPage === 'contact' }"
               >Contact</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              to="/dashboard"
+              class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:dark:hover:text-red-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-colors duration-300"
+              :class="{ 'underline underline-offset-8': props.currentPage === 'admin' }"
+              v-if="loggedIn"
+              >Admin</RouterLink
             >
           </li>
         </ul>
