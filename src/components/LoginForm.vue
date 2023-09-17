@@ -23,6 +23,8 @@ const handleLogin = async () => {
 
     if (response.status === 200) {
       window.location.href = '/dashboard'
+      const token = response.data.access_token
+      localStorage.setItem('jwt_token', token)
     } else {
       console.error('Les informations de connexion sont erronées.')
     }
