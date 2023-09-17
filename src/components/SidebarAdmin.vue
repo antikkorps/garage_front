@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { state } from '@/stores/state'
+import { logOutUser } from '@/stores/reusable'
 
 const optionsAvecListeDeroulante = ref([])
 
@@ -26,6 +27,11 @@ const router = useRouter()
 
 const handleRouteChange = () => {
   state.showSidebar = false // Fermer la barre latérale lorsque la navigation a lieu
+}
+
+const handleLogout = () => {
+  logOutUser()
+  router.push('/')
 }
 
 onMounted(() => {
@@ -289,7 +295,7 @@ onMounted(() => {
               <li>
                 <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Contacts
+                  Liste des Horaires
                 </RouterLink>
               </li>
             </ul>
@@ -320,7 +326,7 @@ onMounted(() => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                class="w-6 h-6 mr-2"
               >
                 <path
                   stroke-linecap="round"
@@ -332,11 +338,34 @@ onMounted(() => {
             <ul class="deroulante ml-4 hidden">
               <li>
                 <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
-                  <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des demandes de contacts
                 </RouterLink>
               </li>
             </ul>
+          </li>
+          <li class="optionAvecListeDeroulante text-red-500">
+            <RouterLink
+              to="/"
+              class="p-2 hover:bg-gray-700 flex items-center"
+              @click="handleLogout"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                />
+              </svg>
+
+              Se déconnecter
+            </RouterLink>
           </li>
         </ul>
       </nav>
