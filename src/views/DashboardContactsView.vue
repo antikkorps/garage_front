@@ -196,7 +196,6 @@ onMounted(() => {
               </tr>
             </tbody>
           </table>
-          <div class="flex mx-16 mt-4 pb-4"><h3>AJOUTER</h3></div>
         </div>
       </div>
     </div>
