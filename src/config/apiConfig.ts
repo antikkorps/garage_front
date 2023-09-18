@@ -26,7 +26,7 @@ const apiConfig = {
       annoncesQuery: '/annonces/search',
       annnonceDetails: '/annnonces/:id',
       contactsAll: '/contacts/all',
-      contactDetails: '/contacts/:id',
+      contactDetails: '/contacts',
       contactNew: '/contacts/new',
       horairesAll: '/horaires/all',
       horaireDetails: '/horaires/:id',

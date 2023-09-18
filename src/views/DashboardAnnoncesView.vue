@@ -43,9 +43,13 @@ onMounted(() => {
     <div :class="['main_content relative', { 'lg:ml-64': state.showSidebar }]">
       <div class="container place-content-center grid grid-cols-1">
         <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">Liste des Annonces</h2>
-        <div v-if="annonces">
-          <table class="table-auto divide-y divide-gray-200">
-            <thead class="bg-gray-200">
+        <div v-if="annonces" class="relative overflow-x-auto">
+          <table
+            class="divide-y divide-gray-200 w-full text-sm text-left text-gray-500 dark:text-gray-400"
+          >
+            <thead
+              class="bg-gray-200 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400"
+            >
               <tr>
                 <th
                   scope="col"

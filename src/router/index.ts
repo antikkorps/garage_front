@@ -54,12 +54,20 @@ const router = createRouter({
     {
       path: '/dashboard/annonces',
       name: 'dashboard-annonces',
-      component: () => import('../views/DashboardAnnoncesView.vue')
+      component: () => import('../views/DashboardAnnoncesView.vue'),
+      beforeEnter: requireAuth
     },
     {
       path: '/dashboard/contacts',
       name: 'dashboard-contacts',
-      component: () => import('../views/DashboardContactsView.vue')
+      component: () => import('../views/DashboardContactsView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/contacts/:id',
+      name: 'dashboard-contacts-details',
+      component: () => import('../views/DashboardContactDetailsView.vue'),
+      beforeEnter: requireAuth
     }
   ]
 })

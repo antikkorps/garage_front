@@ -22,7 +22,7 @@ const handleLogin = async () => {
     console.log(response)
 
     if (response.status === 200) {
-      window.location.href = '/dashboard'
+      window.location.href = '/'
       const token = response.data.access_token
       localStorage.setItem('jwt_token', token)
     } else {

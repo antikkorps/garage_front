@@ -146,7 +146,10 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink
+                  to="/dashboard/annonces"
+                  class="p-2 hover:bg-gray-700 flex items-center"
+                >
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des annonces
                 </RouterLink>
@@ -337,7 +340,10 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink
+                  to="/dashboard/contacts"
+                  class="p-2 hover:bg-gray-700 flex items-center"
+                >
                   Liste des demandes de contacts
                 </RouterLink>
               </li>
