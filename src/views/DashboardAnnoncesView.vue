@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import ModalForm from '@/components/ModalForm.vue'
 import { ref, onMounted } from 'vue'
 import { state } from '@/stores/state'
 import axios from 'axios'
@@ -148,7 +147,6 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  <ModalForm />
 </template>
 
 <style scoped lang="scss">
