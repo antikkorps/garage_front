@@ -68,6 +68,12 @@ const router = createRouter({
       name: 'dashboard-contacts-details',
       component: () => import('../views/DashboardContactDetailsView.vue'),
       beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/horaires',
+      name: 'dashboard-horaires',
+      component: () => import('../views/DashboardHorairesView.vue'),
+      beforeEnter: requireAuth
     }
   ]
 })
