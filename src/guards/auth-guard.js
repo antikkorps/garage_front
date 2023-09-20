@@ -1,10 +1,25 @@
-export default function requireAuth(to, from, next) {
+import axios from 'axios'
+import apiConfig from '@/config/apiConfig'
+
+export default async function requireAuth(to, from, next) {
   const token = localStorage.getItem('jwt_token') // Récupérez le token JWT stocké
+  const signinBackend = `${apiConfig.production.baseUrl}${apiConfig.production.endpoints.validate}/${token}`
 
   console.log(token)
   if (!token) {
     next('/login')
   } else {
-    next()
+    try {
+      await axios.get(signinBackend, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      next()
+    } catch (error) {
+      console.error("Erreur de vérification de l'authentification :", error)
+
+      next('/login')
+    }
   }
 }

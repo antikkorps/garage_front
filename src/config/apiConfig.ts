@@ -21,6 +21,7 @@ const apiConfig = {
     endpoints: {
       signup: '/auth/signup',
       login: '/auth/signin',
+      validate: '/auth/validate',
       profile: '/users/me',
       annoncesAll: '/annonces/all',
       annoncesQuery: '/annonces/search',
