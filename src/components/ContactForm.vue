@@ -1,10 +1,46 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import axios from 'axios'
 import apiConfig from '../../src/config/apiConfig'
 
-const apiUrl = apiConfig.development.baseUrl
-const contact = apiConfig.development.endpoints.contactNew
+const apiUrl = apiConfig.production.baseUrl
+const contact = apiConfig.production.endpoints.contactNew
 
 const postUrl = `${apiUrl}${contact}`
+
+const isFormSubmitted = ref(false)
+const formData = ref({
+  name: '',
+  phone: '',
+  email: '',
+  message: ''
+})
+const showThankYouMessage = ref(false)
+
+const submitForm = async () => {
+  try {
+    const dataToSend = JSON.stringify({ ...formData.value })
+    console.log('dataToSend', dataToSend)
+    await axios.post(postUrl, dataToSend, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    isFormSubmitted.value = true
+    formData.value = {
+      name: '',
+      phone: '',
+      email: '',
+      message: ''
+    }
+    showThankYouMessage.value = true
+    setTimeout(() => {
+      showThankYouMessage.value = false
+    }, 4000)
+  } catch (error) {
+    console.error('Erreur lors de la soumission du formulaire :', error)
+  }
+}
 </script>
 
 <template>
@@ -15,7 +51,7 @@ const postUrl = `${apiUrl}${contact}`
         Nous reprendrons rapidement contact avec vous
       </h4>
 
-      <form class="dark:bg-gray-900 px-10 py-6 m-auto w-90 sm:w-50" method="POST" :action="postUrl">
+      <form class="dark:bg-gray-900 px-10 py-6 m-auto w-90 sm:w-50" @submit.prevent="submitForm">
         <div class="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -24,6 +60,7 @@ const postUrl = `${apiUrl}${contact}`
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             required
+            v-model="formData.name"
           />
           <label
             for="name"
@@ -40,6 +77,7 @@ const postUrl = `${apiUrl}${contact}`
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             required
+            v-model="formData.phone"
           />
           <label
             for="phone"
@@ -55,6 +93,7 @@ const postUrl = `${apiUrl}${contact}`
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             required
+            v-model="formData.email"
           />
           <label
             for="email"
@@ -72,6 +111,7 @@ const postUrl = `${apiUrl}${contact}`
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             required
+            v-model="formData.message"
           />
           <label
             for="message"
@@ -87,6 +127,9 @@ const postUrl = `${apiUrl}${contact}`
           Submit
         </button>
       </form>
+      <div v-if="showThankYouMessage" class="text-center text-green-600 dark:text-green-400">
+        Merci pour votre demande de contact !
+      </div>
     </div>
   </div>
 </template>
