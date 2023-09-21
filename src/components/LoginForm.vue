@@ -45,7 +45,7 @@ const handleLogin = async () => {
           src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
           alt="logo"
         />
-        Flowbite
+        Garage Parrot
       </RouterLink>
       <div
         class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
@@ -105,10 +105,10 @@ const handleLogin = async () => {
                   <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
                 </div>
               </div>
-              <a
-                href="#"
+              <RouterLink
+                to="/forgotten-pass"
                 class="text-sm font-medium text-primary-600 hover:underline dark:text-white"
-                >Mot de passe oublié?</a
+                >Mot de passe oublié?</RouterLink
               >
             </div>
             <button
