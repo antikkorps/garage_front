@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import NewPassForm from '@/components/NewPassForm.vue'
+</script>
 <template>
-  <div>New password form</div>
+  <NewPassForm />
 </template>
