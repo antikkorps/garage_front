@@ -1,4 +1,46 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import axios from 'axios'
+import apiConfig from '@/config/apiConfig'
+
+const email = ref('')
+const successMessage = ref('')
+const errorMessage = ref('')
+
+const baseUrl = apiConfig.production.baseUrl
+const ForgottenPassForm = apiConfig.production.endpoints.forgottenPassForm
+
+const submitForm = async () => {
+  successMessage.value = ''
+  errorMessage.value = ''
+
+  if (!isValidEmail(email.value)) {
+    errorMessage.value = 'Adresse e-mail invalide.'
+    return
+  }
+
+  try {
+    const response = await axios.post(`${baseUrl}${ForgottenPassForm}`, {
+      email: email.value
+    })
+    console.log(response)
+    if (response.status === 201) {
+      successMessage.value = 'Un email de réinitialisation vous a été envoyé.'
+    }
+  } catch (error: any) {
+    if (error.response.status === 403) {
+      errorMessage.value = "L'utilisateur n'a pas été trouvé."
+    } else {
+      errorMessage.value = "Une erreur s'est produite lors de la réinitialisation du mot de passe."
+    }
+  }
+}
+
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+  return emailRegex.test(email)
+}
+</script>
 <template>
   <div class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-3 mx-auto md:h-screen lg:py-0">
@@ -22,7 +64,7 @@
           >
             Recevoir un lien de réinitialisation
           </h1>
-          <form class="space-y-4 md:space-y-6">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
             <div>
               <label
                 for="email"
@@ -37,6 +79,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 required
+                v-model="email"
               />
             </div>
             <div>
@@ -53,6 +96,10 @@
             >
               Soumettre
             </button>
+            <div>
+              <p class="text-red-600">{{ errorMessage }}</p>
+              <p class="text-green-600">{{ successMessage }}</p>
+            </div>
           </form>
         </div>
       </div>

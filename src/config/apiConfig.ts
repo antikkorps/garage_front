@@ -22,6 +22,7 @@ const apiConfig = {
       signup: '/auth/signup',
       login: '/auth/signin',
       validate: '/auth/validate',
+      forgottenPassForm: '/auth/reset-password-request',
       profile: '/users/me',
       annoncesAll: '/annonces/all',
       annoncesQuery: '/annonces/search',
