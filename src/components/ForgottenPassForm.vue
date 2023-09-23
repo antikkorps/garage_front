@@ -23,7 +23,6 @@ const submitForm = async () => {
     const response = await axios.post(`${baseUrl}${ForgottenPassForm}`, {
       email: email.value
     })
-    console.log(response)
     if (response.status === 201) {
       successMessage.value = 'Un email de réinitialisation vous a été envoyé.'
     }
