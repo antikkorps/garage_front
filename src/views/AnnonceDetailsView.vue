@@ -4,6 +4,6 @@ import FooterSection from '@/components/FooterSection.vue'
 </script>
 <template>
   <NavbarMain />
-  <h2 class="mt-32">This is the detail page of an annonce</h2>
+  <h2 class="title_page">This is the detail page of an annonce</h2>
   <FooterSection />
 </template>

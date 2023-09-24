@@ -6,9 +6,9 @@ const currentPage = 'about'
 </script>
 <template>
   <NavbarMain :current-page="currentPage" />
-  <div class="about my-20">
+  <div class="about">
     <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
-      <h1 class="Titre_about">A propos du garage</h1>
+      <h1 class="title_page">A propos du garage</h1>
       <div class="presentation my-10">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, quibusdam,
@@ -28,10 +28,4 @@ const currentPage = 'about'
   <FooterSection />
 </template>
 
-<style scoped>
-.Titre_about {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-</style>
+<style scoped></style>

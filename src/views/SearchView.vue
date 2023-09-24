@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import NavbarMain from '@/components/NavbarMain.vue'
+import SearchResults from '@/components/SearchResults.vue'
 import FooterSection from '@/components/FooterSection.vue'
-
-const currentPage = 'services'
 </script>
+
 <template>
-  <NavbarMain :current-page="currentPage" />
   <div>
-    <h2 class="Title_page">Service du garage</h2>
+    <NavbarMain />
+    <SearchResults />
+    <FooterSection />
   </div>
-  <FooterSection />
 </template>
