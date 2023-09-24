@@ -1,5 +1,38 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
+import axios from 'axios'
+import apiConfig from '@/config/apiConfig'
+
+const baseUrl = apiConfig.production.baseUrl
+const endpoint = apiConfig.production.endpoints.annoncesQuery
+const searchResults = ref<{ id: number; title: string }[]>([])
+const route = useRoute()
+const searchQuery = route.query.q
+
+const performSearch = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}${endpoint}/?q=${searchQuery}`)
+    searchResults.value = response.data
+  } catch (error) {
+    console.error('Erreur lors de la recherche des annonces:', error)
+  }
+}
+
+onMounted(() => {
+  performSearch()
+})
+</script>
+
 <template>
   <div class="mt-20">
-    <h2 class="pt-10 text-center text-2xl font-bold">Résultat de votre recherche</h2>
+    <h2 class="title_page">Résultat de votre recherche</h2>
+    <ul>
+      <li v-for="result in searchResults" :key="result.id">
+        <RouterLink :to="`/annonces/${result.id}`">
+          {{ result.title }}
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>

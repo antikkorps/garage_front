@@ -53,7 +53,8 @@ const router = createRouter({
     {
       path: '/annonces/:id',
       name: 'annonce-details',
-      component: () => import('../views/AnnonceDetailsView.vue')
+      component: () => import('../views/AnnonceDetailsView.vue'),
+      props: true
     },
     {
       path: '/dashboard',
