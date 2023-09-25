@@ -2,6 +2,7 @@
 import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
 import CardAnnonceDisplayed from '@/components/CardAnnonceDisplayed.vue'
+import SearchAside from '@/components/SearchAside.vue'
 import { ref, onMounted } from 'vue'
 import { state } from '@/stores/state'
 import axios from 'axios'
@@ -44,6 +45,8 @@ const currentPage = 'annonces'
   <NavbarMain :current-page="currentPage" />
   <div>
     <h1 class="title_page">L'ensemble de nos véhicules</h1>
+    <SearchAside />
+
     <div class="flex justify-center my-10">
       <div class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly">
         <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
