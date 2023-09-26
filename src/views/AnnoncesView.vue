@@ -45,6 +45,7 @@ const currentPage = 'annonces'
   <NavbarMain :current-page="currentPage" />
   <div>
     <h1 class="title_page">L'ensemble de nos véhicules</h1>
+
     <SearchAside />
 
     <div class="flex justify-center my-10">
