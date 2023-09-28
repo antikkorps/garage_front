@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { matchesCriteria } from '@/utils/search'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
@@ -11,20 +12,37 @@ const searchQuery = ref('')
 const selectedBrands = ref([])
 const selectedKilometerRange = ref('')
 const selectedYear = ref('')
+const searchResults = ref([])
+const emit = defineEmits()
 
 const performSearch = async () => {
   try {
-    const response = await axios.get(`${baseUrl}${endpoint}`, {
-      params: {
-        query: searchQuery.value,
-        brands: selectedBrands.value,
-        kilometerRange: selectedKilometerRange.value,
-        year: selectedYear.value
-      }
-    })
+    let searchUrl = `${baseUrl}${endpoint}/?`
+
+    if (searchQuery.value) {
+      searchUrl += `q=${searchQuery.value}&`
+    }
+    if (selectedBrands.value.length > 0) {
+      searchUrl += `brands=${selectedBrands.value.join(',')}&`
+    }
+    if (selectedKilometerRange.value) {
+      searchUrl += `kilometerRange=${selectedKilometerRange.value}&`
+    }
+    if (selectedYear.value) {
+      searchUrl += `year=${selectedYear.value}&`
+    }
+
+    if (searchUrl.endsWith('&')) {
+      searchUrl = searchUrl.slice(0, -1)
+    }
+
+    const response = await axios.get(searchUrl)
 
     // Mettez à jour les annonces avec les résultats de la recherche
     annonces.value = response.data
+    searchResults.value = response.data
+    console.log('searchResults', searchResults.value)
+    emit('update:searchResults', response.data)
   } catch (error) {
     console.error('Erreur lors de la recherche :', error)
   }
@@ -33,6 +51,7 @@ const performSearch = async () => {
 watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () => {
   // Vous pouvez exécuter la recherche en utilisant les valeurs actuelles des filtres
   performSearch()
+  console.log('searching for ' + searchQuery.value)
 })
 </script>
 

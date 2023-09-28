@@ -3,7 +3,7 @@ import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
 import CardAnnonceDisplayed from '@/components/CardAnnonceDisplayed.vue'
 import SearchAside from '@/components/SearchAside.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { state } from '@/stores/state'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
@@ -40,6 +40,14 @@ onMounted(() => {
 })
 
 const currentPage = 'annonces'
+const searchResults = ref<Annonce[]>([])
+const updateSearchResults = (results: Annonce[]) => {
+  searchResults.value = results
+}
+//TODO: fix the searchResults value in the parent component
+watch(searchResults, () => {
+  console.log('searchResults in parent:', searchResults.value)
+})
 </script>
 <template>
   <NavbarMain :current-page="currentPage" />
@@ -49,9 +57,13 @@ const currentPage = 'annonces'
     <SearchAside />
 
     <div class="flex justify-center my-10">
-      <div class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly">
+      <div
+        v-if="updateSearchResults.length > 0"
+        class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly"
+      >
         <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
       </div>
+      <div v-else>Aucun résultat trouvé.</div>
     </div>
   </div>
   <FooterSection />

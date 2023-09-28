@@ -7,7 +7,7 @@ const currentPage = 'services'
 <template>
   <NavbarMain :current-page="currentPage" />
   <div>
-    <h2 class="Title_page">Service du garage</h2>
+    <h2 class="title_page">Service du garage</h2>
   </div>
   <FooterSection />
 </template>
