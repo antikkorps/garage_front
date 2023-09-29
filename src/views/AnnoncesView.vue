@@ -44,7 +44,6 @@ const searchResults = ref<Annonce[]>([])
 const updateSearchResults = (results: Annonce[]) => {
   searchResults.value = results
 }
-//TODO: fix the searchResults value in the parent component
 watch(searchResults, () => {
   console.log('searchResults in parent:', searchResults.value)
 })
@@ -58,15 +57,10 @@ watch(searchResults, () => {
 
     <div class="flex justify-center my-10">
       <div
-        v-if="updateSearchResults.length > 0"
+        v-if="searchResults"
         class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly"
       >
-        <CardAnnonceDisplayed
-          v-for="annonce in searchResults"
-          :key="annonce.id"
-          :annonce="annonce"
-          :searchResults="searchResults"
-        />
+        <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
       </div>
       <div v-else>Aucun résultat trouvé.</div>
     </div>
