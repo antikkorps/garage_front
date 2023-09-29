@@ -61,7 +61,12 @@ watch(searchResults, () => {
         v-if="updateSearchResults.length > 0"
         class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly"
       >
-        <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
+        <CardAnnonceDisplayed
+          v-for="annonce in searchResults"
+          :key="annonce.id"
+          :annonce="annonce"
+          :searchResults="searchResults"
+        />
       </div>
       <div v-else>Aucun résultat trouvé.</div>
     </div>

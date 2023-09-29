@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { matchesCriteria } from '@/utils/search'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
