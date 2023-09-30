@@ -57,13 +57,15 @@ watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () =>
 <template>
   <div class="grid-cols-1 sm:grid md:grid-cols-2 w-full sm:w-3/4 place-content-evenly">
     <!-- Champs de recherche -->
-    <div class="mb-4 flex flex-col">
-      <input
-        type="text"
-        class="w-full mx-auto px-4 py-2 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 inline-flex items-center"
-        placeholder="Recherche rapide..."
-        v-model="searchQuery"
-      />
+    <div class="flex">
+      <div class="mb-4 flex flex-col">
+        <input
+          type="text"
+          class="w-full mx-auto px-4 py-2 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 inline-flex items-center"
+          placeholder="Recherche rapide..."
+          v-model="searchQuery"
+        />
+      </div>
     </div>
 
     <!-- Filtres -->
