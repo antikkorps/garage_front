@@ -102,7 +102,7 @@ const handleLogin = async () => {
                   />
                 </div>
                 <div class="ml-3 text-sm">
-                  <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+                  <label for="remember" class="text-gray-500 dark:text-gray-300">Se souvenir</label>
                 </div>
               </div>
               <RouterLink
