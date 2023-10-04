@@ -64,10 +64,10 @@ watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () =>
 })
 const filters = {
   price: [
-    { value: '0', label: '$0 - $25', checked: false },
-    { value: '25', label: '$25 - $50', checked: false },
-    { value: '50', label: '$50 - $75', checked: false },
-    { value: '75', label: '$75+', checked: false }
+    { value: '0', label: '€1.000 - €15.000', checked: false },
+    { value: '15.000', label: '€15.000 - €20.000', checked: false },
+    { value: '20.000', label: '€20.000 - €25.000', checked: false },
+    { value: '25.000', label: '€25.000+', checked: false }
   ],
   color: [
     { value: 'white', label: 'White', checked: false },
@@ -78,25 +78,25 @@ const filters = {
     { value: 'purple', label: 'Purple', checked: false }
   ],
   size: [
-    { value: 'xs', label: 'XS', checked: false },
-    { value: 's', label: 'S', checked: true },
-    { value: 'm', label: 'M', checked: false },
-    { value: 'l', label: 'L', checked: false },
-    { value: 'xl', label: 'XL', checked: false },
-    { value: '2xl', label: '2XL', checked: false }
+    { value: '2018', label: '2018', checked: false },
+    { value: '2019', label: '2019', checked: true },
+    { value: '2020', label: '2020', checked: false },
+    { value: '2021', label: '2021', checked: false },
+    { value: '2022', label: '2022', checked: false },
+    { value: '2023', label: '2023', checked: false }
   ],
   category: [
-    { value: 'all-new-arrivals', label: 'All New Arrivals', checked: false },
-    { value: 'tees', label: 'Tees', checked: false },
-    { value: 'objects', label: 'Objects', checked: false },
-    { value: 'sweatshirts', label: 'Sweatshirts', checked: false },
-    { value: 'pants-and-shorts', label: 'Pants & Shorts', checked: false }
+    { value: 'bmw', label: 'BMW', checked: false },
+    { value: 'ford', label: 'Ford', checked: false },
+    { value: 'renault', label: 'Renault', checked: false },
+    { value: 'mg', label: 'MG', checked: false },
+    { value: 'fiat', label: 'Fiat', checked: false }
   ]
 }
 const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false }
+  { name: 'Les plus populaires', href: '#', current: true },
+  { name: 'Nos coups de coeur', href: '#', current: false },
+  { name: 'Les plus récentes', href: '#', current: false }
 ]
 </script>
 
@@ -135,7 +135,7 @@ const sortOptions = [
             </DisclosureButton>
           </div>
           <div class="pl-6">
-            <button type="button" class="text-gray-500">Clear all</button>
+            <button type="button" class="text-gray-500">Supprimer les filtres</button>
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@ const sortOptions = [
         >
           <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
             <fieldset>
-              <legend class="block font-medium">Price</legend>
+              <legend class="block font-medium">Prix</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
                 <div
                   v-for="(option, optionIdx) in filters.price"
@@ -193,7 +193,7 @@ const sortOptions = [
           </div>
           <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
             <fieldset>
-              <legend class="block font-medium">Size</legend>
+              <legend class="block font-medium">Année</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
                 <div
                   v-for="(option, optionIdx) in filters.size"
@@ -248,7 +248,7 @@ const sortOptions = [
               <MenuButton
                 class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
               >
-                Sort
+                classer
                 <ChevronDownIcon
                   class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                   aria-hidden="true"
