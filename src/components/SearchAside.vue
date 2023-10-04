@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems
+} from '@headlessui/vue'
+import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
@@ -52,74 +62,229 @@ watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () =>
   performSearch()
   console.log('searching for ' + searchQuery.value)
 })
+const filters = {
+  price: [
+    { value: '0', label: '$0 - $25', checked: false },
+    { value: '25', label: '$25 - $50', checked: false },
+    { value: '50', label: '$50 - $75', checked: false },
+    { value: '75', label: '$75+', checked: false }
+  ],
+  color: [
+    { value: 'white', label: 'White', checked: false },
+    { value: 'beige', label: 'Beige', checked: false },
+    { value: 'blue', label: 'Blue', checked: true },
+    { value: 'brown', label: 'Brown', checked: false },
+    { value: 'green', label: 'Green', checked: false },
+    { value: 'purple', label: 'Purple', checked: false }
+  ],
+  size: [
+    { value: 'xs', label: 'XS', checked: false },
+    { value: 's', label: 'S', checked: true },
+    { value: 'm', label: 'M', checked: false },
+    { value: 'l', label: 'L', checked: false },
+    { value: 'xl', label: 'XL', checked: false },
+    { value: '2xl', label: '2XL', checked: false }
+  ],
+  category: [
+    { value: 'all-new-arrivals', label: 'All New Arrivals', checked: false },
+    { value: 'tees', label: 'Tees', checked: false },
+    { value: 'objects', label: 'Objects', checked: false },
+    { value: 'sweatshirts', label: 'Sweatshirts', checked: false },
+    { value: 'pants-and-shorts', label: 'Pants & Shorts', checked: false }
+  ]
+}
+const sortOptions = [
+  { name: 'Most Popular', href: '#', current: true },
+  { name: 'Best Rating', href: '#', current: false },
+  { name: 'Newest', href: '#', current: false }
+]
 </script>
 
 <template>
-  <div class="grid-cols-1 sm:grid md:grid-cols-2 w-full sm:w-3/4 place-content-evenly">
-    <!-- Champs de recherche -->
-    <div class="flex">
-      <div class="mb-4 flex flex-col">
-        <input
-          type="text"
-          class="w-full mx-auto px-4 py-2 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 inline-flex items-center"
-          placeholder="Recherche rapide..."
-          v-model="searchQuery"
-        />
-      </div>
+  <div class="bg-white">
+    <div class="px-4 py-2 text-center sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900">Rechercher</h1>
+      <!-- Champs de recherche -->
+
+      <input
+        type="text"
+        class="w-3/4 mx-auto px-4 py-2 mt-8 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 inline-flex items-center justify-center"
+        placeholder="Recherche rapide..."
+        v-model="searchQuery"
+      />
     </div>
 
-    <!-- Filtres -->
-    <div class="bg-gray-100 p-4 rounded-md">
-      <h3 class="text-lg font-semibold mb-2">Filtres</h3>
-
-      <!-- Marques -->
-      <div class="mb-4">
-        <h4 class="text-sm font-medium">Marques</h4>
-        <!-- Exemple de filtres de marques -->
-        <label class="inline-flex items-center mt-2">
-          <input type="checkbox" class="text-blue-500 rounded" v-model="selectedBrands" />
-          <span class="ml-2">Marque 1</span>
-        </label>
-        <label class="inline-flex items-center mt-2">
-          <input type="checkbox" class="text-blue-500 rounded" />
-          <span class="ml-2">Marque 2</span>
-        </label>
-        <!-- Ajoutez d'autres marques ici -->
+    <!-- Filters -->
+    <Disclosure
+      as="section"
+      aria-labelledby="filter-heading"
+      class="grid items-center border-b border-t border-gray-200"
+    >
+      <h2 id="filter-heading" class="sr-only">Filters</h2>
+      <div class="relative col-start-1 row-start-1 py-4">
+        <div
+          class="mx-auto flex max-w-7xl space-x-6 divide-x divide-gray-200 px-4 text-sm sm:px-6 lg:px-8"
+        >
+          <div>
+            <DisclosureButton class="group flex items-center font-medium text-gray-700">
+              <FunnelIcon
+                class="mr-2 h-5 w-5 flex-none text-gray-400 group-hover:text-gray-500"
+                aria-hidden="true"
+              />
+              2 Filters
+            </DisclosureButton>
+          </div>
+          <div class="pl-6">
+            <button type="button" class="text-gray-500">Clear all</button>
+          </div>
+        </div>
       </div>
+      <DisclosurePanel class="border-t border-gray-200 py-10">
+        <div
+          class="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8"
+        >
+          <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
+            <fieldset>
+              <legend class="block font-medium">Price</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div
+                  v-for="(option, optionIdx) in filters.price"
+                  :key="option.value"
+                  class="flex items-center text-base sm:text-sm"
+                >
+                  <input
+                    :id="`price-${optionIdx}`"
+                    name="price[]"
+                    :value="option.value"
+                    type="checkbox"
+                    class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    :checked="option.checked"
+                    v-model="price"
+                  />
+                  <label :for="`price-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    option.label
+                  }}</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="block font-medium">kilometrage</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div
+                  v-for="(option, optionIdx) in filters.color"
+                  :key="option.value"
+                  class="flex items-center text-base sm:text-sm"
+                >
+                  <input
+                    :id="`color-${optionIdx}`"
+                    name="color[]"
+                    :value="option.value"
+                    type="checkbox"
+                    class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    :checked="option.checked"
+                    v-model="selectedKilometerRange"
+                  />
+                  <label :for="`color-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    option.label
+                  }}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="grid auto-rows-min grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-6">
+            <fieldset>
+              <legend class="block font-medium">Size</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div
+                  v-for="(option, optionIdx) in filters.size"
+                  :key="option.value"
+                  class="flex items-center text-base sm:text-sm"
+                >
+                  <input
+                    :id="`size-${optionIdx}`"
+                    name="size[]"
+                    :value="option.value"
+                    type="checkbox"
+                    class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    :checked="option.checked"
+                    v-model="selectedYear"
+                  />
+                  <label :for="`size-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    option.label
+                  }}</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="block font-medium">Marques</legend>
+              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
+                <div
+                  v-for="(option, optionIdx) in filters.category"
+                  :key="option.value"
+                  class="flex items-center text-base sm:text-sm"
+                >
+                  <input
+                    :id="`category-${optionIdx}`"
+                    name="category[]"
+                    :value="option.value"
+                    type="checkbox"
+                    class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    :checked="option.checked"
+                    v-model="selectedBrands"
+                  />
+                  <label :for="`category-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    option.label
+                  }}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </DisclosurePanel>
+      <div class="col-start-1 row-start-1 py-4">
+        <div class="mx-auto flex max-w-7xl justify-end px-4 sm:px-6 lg:px-8">
+          <Menu as="div" class="relative inline-block">
+            <div class="flex">
+              <MenuButton
+                class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                Sort
+                <ChevronDownIcon
+                  class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+              </MenuButton>
+            </div>
 
-      <!-- Kilométrage -->
-      <div class="mb-4">
-        <h4 class="text-sm font-medium">Kilométrage</h4>
-        <!-- Exemple de filtres de kilométrage -->
-        <label class="block mt-2">
-          <select
-            class="w-full px-2 py-1 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
-            v-model="selectedKilometerRange"
-          >
-            <option value="0-5000">0-5000 km</option>
-            <option value="5000-10000">5000-10000 km</option>
-            <option value="10000-20000">10000-20000 km</option>
-            <!-- Ajoutez d'autres options de kilométrage ici -->
-          </select>
-        </label>
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
+              <MenuItems
+                class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <div class="py-1">
+                  <MenuItem v-for="option in sortOptions" :key="option.name" v-slot="{ active }">
+                    <a
+                      :href="option.href"
+                      :class="[
+                        option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                        active ? 'bg-gray-100' : '',
+                        'block px-4 py-2 text-sm'
+                      ]"
+                      >{{ option.name }}</a
+                    >
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </transition>
+          </Menu>
+        </div>
       </div>
-
-      <!-- Année -->
-      <div>
-        <h4 class="text-sm font-medium">Année</h4>
-        <!-- Exemple de filtres d'année -->
-        <label class="block mt-2">
-          <select
-            class="w-full px-2 py-1 text-gray-800 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
-            v-model="selectedYear"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <!-- Ajoutez d'autres options d'année ici -->
-          </select>
-        </label>
-      </div>
-    </div>
+    </Disclosure>
   </div>
 </template>
