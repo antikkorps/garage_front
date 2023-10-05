@@ -47,7 +47,7 @@ const performSearch = async () => {
 
     const response = await axios.get(searchUrl)
 
-    // Mettez à jour les annonces avec les résultats de la recherche
+    // Update annonces in search results
     annonces.value = response.data
     searchResults.value = response.data
     console.log('searchResults', searchResults.value)
@@ -58,7 +58,7 @@ const performSearch = async () => {
 }
 
 watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () => {
-  // Vous pouvez exécuter la recherche en utilisant les valeurs actuelles des filtres
+  // Execute the search using filter's actual values
   performSearch()
   console.log('searching for ' + searchQuery.value)
 })
