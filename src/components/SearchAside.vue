@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import {
   Disclosure,
   DisclosureButton,
@@ -15,10 +15,12 @@ import apiConfig from '@/config/apiConfig'
 
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesQuery
+const allAnnonces = apiConfig.production.endpoints.annoncesAll
 const annonces = ref<{ id: number; title: string }[]>([])
 
 const searchQuery = ref('')
-const selectedBrands = ref([])
+const selectedBrands = ref<string[]>([])
+const availableBrands = ref<string[]>([])
 const selectedKilometerRange = ref('')
 const selectedYear = ref('')
 const searchResults = ref([])
@@ -98,6 +100,32 @@ const sortOptions = [
   { name: 'Nos coups de coeur', href: '#', current: false },
   { name: 'Les plus récentes', href: '#', current: false }
 ]
+
+// Fonction pour mettre à jour les filtres de marque sélectionnés
+const toggleBrandFilter = (value: string) => {
+  // Assurez-vous que selectedBrands.value est un tableau de chaînes de caractères
+  if (Array.isArray(selectedBrands.value)) {
+    if (selectedBrands.value.includes(value)) {
+      selectedBrands.value = selectedBrands.value.filter((brand) => brand !== value)
+    } else {
+      selectedBrands.value.push(value)
+    }
+  }
+}
+const fetchBrands = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}${allAnnonces}`)
+    const annonces = response.data // Assurez-vous que la réponse de l'API est un tableau de chaînes de caractères contenant les noms des marques.
+    const brands = annonces.brand
+    console.log(brands)
+  } catch (error) {
+    console.error('Erreur lors de la récupération des marques :', error)
+  }
+}
+
+onMounted(() => {
+  fetchBrands() // Appelez cette fonction lors de l'initialisation du composant pour récupérer les marques depuis l'API.
+})
 </script>
 
 <template>
@@ -224,13 +252,11 @@ const sortOptions = [
                   class="flex items-center text-base sm:text-sm"
                 >
                   <input
-                    :id="`category-${optionIdx}`"
-                    name="category[]"
                     :value="option.value"
                     type="checkbox"
                     class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="option.checked"
-                    v-model="selectedBrands"
+                    :checked="selectedBrands.includes(option.value)"
+                    @change="toggleBrandFilter(option.value)"
                   />
                   <label :for="`category-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
                     option.label
