@@ -13,6 +13,19 @@ import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 
+interface Annonce {
+  id: number
+  title: string
+  description: string
+  brand: string
+  price: number
+  kilometrage: number
+  yearofcirculation: number
+  image: string
+  published: boolean
+  author: object
+}
+
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesQuery
 const allAnnonces = apiConfig.production.endpoints.annoncesAll
@@ -115,9 +128,12 @@ const toggleBrandFilter = (value: string) => {
 const fetchBrands = async () => {
   try {
     const response = await axios.get(`${baseUrl}${allAnnonces}`)
-    const annonces = response.data // Assurez-vous que la réponse de l'API est un tableau de chaînes de caractères contenant les noms des marques.
-    const brands = annonces.brand
-    console.log(brands)
+    const annonces: Annonce[] = response.data
+    const brands = Array.from(new Set(annonces.map((annonce) => annonce.brand)))
+
+    availableBrands.value = brands
+    console.log('les marques', brands)
+    console.log('les annonces', annonces)
   } catch (error) {
     console.error('Erreur lors de la récupération des marques :', error)
   }
@@ -247,19 +263,19 @@ onMounted(() => {
               <legend class="block font-medium">Marques</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
                 <div
-                  v-for="(option, optionIdx) in filters.category"
-                  :key="option.value"
+                  v-for="(brand, brandIdx) in availableBrands"
+                  :key="brandIdx"
                   class="flex items-center text-base sm:text-sm"
                 >
                   <input
-                    :value="option.value"
+                    :value="brand"
                     type="checkbox"
                     class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="selectedBrands.includes(option.value)"
-                    @change="toggleBrandFilter(option.value)"
+                    :checked="selectedBrands.includes(brand)"
+                    @change="toggleBrandFilter(brand)"
                   />
-                  <label :for="`category-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
-                    option.label
+                  <label :for="`brand-${brandIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    brand
                   }}</label>
                 </div>
               </div>
