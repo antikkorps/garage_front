@@ -30,12 +30,13 @@ const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesQuery
 const allAnnonces = apiConfig.production.endpoints.annoncesAll
 const annonces = ref<{ id: number; title: string }[]>([])
+const availableYearsOfCirculation = ref<number[]>([])
 
 const searchQuery = ref('')
 const selectedBrands = ref<string[]>([])
 const availableBrands = ref<string[]>([])
 const selectedKilometerRange = ref('')
-const selectedYear = ref('')
+const selectedYears = ref<number[]>([])
 const searchResults = ref([])
 const emit = defineEmits()
 
@@ -52,8 +53,8 @@ const performSearch = async () => {
     if (selectedKilometerRange.value) {
       searchUrl += `kilometerRange=${selectedKilometerRange.value}&`
     }
-    if (selectedYear.value) {
-      searchUrl += `year=${selectedYear.value}&`
+    if (selectedYears.value) {
+      searchUrl += `year=${selectedYears.value}&`
     }
 
     if (searchUrl.endsWith('&')) {
@@ -72,7 +73,7 @@ const performSearch = async () => {
   }
 }
 
-watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYear], () => {
+watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYears], () => {
   // Execute the search using filter's actual values
   performSearch()
   console.log('searching for ' + searchQuery.value)
@@ -91,21 +92,6 @@ const filters = {
     { value: 'brown', label: 'Brown', checked: false },
     { value: 'green', label: 'Green', checked: false },
     { value: 'purple', label: 'Purple', checked: false }
-  ],
-  size: [
-    { value: '2018', label: '2018', checked: false },
-    { value: '2019', label: '2019', checked: true },
-    { value: '2020', label: '2020', checked: false },
-    { value: '2021', label: '2021', checked: false },
-    { value: '2022', label: '2022', checked: false },
-    { value: '2023', label: '2023', checked: false }
-  ],
-  category: [
-    { value: 'bmw', label: 'BMW', checked: false },
-    { value: 'ford', label: 'Ford', checked: false },
-    { value: 'renault', label: 'Renault', checked: false },
-    { value: 'mg', label: 'MG', checked: false },
-    { value: 'fiat', label: 'Fiat', checked: false }
   ]
 }
 const sortOptions = [
@@ -114,9 +100,8 @@ const sortOptions = [
   { name: 'Les plus récentes', href: '#', current: false }
 ]
 
-// Fonction pour mettre à jour les filtres de marque sélectionnés
+// Function to update the brand checkbox in filters
 const toggleBrandFilter = (value: string) => {
-  // Assurez-vous que selectedBrands.value est un tableau de chaînes de caractères
   if (Array.isArray(selectedBrands.value)) {
     if (selectedBrands.value.includes(value)) {
       selectedBrands.value = selectedBrands.value.filter((brand) => brand !== value)
@@ -139,8 +124,34 @@ const fetchBrands = async () => {
   }
 }
 
+// Function to update the yearOfCirculation checkbox in filters
+const fetchYearsOfCirculation = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}${allAnnonces}`)
+    const annonces: Annonce[] = response.data
+    const yearsOfCirculation = Array.from(
+      new Set(annonces.map((annonce) => annonce.yearofcirculation))
+    )
+
+    availableYearsOfCirculation.value = yearsOfCirculation
+    console.log('les années de circulation', yearsOfCirculation)
+  } catch (error) {
+    console.error('Erreur lors de la récupération des années de circulation :', error)
+  }
+}
+const toggleYearFilter = (year: number) => {
+  if (Array.isArray(selectedBrands.value)) {
+    if (selectedYears.value.includes(year)) {
+      selectedYears.value = selectedYears.value.filter((year) => year !== year)
+    } else {
+      selectedYears.value.push(year)
+    }
+  }
+}
+
 onMounted(() => {
-  fetchBrands() // Appelez cette fonction lors de l'initialisation du composant pour récupérer les marques depuis l'API.
+  fetchBrands()
+  fetchYearsOfCirculation()
 })
 </script>
 
@@ -240,21 +251,21 @@ onMounted(() => {
               <legend class="block font-medium">Année</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
                 <div
-                  v-for="(option, optionIdx) in filters.size"
-                  :key="option.value"
+                  v-for="(year, yearIdx) in availableYearsOfCirculation"
+                  :key="yearIdx"
                   class="flex items-center text-base sm:text-sm"
                 >
                   <input
-                    :id="`size-${optionIdx}`"
-                    name="size[]"
-                    :value="option.value"
+                    :id="`year-${yearIdx}`"
+                    name="year[]"
+                    :value="year"
                     type="checkbox"
                     class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="option.checked"
-                    v-model="selectedYear"
+                    :checked="selectedYears.includes(year)"
+                    @change="toggleYearFilter(year)"
                   />
-                  <label :for="`size-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
-                    option.label
+                  <label :for="`year-${yearIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    year
                   }}</label>
                 </div>
               </div>
