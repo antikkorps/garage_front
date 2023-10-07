@@ -223,24 +223,22 @@ onMounted(() => {
               </div>
             </fieldset>
             <fieldset>
-              <legend class="block font-medium">kilometrage</legend>
+              <legend class="block font-medium">Marques</legend>
               <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
                 <div
-                  v-for="(option, optionIdx) in filters.color"
-                  :key="option.value"
+                  v-for="(brand, brandIdx) in availableBrands"
+                  :key="brandIdx"
                   class="flex items-center text-base sm:text-sm"
                 >
                   <input
-                    :id="`color-${optionIdx}`"
-                    name="color[]"
-                    :value="option.value"
+                    :value="brand"
                     type="checkbox"
                     class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="option.checked"
-                    v-model="selectedKilometerRange"
+                    :checked="selectedBrands.includes(brand)"
+                    @change="toggleBrandFilter(brand)"
                   />
-                  <label :for="`color-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
-                    option.label
+                  <label :for="`brand-${brandIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
+                    brand
                   }}</label>
                 </div>
               </div>
@@ -266,27 +264,6 @@ onMounted(() => {
                   />
                   <label :for="`year-${yearIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
                     year
-                  }}</label>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend class="block font-medium">Marques</legend>
-              <div class="space-y-6 pt-6 sm:space-y-4 sm:pt-4">
-                <div
-                  v-for="(brand, brandIdx) in availableBrands"
-                  :key="brandIdx"
-                  class="flex items-center text-base sm:text-sm"
-                >
-                  <input
-                    :value="brand"
-                    type="checkbox"
-                    class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="selectedBrands.includes(brand)"
-                    @change="toggleBrandFilter(brand)"
-                  />
-                  <label :for="`brand-${brandIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
-                    brand
                   }}</label>
                 </div>
               </div>
