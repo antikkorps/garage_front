@@ -84,14 +84,6 @@ const filters = {
     { value: '15.000', label: '€15.000 - €20.000', checked: false },
     { value: '20.000', label: '€20.000 - €25.000', checked: false },
     { value: '25.000', label: '€25.000+', checked: false }
-  ],
-  color: [
-    { value: 'white', label: 'White', checked: false },
-    { value: 'beige', label: 'Beige', checked: false },
-    { value: 'blue', label: 'Blue', checked: true },
-    { value: 'brown', label: 'Brown', checked: false },
-    { value: 'green', label: 'Green', checked: false },
-    { value: 'purple', label: 'Purple', checked: false }
   ]
 }
 const sortOptions = [
