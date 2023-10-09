@@ -155,7 +155,7 @@ onMounted(() => {
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink to="/annonces/new" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Ajouter une annonce
                 </RouterLink>

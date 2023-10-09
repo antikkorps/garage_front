@@ -57,6 +57,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/annonces/new',
+      name: 'annonce-new',
+      component: () => import('../views/AnnonceNewView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('../views/DashboardView.vue'),
