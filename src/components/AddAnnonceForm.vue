@@ -1,5 +1,39 @@
 <script setup lang="ts">
 import { PhotoIcon } from '@heroicons/vue/24/solid'
+import { ref } from 'vue'
+import apiConfig from '@/config/apiConfig'
+import axios from 'axios'
+
+const baseUrl = apiConfig.production.baseUrl
+const endpoint = apiConfig.production.endpoints.annoncesNew
+const formData = ref({
+  title: '',
+  description: '',
+  price: null,
+  kilometrage: null,
+  yearofcirculation: null,
+  brand: '',
+  published: false,
+  featured: false,
+  image: null
+})
+
+const addAnnonce = async () => {
+  try {
+    const token = localStorage.getItem('jwt_token')
+    const postedAnnonce = JSON.stringify({ ...formData.value })
+    await axios.post(baseUrl + endpoint, postedAnnonce, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    console.log(postedAnnonce)
+    console.log('Annonce créée avec succès', formData.value)
+  } catch (error) {
+    console.error("Erreur lors de la création de l'annonces:", error)
+  }
+}
 </script>
 
 <template>
@@ -30,6 +64,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   name="title"
                   id="title"
                   autocomplete="title"
+                  v-model="formData.title"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -43,6 +78,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                 <textarea
                   id="description"
                   name="description"
+                  v-model="formData.description"
                   rows="3"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ></textarea>
@@ -61,6 +97,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   type="number"
                   name="price"
                   id="price"
+                  v-model="formData.price"
                   autocomplete="annonce-price"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -76,6 +113,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   type="number"
                   name="kilometrage"
                   id="kilometrage"
+                  v-model="formData.kilometrage"
                   autocomplete="annonce-kilometrage"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -93,6 +131,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   type="number"
                   name="yearofcirculation"
                   id="yearofcirculation"
+                  v-model="formData.yearofcirculation"
                   autocomplete="yearofcirculation"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -108,6 +147,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   id="brand"
                   name="brand"
                   autocomplete="brand-name"
+                  v-model="formData.brand"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option>Choisissez une marque</option>
@@ -123,21 +163,6 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                   <option>MG</option>
                   <option>Fiat</option>
                 </select>
-              </div>
-            </div>
-
-            <div class="col-span-full">
-              <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900"
-                >Street address</label
-              >
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="street-address"
-                  id="street-address"
-                  autocomplete="street-address"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
-                />
               </div>
             </div>
           </div>
@@ -184,6 +209,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                       id="published"
                       name="published"
                       type="checkbox"
+                      v-model="formData.published"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
                   </div>
@@ -200,6 +226,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
                       id="featured"
                       name="featured"
                       type="checkbox"
+                      v-model="formData.featured"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
                   </div>
@@ -220,6 +247,7 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
         <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
         <button
           type="submit"
+          @click="addAnnonce"
           class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
         >
           Save
