@@ -30,7 +30,6 @@ const addAnnonce = async () => {
         Authorization: `Bearer ${token}`
       }
     })
-    confirmationMessage.value = 'Annonce créée avec succès'
     formData.value = {
       title: '',
       description: '',
@@ -42,7 +41,10 @@ const addAnnonce = async () => {
       featured: false,
       image: null
     }
-    console.log('message', confirmationMessage.value)
+    confirmationMessage.value = 'Annonce créée avec succès'
+    setTimeout(() => {
+      confirmationMessage.value = ''
+    }, 4000)
   } catch (error) {
     console.error("Erreur lors de la création de l'annonces:", error)
     confirmationMessage.value = "Erreur lors de la création de l'annonce"
