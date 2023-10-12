@@ -30,6 +30,7 @@ const addAnnonce = async () => {
         Authorization: `Bearer ${token}`
       }
     })
+    confirmationMessage.value = 'Annonce créée avec succès'
     formData.value = {
       title: '',
       description: '',
@@ -41,13 +42,12 @@ const addAnnonce = async () => {
       featured: false,
       image: null
     }
-    confirmationMessage.value = 'Annonce créée avec succès'
+    console.log('message', confirmationMessage.value)
   } catch (error) {
     console.error("Erreur lors de la création de l'annonces:", error)
     confirmationMessage.value = "Erreur lors de la création de l'annonce"
   }
 }
-// TODO add a computed property to change the color of the confirmation message && display the message
 const confirmationMessageClass = computed(() => {
   return confirmationMessage.value.startsWith('Erreur') ? 'text-red-600' : 'text-green-600'
 })
@@ -55,15 +55,12 @@ const confirmationMessageClass = computed(() => {
 
 <template>
   <div class="grid mt-10">
-    <form class="w-full sm:w-1/3 justify-self-center">
+    <form class="w-full sm:w-1/3 justify-self-center" @submit.prevent>
       <div class="space-y-5">
         <div class="border-b border-gray-900/10 pb-5">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Ajouter une annonce</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">
             Merci de remplir ce formulaire pour poster une nouvelle annonce.
-          </p>
-          <p class="mt-4" v-if="confirmationMessage" :class="confirmationMessageClass">
-            {{ confirmationMessage }}
           </p>
         </div>
 
@@ -262,6 +259,10 @@ const confirmationMessageClass = computed(() => {
           </div>
         </div>
       </div>
+
+      <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
+        {{ confirmationMessage }}
+      </p>
 
       <div class="mt-6 flex items-center justify-end gap-x-6">
         <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
