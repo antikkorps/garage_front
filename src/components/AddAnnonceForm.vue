@@ -84,7 +84,7 @@ const confirmationMessageClass = computed(() => {
                   id="title"
                   autocomplete="title"
                   v-model="formData.title"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -99,7 +99,7 @@ const confirmationMessageClass = computed(() => {
                   name="description"
                   v-model="formData.description"
                   rows="3"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
                 ></textarea>
               </div>
               <p class="mt-3 text-sm leading-6 text-gray-600">
@@ -118,7 +118,7 @@ const confirmationMessageClass = computed(() => {
                   id="price"
                   v-model="formData.price"
                   autocomplete="annonce-price"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -134,7 +134,7 @@ const confirmationMessageClass = computed(() => {
                   id="kilometrage"
                   v-model="formData.kilometrage"
                   autocomplete="annonce-kilometrage"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -152,7 +152,7 @@ const confirmationMessageClass = computed(() => {
                   id="yearofcirculation"
                   v-model="formData.yearofcirculation"
                   autocomplete="yearofcirculation"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ const confirmationMessageClass = computed(() => {
                   name="brand"
                   autocomplete="brand-name"
                   v-model="formData.brand"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option>Choisissez une marque</option>
                   <option>Toyota</option>
@@ -229,7 +229,7 @@ const confirmationMessageClass = computed(() => {
                       name="published"
                       type="checkbox"
                       v-model="formData.published"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
                     />
                   </div>
                   <div class="text-sm leading-6">
@@ -246,7 +246,7 @@ const confirmationMessageClass = computed(() => {
                       name="featured"
                       type="checkbox"
                       v-model="formData.featured"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
                     />
                   </div>
                   <div class="text-sm leading-6">
