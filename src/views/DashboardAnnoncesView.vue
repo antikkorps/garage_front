@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
+import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { state } from '@/stores/state'
 import axios from 'axios'
@@ -123,24 +124,26 @@ onMounted(() => {
           </table>
           <div class="flex mx-16 mt-4 pb-4">
             <div
-              class="text-indigo-600 hover:text-indigo-800 cursor-pointer hover:scale-125 ease-in-out duration-300"
+              class="text-red-600 hover:text-red-800 cursor-pointer hover:scale-125 ease-in-out duration-300"
               data-modal-target="staticModal"
               data-modal-toggle="staticModal"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-12 h-12"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <RouterLink to="/dashboard/annonces/new">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-12 h-12"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </RouterLink>
             </div>
           </div>
         </div>

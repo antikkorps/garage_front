@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PhotoIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
 
@@ -267,7 +268,11 @@ const confirmationMessageClass = computed(() => {
       </p>
 
       <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+        <RouterLink to="/dashboard/annonces"
+          ><button type="button" class="text-sm font-semibold leading-6 text-gray-900">
+            Cancel
+          </button></RouterLink
+        >
         <button
           type="submit"
           @click="addAnnonce"
