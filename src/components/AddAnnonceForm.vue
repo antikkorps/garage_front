@@ -236,7 +236,7 @@ const confirmationMessageClass = computed(() => {
                   <div class="text-sm leading-6">
                     <label for="published" class="font-medium text-gray-900">Publier</label>
                     <p class="text-gray-500">
-                      Si vous souhaitez que votre annonce s'affiche sur le site ou non.
+                      Publier l'annonce sur le site, sinon elle reste en brouillon.
                     </p>
                   </div>
                 </div>
