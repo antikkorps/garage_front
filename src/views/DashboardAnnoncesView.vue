@@ -112,12 +112,22 @@ onMounted(() => {
                   {{ annonce.price }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  {{ annonce.published }}
+                  <input
+                    type="checkbox"
+                    :disabled="true"
+                    :checked="annonce.published"
+                    class="checkbox_disable"
+                  />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  {{ annonce.featured }}
+                  <input
+                    type="checkbox"
+                    :disabled="true"
+                    :checked="annonce.featured"
+                    class="checkbox_disable"
+                  />
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <a href="#" class="text-indigo-600 hover:text-indigo-900">Voir</a>
                   <a href="#" class="text-indigo-600 hover:text-indigo-900 ml-4">Éditer</a>
                   <a href="#" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
@@ -175,5 +185,12 @@ onMounted(() => {
 .ml-64 {
   margin-left: 64px;
   transition: all 0.4s ease;
+}
+
+.checkbox_disable {
+  opacity: 0.4;
+}
+[type='checkbox']:checked {
+  background-color: black;
 }
 </style>
