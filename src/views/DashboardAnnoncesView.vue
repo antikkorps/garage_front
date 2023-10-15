@@ -21,6 +21,7 @@ interface Annonce {
   yearofcirculation: number
   image: string
   published: boolean
+  featured: boolean
   author: object
 }
 
@@ -86,6 +87,12 @@ onMounted(() => {
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
+                  Mise en avant
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Actions
                 </th>
               </tr>
@@ -106,6 +113,9 @@ onMounted(() => {
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   {{ annonce.published }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  {{ annonce.featured }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <a href="#" class="text-indigo-600 hover:text-indigo-900">Voir</a>
@@ -155,7 +165,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .main_content {
   transition: all 0.4s ease;
-  float: left;
+  //float: left;
   display: flex;
   justify-content: center;
 }
@@ -164,5 +174,6 @@ onMounted(() => {
 }
 .ml-64 {
   margin-left: 64px;
+  transition: all 0.4s ease;
 }
 </style>
