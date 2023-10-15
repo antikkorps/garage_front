@@ -28,7 +28,7 @@ const apiConfig = {
       annoncesNew: '/annonces/new',
       annoncesAll: '/annonces/all',
       annoncesQuery: '/annonces/search',
-      annnonceDetails: '/annnonces/:id',
+      annonceDetails: '/annonces/',
       contactsAll: '/contacts/all',
       contactDetails: '/contacts',
       contactNew: '/contacts/new',
