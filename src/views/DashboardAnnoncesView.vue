@@ -173,12 +173,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.main_content {
-  transition: all 0.4s ease;
-  //float: left;
-  display: flex;
-  justify-content: center;
-}
 .relative {
   position: relative;
 }

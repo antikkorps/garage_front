@@ -32,7 +32,13 @@ onMounted(() => {
     <ul class="annoncesListContainer">
       <li v-for="result in searchResults" :key="result.id">
         <RouterLink :to="`/annonces/${result.id}`">
-          <CardAnnonceDisplayed :annonce="result" />
+          <CardAnnonceDisplayed :annonce="result">
+            <template #custom-button="{ annonce }">
+              <RouterLink :to="`/annonces/${annonce.id}`">
+                <button class="custom-button">Voir l'annonce</button>
+              </RouterLink>
+            </template>
+          </CardAnnonceDisplayed>
         </RouterLink>
       </li>
     </ul>

@@ -8,7 +8,7 @@ const apiConfig = {
       annoncesNew: '/annonces/new',
       annoncesAll: '/annonces/all',
       annoncesQuery: '/annonces/search',
-      annnonceDetails: '/annnonces/:id',
+      annonceDetails: '/annnonces/:id',
       contactsAll: '/contacts/all',
       contactDetails: '/contacts/:id',
       contactNew: '/contacts/new',
