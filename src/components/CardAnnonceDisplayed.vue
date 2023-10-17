@@ -22,7 +22,8 @@ const { annonce } = defineProps(['annonce'])
         {{ annonce.description }}
       </p>
       <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">{{ annonce.price }} €</p>
-      <RouterLink to="/annonces/{{ annonce.id }}">
+
+      <RouterLink :to="`/annonces/${annonce.id}`">
         <button
           class="mx-auto mt-4 w-auto transform rounded-md bg-red-600 px-5 py-2 text-sm font-medium text-white transition-colors duration-300 hover:bg-red-500 focus:bg-red-600 focus:outline-none lg:w-auto"
         >
