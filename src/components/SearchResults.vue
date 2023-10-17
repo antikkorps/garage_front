@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CardAnnonceDisplayed from './CardAnnonceDisplayed.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import axios from 'axios'
@@ -27,10 +28,11 @@ onMounted(() => {
 <template>
   <div class="mt-20">
     <h2 class="title_page">Résultat de votre recherche</h2>
-    <ul>
+
+    <ul class="annoncesListContainer">
       <li v-for="result in searchResults" :key="result.id">
         <RouterLink :to="`/annonces/${result.id}`">
-          {{ result.title }}
+          <CardAnnonceDisplayed :annonce="result" />
         </RouterLink>
       </li>
     </ul>
