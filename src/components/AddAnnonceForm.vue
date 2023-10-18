@@ -5,6 +5,8 @@ import { RouterLink } from 'vue-router'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
 
+import UploadImage from './UploadImage.vue'
+
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesNew
 const formData = ref({
@@ -58,6 +60,7 @@ const confirmationMessageClass = computed(() => {
 
 <template>
   <div class="grid mt-10">
+    <UploadImage />
     <form class="w-full sm:w-1/3 justify-self-center" @submit.prevent>
       <div class="space-y-5">
         <div class="border-b border-gray-900/10 pb-5">
@@ -273,13 +276,7 @@ const confirmationMessageClass = computed(() => {
             Cancel
           </button></RouterLink
         >
-        <button
-          type="submit"
-          @click="addAnnonce"
-          class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-        >
-          Save
-        </button>
+        <button type="submit" @click="addAnnonce" class="buttonPrimary">Save</button>
       </div>
     </form>
   </div>

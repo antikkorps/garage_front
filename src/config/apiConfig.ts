@@ -1,22 +1,4 @@
 const apiConfig = {
-  development: {
-    baseUrl: 'http://localhost:3000',
-    endpoints: {
-      signup: '/auth/signup',
-      login: '/auth/signin',
-      profile: '/users/me',
-      annoncesNew: '/annonces/new',
-      annoncesAll: '/annonces/all',
-      annoncesQuery: '/annonces/search',
-      annonceDetails: '/annnonces/:id',
-      contactsAll: '/contacts/all',
-      contactDetails: '/contacts/:id',
-      contactNew: '/contacts/new',
-      horairesAll: '/horaires/all',
-      horaireDetails: '/horaires/:id',
-      horaireNew: '/horaires/new'
-    }
-  },
   production: {
     baseUrl: 'http://localhost:3000',
     endpoints: {
@@ -29,6 +11,7 @@ const apiConfig = {
       annoncesAll: '/annonces/all',
       annoncesQuery: '/annonces/search',
       annonceDetails: '/annonces/',
+      imageUploadEndpoint: '/images/upload',
       contactsAll: '/contacts/all',
       contactDetails: '/contacts',
       contactNew: '/contacts/new',
