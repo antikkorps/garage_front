@@ -60,7 +60,6 @@ const confirmationMessageClass = computed(() => {
 
 <template>
   <div class="grid mt-10">
-    <UploadImage />
     <form class="w-full sm:w-1/3 justify-self-center" @submit.prevent>
       <div class="space-y-5">
         <div class="border-b border-gray-900/10 pb-5">
@@ -196,24 +195,7 @@ const confirmationMessageClass = computed(() => {
             <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900"
               >Image mise en avant</label
             >
-            <div
-              class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-            >
-              <div class="text-center">
-                <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                  <label
-                    for="file-upload"
-                    class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
-                  >
-                    <span>Charger un fichier</span>
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only" />
-                  </label>
-                  <p class="pl-1">ou glisser déposer</p>
-                </div>
-                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-              </div>
-            </div>
+            <UploadImage />
           </div>
         </div>
 
