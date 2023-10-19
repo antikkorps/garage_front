@@ -192,9 +192,6 @@ const confirmationMessageClass = computed(() => {
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="col-span-full">
-            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900"
-              >Image mise en avant</label
-            >
             <UploadImage />
           </div>
         </div>

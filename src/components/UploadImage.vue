@@ -38,39 +38,37 @@ const handleFileUpload = (event: Event) => {
 
 <template>
   <div>
-    <div class="flex items-center justify-center w-full">
-      <label
-        for="dropzone-file"
-        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+    <div class="col-span-full">
+      <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900"
+        >Charger Image</label
       >
-        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg
-            class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-500"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 16"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-            />
-          </svg>
-          <p class="mb-2 text-sm text-gray-500 dark:text-gray-500">
-            <span class="font-semibold">Cliquez pour choisir le fichier</span> ou glissez-le
-          </p>
-          <p class="text-xs text-gray-500 dark:text-gray-400">
-            SVG, PNG, JPG or GIF (MAX. 800x400px)
-          </p>
+      <div
+        class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+      >
+        <div class="text-center">
+          <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+          <div class="mt-4 flex text-sm leading-6 text-gray-600">
+            <label
+              for="file-upload"
+              class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
+            >
+              <span>Upload a file</span>
+              <input
+                id="file-upload"
+                name="file-upload"
+                type="file"
+                class="sr-only"
+                @change="handleFileUpload"
+              />
+            </label>
+            <p class="pl-1">or drag and drop</p>
+          </div>
+          <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
         </div>
-        <input id="dropzone-file" type="file" class="hidden" @change="handleFileUpload" />
-      </label>
+      </div>
     </div>
     <div>
-      <img :src="imageUrl" alt="Image Téléchargée" class="w-1/4 rounded-lg" />
+      <img :src="imageUrl" alt="Image Téléchargée" class="w-1/4 radIded-lg" />
     </div>
   </div>
 </template>
