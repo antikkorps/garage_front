@@ -60,6 +60,7 @@ watch(searchResults, () => {
         v-if="searchResults"
         class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly"
       >
+        //TODO : add an condition to display searchResults if published
         <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
       </div>
       <div v-else>Aucun résultat trouvé.</div>
