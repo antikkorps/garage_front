@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Ref } from 'vue'
+import { PhotoIcon } from '@heroicons/vue/24/solid'
+
 import axios from 'axios'
 
 const uploadFileStackUrl = import.meta.env.VITE_FILESTACK_URL
 const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
 
-const imageUrl = ref('')
+const imageUrls: Ref<string[]> = ref([])
+const featuredImage = ref<number | null>(null)
 
 const uploadImage = async (file: File) => {
   try {
@@ -15,12 +19,17 @@ const uploadImage = async (file: File) => {
       'Content-Type': 'multipart/form-data'
     }
 
-    const response = await axios.post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
-      headers
-    })
-
-    console.log('Réponse :', response.data)
-    imageUrl.value = response.data.url
+    await axios
+      .post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
+        headers
+      })
+      .then((response) => {
+        if (imageUrls.value.length === 0) {
+          featuredImage.value = 0
+        }
+        imageUrls.value.push(response.data.url)
+        console.log('Images Urls :', imageUrls)
+      })
   } catch (error) {
     console.error("Erreur lors de l'upload :", error)
   }
@@ -33,6 +42,10 @@ const handleFileUpload = (event: Event) => {
   if (file) {
     uploadImage(file)
   }
+}
+
+const setFeaturedImage = (index: number) => {
+  featuredImage.value = index
 }
 </script>
 
@@ -67,8 +80,15 @@ const handleFileUpload = (event: Event) => {
         </div>
       </div>
     </div>
-    <div>
-      <img :src="imageUrl" alt="Image Téléchargée" class="w-1/4 radIded-lg" />
+    <div class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly">
+      <div class="mx-3 mt-3" v-for="(imageUrl, index) in imageUrls" :key="index">
+        <div
+          @click="setFeaturedImage(index)"
+          :class="{ 'featured-image': index === featuredImage }"
+        >
+          <img class="w-full" :src="imageUrl" :alt="'Image ' + (index + 1)" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
