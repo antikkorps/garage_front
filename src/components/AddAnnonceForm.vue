@@ -71,7 +71,8 @@ const createAnnouncement = async () => {
 
   // Réinitialisez les listes pour de futures annonces
   imageUrls.value = []
-  featuredImages.value = []
+  coverImage.value = []
+  galleryImages.value = []
 }
 </script>
 
