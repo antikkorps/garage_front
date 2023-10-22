@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
 
@@ -11,6 +11,7 @@ const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
 const imageUrls: Ref<string[]> = ref([])
 const coverImage = ref<string | null>(null)
 const galleryImages = ref<Array<{ url: string | null; status: string }>>([])
+const galleryIndex = ref<number | undefined>(undefined)
 
 const uploadImage = async (file: File) => {
   try {
@@ -20,9 +21,19 @@ const uploadImage = async (file: File) => {
       'Content-Type': 'multipart/form-data'
     }
 
-    await axios.post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
+    const response = await axios.post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
       headers
     })
+
+    const imageUrl = response.data.url
+
+    if (galleryIndex.value !== undefined) {
+      if (galleryIndex.value < galleryImages.value.length) {
+        galleryImages.value[galleryIndex.value] = { url: imageUrl, status: 'uploaded' }
+      }
+    } else {
+      coverImage.value = imageUrl
+    }
   } catch (error) {
     console.error("Erreur lors de l'upload :", error)
   }
@@ -54,6 +65,12 @@ const handleGalleryUpload = (event: Event) => {
     uploadImage(file)
   }
 }
+
+onMounted(() => {
+  for (let i = 0; i < 3; i++) {
+    galleryImages.value.push({ url: null, status: 'pending' })
+  }
+})
 </script>
 
 <template>
@@ -94,6 +111,31 @@ const handleGalleryUpload = (event: Event) => {
 
       <div
         class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+      >
+        <div class="text-center">
+          <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+          <div class="mt-4 flex text-sm leading-6 text-gray-600">
+            <label
+              for="gallery-upload"
+              class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
+            >
+              <span>Ajouter une image à la galerie</span>
+              <input
+                id="gallery-upload"
+                name="gallery-upload"
+                type="file"
+                class="sr-only"
+                @change="handleGalleryUpload"
+              />
+            </label>
+            <p class="pl-1">ou glissez le fichier ici</p>
+          </div>
+          <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
+        </div>
+      </div>
+
+      <div
+        class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
         v-for="(galleryImage, index) in galleryImages"
         :key="index"
       >
@@ -120,14 +162,14 @@ const handleGalleryUpload = (event: Event) => {
         <button
           v-if="galleryImage.status === 'uploading'"
           type="button"
-          class="bg-indigo-500 text-white rounded-lg px-2 py-1"
+          class="bg-red-500 text-white rounded-lg px-2 py-1"
           disabled
         >
           <svg class="animate-spin h-5 w-5 mr-3"></svg>
           En cours de traitement...
         </button>
         <!-- Afficher l'image téléchargée pour la galerie -->
-        <img v-else-if="galleryImage.url" :src="galleryImage.url" alt="Image de la galerie" />
+        <img v-if="galleryImage.url" :src="galleryImage.url" alt="Image de la galerie" />
       </div>
     </div>
 
