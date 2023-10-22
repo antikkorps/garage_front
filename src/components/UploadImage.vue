@@ -65,7 +65,7 @@ const setFeaturedImage = (index: number) => {
               for="file-upload"
               class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
             >
-              <span>Upload a file</span>
+              <span>Uploader un fichier</span>
               <input
                 id="file-upload"
                 name="file-upload"

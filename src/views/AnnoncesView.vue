@@ -23,6 +23,14 @@ interface Annonce {
   yearofcirculation: number
   image: string
   published: boolean
+  featured: boolean
+  imageCover: string
+  imageOne: string
+  imageOneTitle: string
+  imageTwo: string
+  imageTwoTitle: string
+  imageThree: string
+  imageThreeTitle: string
   author: object
 }
 
