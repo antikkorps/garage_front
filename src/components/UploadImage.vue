@@ -10,6 +10,7 @@ const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
 
 const imageUrls: Ref<string[]> = ref([])
 const coverImage = ref<string | null>(null)
+const coverInput = ref<HTMLInputElement | null>(null)
 const galleryImages = ref<Array<{ url: string | null; status: string }>>([])
 const galleryIndex = ref<number | undefined>(undefined)
 
@@ -48,12 +49,10 @@ const handleCoverUpload = (event: Event) => {
   }
 }
 
-const editCoverImage = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0]
-
-  if (file) {
-    uploadImage(file)
+const resetCoverImage = () => {
+  coverImage.value = null
+  if (coverInput.value) {
+    coverInput.value.value = ''
   }
 }
 
@@ -62,14 +61,14 @@ const handleGalleryUpload = (event: Event) => {
   const file = input.files?.[0]
 
   if (file) {
+    galleryIndex.value = galleryIndex.value === undefined ? 0 : galleryIndex.value + 1
+    galleryImages.value.push({ url: null, status: 'pending' })
     uploadImage(file)
   }
 }
 
 onMounted(() => {
-  for (let i = 0; i < 3; i++) {
-    galleryImages.value.push({ url: null, status: 'pending' })
-  }
+  galleryImages
 })
 </script>
 
@@ -82,6 +81,8 @@ onMounted(() => {
       <h3 class="block text-sm font-medium leading-6">Image de l'annonce</h3>
       <div
         class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+        v-if="!coverImage"
+        ref="coverInput"
       >
         <div class="text-center">
           <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
@@ -105,7 +106,7 @@ onMounted(() => {
         </div>
       </div>
       <img v-if="coverImage" :src="coverImage" alt="Image de couverture" />
-      <button v-if="coverImage" @click="editCoverImage">Modifier</button>
+      <button v-if="coverImage" @click="resetCoverImage">Modifier</button>
 
       <h3 class="block text-sm font-medium leading-6">Images de la galerie</h3>
 
