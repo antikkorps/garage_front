@@ -135,41 +135,31 @@ onMounted(() => {
         </div>
       </div>
 
-      <div
-        class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-        v-for="(galleryImage, index) in galleryImages"
-        :key="index"
-      >
-        <div class="text-center">
-          <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-          <div class="mt-4 flex text-sm leading-6 text-gray-600">
-            <label
-              :for="'gallery-upload-' + index"
-              class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
-            >
-              <span>Image de la galerie {{ index + 1 }}</span>
-              <input
-                :id="'gallery-upload-' + index"
-                :name="'gallery-upload-' + index"
-                type="file"
-                class="sr-only"
-                @change="handleGalleryUpload"
-              />
-            </label>
-            <p class="pl-1">ou glissez le fichier ici</p>
-          </div>
-          <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
-        </div>
-        <button
-          v-if="galleryImage.status === 'uploading'"
-          type="button"
-          class="bg-red-500 text-white rounded-lg px-2 py-1"
-          disabled
+      <div v-for="(galleryImage, index) in galleryImages" :key="index">
+        <div
+          class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
         >
-          <svg class="animate-spin h-5 w-5 mr-3"></svg>
-          En cours de traitement...
-        </button>
-        <!-- Afficher l'image téléchargée pour la galerie -->
+          <div class="text-center">
+            <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+            <div class="mt-4 flex text-sm leading-6 text-gray-600">
+              <label
+                :for="'gallery-upload-' + index"
+                class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
+              >
+                <span>Image de la galerie {{ index + 1 }}</span>
+                <input
+                  :id="'gallery-upload-' + index"
+                  :name="'gallery-upload-' + index"
+                  type="file"
+                  class="sr-only"
+                  @change="handleGalleryUpload"
+                />
+              </label>
+              <p class="pl-1">ou glissez le fichier ici</p>
+            </div>
+            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
+          </div>
+        </div>
         <img v-if="galleryImage.url" :src="galleryImage.url" alt="Image de la galerie" />
       </div>
     </div>
