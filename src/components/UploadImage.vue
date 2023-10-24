@@ -8,10 +8,10 @@ import axios from 'axios'
 const uploadFileStackUrl = import.meta.env.VITE_FILESTACK_URL
 const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
 
-const imageUrls: Ref<string[]> = ref([])
+// const imageUrls: Ref<string[]> = ref([])
 const coverImage = ref<string | null>(null)
 const coverInput = ref<HTMLInputElement | null>(null)
-const galleryImages = ref<Array<{ url: string | null; status: string }>>([])
+const galleryImages = ref<Array<{ url: string | null } | null>>([])
 const galleryIndex = ref<number | undefined>(undefined)
 
 const uploadImage = async (file: File) => {
@@ -30,7 +30,7 @@ const uploadImage = async (file: File) => {
 
     if (galleryIndex.value !== undefined) {
       if (galleryIndex.value < galleryImages.value.length) {
-        galleryImages.value[galleryIndex.value] = { url: imageUrl, status: 'uploaded' }
+        galleryImages.value[galleryIndex.value] = { url: imageUrl }
       }
     } else {
       coverImage.value = imageUrl
@@ -62,11 +62,18 @@ const handleGalleryUpload = (event: Event) => {
 
   if (file) {
     galleryIndex.value = galleryIndex.value === undefined ? 0 : galleryIndex.value + 1
-    galleryImages.value.push({ url: null, status: 'pending' })
+    galleryImages.value.push({ url: null })
+    console.log("valeur de la galerie d'image", galleryImages.value)
+    console.log(galleryImages.value.url)
     uploadImage(file)
   }
 }
-
+const editGalleryImage = (index: number) => {
+  const input = document.getElementById(`gallery-upload-${index}`) as HTMLInputElement
+  if (input) {
+    input.click()
+  }
+}
 onMounted(() => {
   galleryImages
 })
@@ -110,34 +117,11 @@ onMounted(() => {
 
       <h3 class="block text-sm font-medium leading-6">Images de la galerie</h3>
 
-      <div
-        class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-      >
-        <div class="text-center">
-          <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-          <div class="mt-4 flex text-sm leading-6 text-gray-600">
-            <label
-              for="gallery-upload"
-              class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
-            >
-              <span>Ajouter une image à la galerie</span>
-              <input
-                id="gallery-upload"
-                name="gallery-upload"
-                type="file"
-                class="sr-only"
-                @change="handleGalleryUpload"
-              />
-            </label>
-            <p class="pl-1">ou glissez le fichier ici</p>
-          </div>
-          <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
-        </div>
-      </div>
-
-      <div v-for="(galleryImage, index) in galleryImages" :key="index">
+      <div class="flex flex-row flex-wrap">
         <div
           class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+          v-for="(galleryImage, index) in [1, 2, 3, 4]"
+          :key="index"
         >
           <div class="text-center">
             <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
@@ -146,7 +130,7 @@ onMounted(() => {
                 :for="'gallery-upload-' + index"
                 class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
               >
-                <span>Image de la galerie {{ index + 1 }}</span>
+                <span>Ajouter une image à la galerie {{ index + 1 }}</span>
                 <input
                   :id="'gallery-upload-' + index"
                   :name="'gallery-upload-' + index"
@@ -159,14 +143,11 @@ onMounted(() => {
             </div>
             <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
           </div>
+          <div v-if="galleryImages.url" :key="index">
+            <img :src="galleryImages.url" alt="Image de la galerie" />
+            <button @click="editGalleryImage(index)">Modifier</button>
+          </div>
         </div>
-        <img v-if="galleryImage.url" :src="galleryImage.url" alt="Image de la galerie" />
-      </div>
-    </div>
-
-    <div class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly">
-      <div class="mx-3 mt-3" v-for="(imageUrl, index) in imageUrls" :key="index">
-        <img class="w-full" :src="imageUrl" :alt="'Image ' + (index + 1)" />
       </div>
     </div>
   </div>
