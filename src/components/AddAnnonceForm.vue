@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
 
-import UploadImage from './UploadImage.vue'
+import UploadImages from './UploadImages.vue'
 
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesNew
@@ -210,7 +210,7 @@ const createAnnouncement = async () => {
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="col-span-full">
-            <UploadImage />
+            <UploadImages />
           </div>
         </div>
 

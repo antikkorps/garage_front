@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import UploadImagesGallery from './UploadImagesGallery.vue'
+
 import { ref, onMounted } from 'vue'
-import type { Ref } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
 
 import axios from 'axios'
@@ -15,7 +16,7 @@ interface GalleryImage {
 // const imageUrls: Ref<string[]> = ref([])
 const coverImage = ref<string | null>(null)
 const coverInput = ref<HTMLInputElement | null>(null)
-const galleryImages = ref<GalleryImage[]>([])
+const galleryImages = ref<GalleryImage[]>([{ url: null }, { url: null }, { url: null }])
 const galleryIndex = ref<number | undefined>(undefined)
 
 const uploadImage = async (file: File) => {
@@ -57,24 +58,6 @@ const resetImage = () => {
   coverImage.value = null
   if (coverInput.value) {
     coverInput.value.value = ''
-  }
-}
-
-const resetImageInGallery = (index: number) => {
-  if (index >= 0 && index < galleryImages.value.length) {
-    galleryImages.value[index] = { url: null }
-  }
-}
-
-const handleGalleryUpload = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0]
-
-  if (file) {
-    galleryIndex.value = galleryIndex.value === undefined ? 0 : galleryIndex.value + 1
-    galleryImages.value.push({ url: null })
-    console.log("valeur de la galerie d'image", galleryImages.value)
-    uploadImage(file)
   }
 }
 
@@ -121,43 +104,12 @@ onMounted(() => {
 
       <h3 class="block text-sm font-medium leading-6">Images de la galerie</h3>
 
-      <div class="flex flex-row flex-wrap">
-        <div v-for="(images, index) in [1, 2, 3]" :key="index">
-          <div
-            v-if="galleryImages && galleryImages[index] && galleryImages[index].url"
-            :key="index"
-          >
-            <img :src="galleryImages[index].url || ''" alt="Image de la galerie" />
-            <button @click="() => resetImageInGallery(index)">Modifier</button>
-          </div>
-
-          <div
-            v-else
-            class="mt-2 mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-          >
-            <div class="text-center">
-              <PhotoIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-              <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                <label
-                  :for="'gallery-upload-' + index"
-                  class="relative cursor-pointer rounded-md bg-white font-semibold text-red-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2 hover:text-red-500"
-                >
-                  <span>Ajouter une image à la galerie {{ index + 1 }}</span>
-                  <input
-                    :id="'gallery-upload-' + index"
-                    :name="'gallery-upload-' + index"
-                    type="file"
-                    class="sr-only"
-                    @change="handleGalleryUpload"
-                  />
-                </label>
-                <p class="pl-1">ou glissez le fichier ici</p>
-              </div>
-              <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UploadImagesGallery
+        v-for="(image, index) in galleryImages"
+        :key="index"
+        :imageData="image"
+        :index="index"
+      />
     </div>
   </div>
 </template>
