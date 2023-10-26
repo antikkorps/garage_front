@@ -57,12 +57,6 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/dashboard/annonces/new',
-      name: 'annonce-new',
-      component: () => import('../views/AnnonceNewView.vue'),
-      beforeEnter: requireAuth
-    },
-    {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('../views/DashboardView.vue'),
@@ -72,6 +66,12 @@ const router = createRouter({
       path: '/dashboard/annonces',
       name: 'dashboard-annonces',
       component: () => import('../views/DashboardAnnoncesView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/annonces/new',
+      name: 'annonce-new',
+      component: () => import('../views/AnnonceNewView.vue'),
       beforeEnter: requireAuth
     },
     {
@@ -90,6 +90,24 @@ const router = createRouter({
       path: '/dashboard/horaires',
       name: 'dashboard-horaires',
       component: () => import('../views/DashboardHorairesView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/users',
+      name: 'dashboard-users',
+      component: () => import('../views/DashboardUsersView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/users/new',
+      name: 'user-new',
+      component: () => import('../views/DashboardUserNewView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
+      path: '/dashboard/users/:id',
+      name: 'user-details',
+      component: () => import('../views/DashboardUserDetailsView.vue'),
       beforeEnter: requireAuth
     }
   ]
