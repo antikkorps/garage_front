@@ -18,7 +18,13 @@ const formData = ref({
   brand: '',
   published: false,
   featured: false,
-  image: null
+  imageCover: '',
+  imageOne: '',
+  imageOneTitle: '',
+  imageTwo: '',
+  imageTwoTitle: '',
+  imageThree: '',
+  imageThreeTitle: ''
 })
 
 const confirmationMessage = ref('')
@@ -27,12 +33,14 @@ const addAnnonce = async () => {
   try {
     const token = localStorage.getItem('jwt_token')
     const postedAnnonce = JSON.stringify({ ...formData.value })
+    // comment Envoyer les images marquées comme vedettes et d'autres données au serveur
     await axios.post(baseUrl + endpoint, postedAnnonce, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       }
     })
+    // Réinitialisez les listes pour de futures annonces
     formData.value = {
       title: '',
       description: '',
@@ -42,7 +50,13 @@ const addAnnonce = async () => {
       brand: '',
       published: false,
       featured: false,
-      image: null
+      imageCover: '',
+      imageOne: '',
+      imageOneTitle: '',
+      imageTwo: '',
+      imageTwoTitle: '',
+      imageThree: '',
+      imageThreeTitle: ''
     }
     confirmationMessage.value = 'Annonce créée avec succès'
     setTimeout(() => {
@@ -56,24 +70,6 @@ const addAnnonce = async () => {
 const confirmationMessageClass = computed(() => {
   return confirmationMessage.value.startsWith('Erreur') ? 'text-red-600' : 'text-green-600'
 })
-
-//TODO : Enchainement de requêtes lier les images à l'annonce:
-
-const createAnnouncement = async () => {
-  // Envoyez les images marquées comme vedettes et d'autres données au serveur
-  const data = {
-    imageUrls: featuredImages.value.map((index) => imageUrls.value[index])
-    // Autres données de l'annonce
-  }
-
-  // Envoyez les données au serveur via une requête POST
-  await axios.post('/votre/api/endpoint', data)
-
-  // Réinitialisez les listes pour de futures annonces
-  imageUrls.value = []
-  coverImage.value = []
-  galleryImages.value = []
-}
 </script>
 
 <template>
