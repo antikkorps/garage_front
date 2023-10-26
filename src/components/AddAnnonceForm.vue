@@ -20,11 +20,8 @@ const formData = ref({
   featured: false,
   imageCover: '',
   imageOne: '',
-  imageOneTitle: '',
   imageTwo: '',
-  imageTwoTitle: '',
-  imageThree: '',
-  imageThreeTitle: ''
+  imageThree: ''
 })
 
 const confirmationMessage = ref('')
@@ -52,11 +49,8 @@ const addAnnonce = async () => {
       featured: false,
       imageCover: '',
       imageOne: '',
-      imageOneTitle: '',
       imageTwo: '',
-      imageTwoTitle: '',
-      imageThree: '',
-      imageThreeTitle: ''
+      imageThree: ''
     }
     confirmationMessage.value = 'Annonce créée avec succès'
     setTimeout(() => {
