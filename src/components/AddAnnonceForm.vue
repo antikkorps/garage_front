@@ -30,7 +30,7 @@ const addAnnonce = async () => {
   try {
     const token = localStorage.getItem('jwt_token')
     const postedAnnonce = JSON.stringify({ ...formData.value })
-    // comment Envoyer les images marquées comme vedettes et d'autres données au serveur
+    console.log("détail de l'annonce postée", postedAnnonce)
     await axios.post(baseUrl + endpoint, postedAnnonce, {
       headers: {
         'Content-Type': 'application/json',
@@ -61,6 +61,13 @@ const addAnnonce = async () => {
     confirmationMessage.value = "Erreur lors de la création de l'annonce"
   }
 }
+
+const updateGalleryImages = (images: string[]) => {
+  formData.value.imageOne = images[0]
+  formData.value.imageTwo = images[1]
+  formData.value.imageThree = images[2]
+}
+
 const confirmationMessageClass = computed(() => {
   return confirmationMessage.value.startsWith('Erreur') ? 'text-red-600' : 'text-green-600'
 })
@@ -200,7 +207,7 @@ const confirmationMessageClass = computed(() => {
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="col-span-full">
-            <UploadImages />
+            <UploadImages @galleryImagesUpdated="updateGalleryImages" />
           </div>
         </div>
 

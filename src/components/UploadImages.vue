@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UploadImagesGallery from './UploadImagesGallery.vue'
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
 
 import axios from 'axios'
@@ -13,7 +13,7 @@ interface GalleryImage {
   url: string | null
 }
 
-// const imageUrls: Ref<string[]> = ref([])
+const emits = defineEmits(['galleryImagesUpdated'])
 const coverImage = ref<string | null>(null)
 const coverInput = ref<HTMLInputElement | null>(null)
 const galleryImages = ref<GalleryImage[]>([{ url: null }, { url: null }, { url: null }])
@@ -40,6 +40,10 @@ const uploadImage = async (file: File) => {
     } else {
       coverImage.value = imageUrl
     }
+    emits(
+      'galleryImagesUpdated',
+      galleryImages.value.map((image) => image.url)
+    )
   } catch (error) {
     console.error("Erreur lors de l'upload :", error)
   }
