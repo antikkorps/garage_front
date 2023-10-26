@@ -270,7 +270,7 @@ const confirmationMessageClass = computed(() => {
             Cancel
           </button></RouterLink
         >
-        <button type="submit" @click="addAnnonce" class="buttonPrimary">Save</button>
+        <button type="submit" @click="addAnnonce" class="buttonPrimary">Ajouter</button>
       </div>
     </form>
   </div>
