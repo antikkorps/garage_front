@@ -1,73 +1,73 @@
 <script setup lang="ts">
-import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import { ref, onMounted } from 'vue'
-import { state } from '@/stores/state'
-import { loggedIn, checkLoggedIn } from '@/stores/reusable'
-import axios from 'axios'
-import apiConfig from '@/config/apiConfig'
-import router from '@/router'
+import SidebarAdmin from "@/components/SidebarAdmin.vue";
+import { ref, onMounted } from "vue";
+import { state } from "@/stores/state";
+import { loggedIn, checkLoggedIn } from "@/stores/reusable";
+import axios from "axios";
+import apiConfig from "@/config/apiConfig";
+import router from "@/router";
 
-const contacts = ref<Contact[]>([])
+const contacts = ref<Contact[]>([]);
 
-const baseUrl = apiConfig.production.baseUrl
-const endpoint = apiConfig.production.endpoints.contactsAll
-const details = apiConfig.production.endpoints.contactDetails
-const contactsQuery = `${baseUrl}${endpoint}`
-const contactsDetailsQuery = `${baseUrl}${details}`
+const baseUrl = apiConfig.production.baseUrl;
+const endpoint = apiConfig.production.endpoints.contactsAll;
+const details = apiConfig.production.endpoints.contactDetails;
+const contactsQuery = `${baseUrl}${endpoint}`;
+const contactsDetailsQuery = `${baseUrl}${details}`;
 
 interface Contact {
-  id: number
-  name: string
-  phone: string
-  email: string
-  message: string
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
 }
 
 const getAllContacts = async () => {
   if (!loggedIn.value) {
-    router.push('/login')
-    return
+    router.push("/login");
+    return;
   }
 
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}` // Assurez-vous d'ajuster la clé de stockage du jeton si nécessaire.
-    }
-  }
+      Authorization: `Bearer ${localStorage.getItem("jwt_token")}`, // Assurez-vous d'ajuster la clé de stockage du jeton si nécessaire.
+    },
+  };
 
   try {
-    const response = await axios.get(contactsQuery, config)
-    contacts.value = response.data
+    const response = await axios.get(contactsQuery, config);
+    contacts.value = response.data;
   } catch (error) {
-    console.error('Erreur lors de la récupération des annonces :', error)
+    console.error("Erreur lors de la récupération des annonces :", error);
   }
-}
+};
 
 const deleteContact = async (contactId: number) => {
   if (!loggedIn.value) {
-    router.push('/login')
-    return
+    router.push("/login");
+    return;
   }
 
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-    }
-  }
+      Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+    },
+  };
 
   try {
-    await axios.delete(`${contactsDetailsQuery}/${contactId}`, config)
+    await axios.delete(`${contactsDetailsQuery}/${contactId}`, config);
 
-    getAllContacts()
+    getAllContacts();
   } catch (error) {
-    console.error('Erreur lors de la suppression du contact :', error)
+    console.error("Erreur lors de la suppression du contact :", error);
   }
-}
+};
 
 onMounted(() => {
-  checkLoggedIn()
-  getAllContacts()
-})
+  checkLoggedIn();
+  getAllContacts();
+});
 </script>
 
 <template>
@@ -77,7 +77,7 @@ onMounted(() => {
       <div :class="['main_content relative', { 'lg:ml-16': state.showSidebar }]">
         <div class="container place-content-center grid grid-cols-1">
           <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">
-            Liste des demandes de contact
+            Demandes de contact
           </h2>
           <div v-if="contacts" class="relative overflow-x-auto">
             <table
@@ -142,7 +142,9 @@ onMounted(() => {
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ contact.message }}
                   </td>
-                  <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td
+                    class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                  >
                     <RouterLink
                       to="/dashboard/contacts/${:id}"
                       class="text-indigo-600 hover:text-indigo-900"
