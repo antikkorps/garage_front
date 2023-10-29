@@ -19,6 +19,7 @@ const openingAmTime = ref('')
 const closingAmTime = ref('')
 const openingPmTime = ref('')
 const closingPmTime = ref('')
+const updateMessage = ref('')
 
 interface HorairesDetails {
   id: number
@@ -93,8 +94,28 @@ const updateHorairesOfTheDay = async () => {
     closingPm: closingPmISOString
   }
   console.log(payload)
-  await axios.patch(`${horairesDetailsQuery}${route.params.id}`, payload, config)
+  try {
+    await axios.patch(`${horairesDetailsQuery}${route.params.id}`, payload, config)
+    updateMessage.value = 'Les horaires ont été mis à jour'
+    setTimeout(() => {
+      updateMessage.value = ''
+    }, 5000)
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour des horaires :', error)
+    updateMessage.value = "La mise à jour des horaires n'a pas réussi"
+    setTimeout(() => {
+      updateMessage.value = ''
+    }, 5000)
+  }
 }
+
+const messageClass = computed(() => {
+  return {
+    'text-green-500': updateMessage.value === 'Les horaires ont été mis à jour',
+    'text-red-500': updateMessage.value !== 'Les horaires ont été mis à jour'
+  }
+})
+
 onMounted(() => {
   checkLoggedIn()
   getHorairesOfTheDaybyId(route.params.id.toString())
@@ -103,11 +124,11 @@ onMounted(() => {
 <template>
   <div>
     <SidebarAdmin />
-    <form class="detailsContainer">
+    <form class="detailsContainer" @submit.prevent="updateHorairesOfTheDay">
       <div class="listContainer space-y-12">
         <div class="border-b border-gray-900/10 pb-12 mt-5">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Horaire du {{ horaireDetails.jourDeLaSemaine }}
+            Horaire du : {{ horaireDetails.jourDeLaSemaine }}
           </h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">
             Modifier les horaires d'ouverture et de fermeture du garage.
@@ -216,5 +237,8 @@ onMounted(() => {
         </button>
       </div>
     </form>
+    <p class="text-center mt-5" :class="messageClass" v-if="updateMessage">
+      {{ updateMessage }}
+    </p>
   </div>
 </template>
