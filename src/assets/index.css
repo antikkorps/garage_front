@@ -40,8 +40,13 @@
   }
 
   /* LISTES  CONTAINER DATATABLES*/
-  .ListContainer {
+  .listContainer {
     @apply flex flex-row items-center justify-center;
+  }
+
+  /* DETAILS CONTAINER */
+  .detailsContainer {
+    @apply flex flex-col items-center justify-center;
   }
 
   /* BUTTONS */

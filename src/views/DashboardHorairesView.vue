@@ -45,26 +45,6 @@ const getAllHoraires = async () => {
   }
 }
 
-const editHoraire = async () => {
-  if (!loggedIn.value) {
-    router.push('/login')
-    return
-  }
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-    }
-  }
-
-  try {
-    const response = await axios.put(horairesQuery, config)
-    horaires.value = response.data
-  } catch (error) {
-    console.error('Erreur lors de la modification des horaires :', error)
-  }
-}
-
 const sortHorairesById = () => {
   horaires.value.sort((a, b) => a.id - b.id)
 }
@@ -85,7 +65,7 @@ onMounted(() => {
 <template>
   <div>
     <SidebarAdmin />
-    <div class="ListContainer">
+    <div class="listContainer">
       <div :class="['main_content relative', { 'lg:ml-16': state.showSidebar }]">
         <div class="container place-content-center grid grid-cols-1">
           <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">Horaires du garage</h2>
