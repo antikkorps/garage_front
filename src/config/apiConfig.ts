@@ -16,7 +16,7 @@ const apiConfig = {
       contactDetails: '/contacts',
       contactNew: '/contacts/new',
       horairesAll: '/horaires/all',
-      horaireDetails: '/horaires/:id',
+      horairesDetails: '/horaires/:id',
       horaireNew: '/horaires/new'
     }
   }
