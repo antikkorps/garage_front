@@ -147,9 +147,11 @@ onMounted(() => {
                   </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <RouterLink
-                      to="/dashboard/horaires"
+                      :to="{
+                        name: 'dashboard-horaires-details',
+                        params: { id: horaire.id }
+                      }"
                       class="text-indigo-600 hover:text-indigo-900 ml-4"
-                      @click="editHoraire(horaire.id)"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

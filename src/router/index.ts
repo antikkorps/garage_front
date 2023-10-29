@@ -93,6 +93,12 @@ const router = createRouter({
       beforeEnter: requireAuth
     },
     {
+      path: '/dashboard/horaires/:id',
+      name: 'dashboard-horaires-details',
+      component: () => import('../views/DashboardHoraireDetailsView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/dashboard/users',
       name: 'dashboard-users',
       component: () => import('../views/DashboardUsersView.vue'),
