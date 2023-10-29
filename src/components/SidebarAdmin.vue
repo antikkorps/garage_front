@@ -1,63 +1,69 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
-import { state } from '@/stores/state'
-import { logOutUser } from '@/stores/reusable'
+import { ref, onMounted } from "vue";
+import { useRouter, RouterLink } from "vue-router";
+import { state } from "@/stores/state";
+import { logOutUser } from "@/stores/reusable";
 
-const optionsAvecListeDeroulante = ref([])
+const optionsAvecListeDeroulante = ref([]);
 
 const toggleDeroulante = (option: HTMLElement) => {
-  const deroulante = option.querySelector('.deroulante')
+  const deroulante = option.querySelector(".deroulante");
   if (deroulante) {
-    deroulante.classList.toggle('hidden')
+    deroulante.classList.toggle("hidden");
   }
-}
+};
 
 const toggleSidebar = () => {
-  state.showSidebar = !state.showSidebar
+  state.showSidebar = !state.showSidebar;
   optionsAvecListeDeroulante.value.forEach((option: HTMLElement) => {
-    const deroulante = option.querySelector('.deroulante')
+    const deroulante = option.querySelector(".deroulante");
     if (deroulante) {
-      deroulante.classList.add('hidden')
+      deroulante.classList.add("hidden");
     }
-  })
-}
+  });
+};
 
-const router = useRouter()
+const router = useRouter();
 
 const handleRouteChange = () => {
-  state.showSidebar = false // Fermer la barre latérale lorsque la navigation a lieu
-}
+  state.showSidebar = false; // Fermer la barre latérale lorsque la navigation a lieu
+};
 
 const handleLogout = () => {
-  logOutUser()
-  router.push('/')
-}
+  logOutUser();
+  router.push("/");
+};
 
 onMounted(() => {
   optionsAvecListeDeroulante.value = Array.from(
-    document.querySelectorAll('.optionAvecListeDeroulante')
-  )
+    document.querySelectorAll(".optionAvecListeDeroulante")
+  );
 
   optionsAvecListeDeroulante.value.forEach((option: HTMLElement) => {
-    option.addEventListener('click', () => {
-      toggleDeroulante(option)
-    })
-  })
+    option.addEventListener("click", () => {
+      toggleDeroulante(option);
+    });
+  });
 
-  router.afterEach(handleRouteChange) // Détecter les changements de route avec le routeur
-})
+  router.afterEach(handleRouteChange); // Détecter les changements de route avec le routeur
+});
 </script>
 <template>
   <!-- Top Navbar -->
-  <nav class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex items-center justify-between">
+  <nav
+    class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex items-center justify-between"
+  >
     <div>
       <h1 class="text-white dark:text-white text-xl font-semibold">
         Garage Parrot - Administration
       </h1>
     </div>
     <div class="flex items-center space-x-4">
-      <button v-if="!state.showSidebar" class="text-white open_menu" @click="toggleSidebar">
+      <button
+        v-if="!state.showSidebar"
+        class="text-white open_menu"
+        @click="toggleSidebar"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -250,13 +256,19 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink
+                  to="/dashboard/users"
+                  class="p-2 hover:bg-gray-700 flex items-center"
+                >
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des utilisateurs
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink
+                  to="/dashboard"
+                  class="p-2 hover:bg-gray-700 flex items-center"
+                >
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des rôles
                 </RouterLink>

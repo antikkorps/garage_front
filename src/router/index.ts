@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import requireAuth from '../guards/auth-guard'
+import roleGuard from '../guards/role-guard'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,7 +103,7 @@ const router = createRouter({
       path: '/dashboard/users',
       name: 'dashboard-users',
       component: () => import('../views/DashboardUsersView.vue'),
-      beforeEnter: requireAuth
+      beforeEnter: [requireAuth, roleGuard(['ADMIN'])]
     },
     {
       path: '/dashboard/users/new',
@@ -115,6 +116,11 @@ const router = createRouter({
       name: 'user-details',
       component: () => import('../views/DashboardUserDetailsView.vue'),
       beforeEnter: requireAuth
+    },
+    {
+      path: '/unauthorized',
+      name: 'unauthorized',
+      component: () => import('../views/UnauthorizedView.vue')
     }
   ]
 })
