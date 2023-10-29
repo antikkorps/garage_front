@@ -5,7 +5,6 @@ export default async function requireAuth(to, from, next) {
   const token = localStorage.getItem('jwt_token') // Récupérez le token JWT stocké
   const signinBackend = `${apiConfig.production.baseUrl}${apiConfig.production.endpoints.validate}/${token}`
 
-  console.log(token)
   if (!token) {
     next('/login')
   } else {
