@@ -9,16 +9,18 @@ import SidebarAdmin from '@/components/SidebarAdmin.vue'
 
 const route = useRoute()
 const router = useRouter()
-const horaireDetails = ref<Horaires[]>([])
-// const horaires = ref<Horaires[]>([])
+const horaireDetails = ref<HorairesDetails[]>([])
 
 const baseUrl = apiConfig.production.baseUrl
-// const endpoint = apiConfig.production.endpoints.horairesAll
 const details = apiConfig.production.endpoints.horairesDetails
-// const horairesQuery = `${baseUrl}${endpoint}`
 const horairesDetailsQuery = `${baseUrl}${details}`
 
-interface Horaires {
+const openingAmTime = ref('')
+const closingAmTime = ref('')
+const openingPmTime = ref('')
+const closingPmTime = ref('')
+
+interface HorairesDetails {
   id: number
   jourDeLaSemaine: String
   openingAm: String
@@ -42,47 +44,41 @@ const getHorairesOfTheDaybyId = async (id: String) => {
   try {
     const response = await axios.get(`${horairesDetailsQuery}${id}`, config)
     horaireDetails.value = response.data
+    openingAmTime.value = formatISOStringToTime(horaireDetails.value.openingAm)
+    closingAmTime.value = formatISOStringToTime(horaireDetails.value.closingAm)
+    openingPmTime.value = formatISOStringToTime(horaireDetails.value.openingPm)
+    closingPmTime.value = formatISOStringToTime(horaireDetails.value.closingPm)
   } catch (error) {
     console.error('Erreur lors de la récupération des horaires :', error)
   }
 }
 
-const formatTime = (isoString: String) => {
-  const date = new Date(isoString)
-  const hours = date.getUTCHours().toString().padStart(2, '0') // Obtient les heures (0-23)
-  const minutes = date.getUTCMinutes().toString().padStart(2, '0') // Obtient les minutes (0-59)
-  return `${hours}:${minutes}`
+const formatTimeToISOString = (time: string) => {
+  const [hours, minutes] = time.split(':')
+  const currentDate = new Date()
+  currentDate.setUTCHours(Number(hours))
+  currentDate.setUTCMinutes(Number(minutes))
+  return currentDate.toISOString()
 }
 
-const openingAmTime = computed(() => formatTime(horaireDetails.value.openingAm))
-const closingAmTime = computed(() => formatTime(horaireDetails.value.closingAm))
-const openingPmTime = computed(() => formatTime(horaireDetails.value.openingPm))
-const closingPmTime = computed(() => formatTime(horaireDetails.value.closingPm))
+const formatISOStringToTime = (isoString: string) => {
+  const date = new Date(isoString)
+  const hours = date.getUTCHours().toString().padStart(2, '0')
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutes}`
+}
 
 const updateHorairesOfTheDay = async () => {
   if (!loggedIn.value) {
     router.push('/login')
     return
   }
-
   const currentDate = new Date()
 
-  const openingAmParts = openingAmTime.value.split(':')
-  const closingAmParts = closingAmTime.value.split(':')
-  const openingPmParts = openingPmTime.value.split(':')
-  const closingPmParts = closingPmTime.value.split(':')
-
-  currentDate.setUTCHours(parseInt(openingAmParts[0], 10), parseInt(openingAmParts[1], 10), 0, 0)
-  const openingAmISOString = currentDate.toISOString()
-
-  currentDate.setUTCHours(parseInt(closingAmParts[0], 10), parseInt(closingAmParts[1], 10), 0, 0)
-  const closingAmISOString = currentDate.toISOString()
-
-  currentDate.setUTCHours(parseInt(openingPmParts[0], 10), parseInt(openingPmParts[1], 10), 0, 0)
-  const openingPmISOString = currentDate.toISOString()
-
-  currentDate.setUTCHours(parseInt(closingPmParts[0], 10), parseInt(closingPmParts[1], 10), 0, 0)
-  const closingPmISOString = currentDate.toISOString()
+  const openingAmISOString = formatTimeToISOString(openingAmTime.value)
+  const closingAmISOString = formatTimeToISOString(closingAmTime.value)
+  const openingPmISOString = formatTimeToISOString(openingPmTime.value)
+  const closingPmISOString = formatTimeToISOString(closingPmTime.value)
 
   const config = {
     headers: {
@@ -96,7 +92,7 @@ const updateHorairesOfTheDay = async () => {
     openingPm: openingPmISOString,
     closingPm: closingPmISOString
   }
-
+  console.log(payload)
   await axios.patch(`${horairesDetailsQuery}${route.params.id}`, payload, config)
 }
 onMounted(() => {
@@ -132,7 +128,6 @@ onMounted(() => {
                     id="openingAm"
                     autocomplete="openingAm"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
                     v-model="openingAmTime"
                   />
                 </div>
@@ -155,7 +150,6 @@ onMounted(() => {
                     id="closingAm"
                     autocomplete="closingAm"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
                     v-model="closingAmTime"
                   />
                 </div>
@@ -178,7 +172,6 @@ onMounted(() => {
                     id="openingPm"
                     autocomplete="openingPm"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
                     v-model="openingPmTime"
                   />
                 </div>
@@ -201,7 +194,6 @@ onMounted(() => {
                     id="closingPm"
                     autocomplete="closingPm"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
                     v-model="closingPmTime"
                   />
                 </div>
