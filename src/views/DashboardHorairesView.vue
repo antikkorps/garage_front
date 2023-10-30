@@ -68,7 +68,7 @@ onMounted(() => {
     <div class="listContainer">
       <div :class="['main_content relative', { 'lg:ml-16': state.showSidebar }]">
         <div class="container place-content-center grid grid-cols-1">
-          <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">Horaires du garage</h2>
+          <h2 class="text-gray-700 text-center text-2xl sm:text-4xl sm:py-4">Horaires du garage</h2>
           <div v-if="horaires" class="relative overflow-x-auto">
             <table
               class="divide-y divide-gray-200 w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -111,17 +111,17 @@ onMounted(() => {
               </thead>
               <tbody class="bg-white divide-y divide-gray-200" v-if="horaires.length">
                 <tr v-for="horaire in horaires" :key="horaire.id">
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ horaire.id }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ horaire.jourDeLaSemaine }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ extractHoursAndMinutes(horaire.openingAm) }} -
                     {{ extractHoursAndMinutes(horaire.closingAm) }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ extractHoursAndMinutes(horaire.openingPm) }} -
                     {{ extractHoursAndMinutes(horaire.closingPm) }}
                   </td>
@@ -131,7 +131,7 @@ onMounted(() => {
                         name: 'dashboard-horaires-details',
                         params: { id: horaire.id }
                       }"
-                      class="text-indigo-600 hover:text-indigo-900 ml-4"
+                      class="text-red-600 hover:text-red-900 ml-4"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
