@@ -17,7 +17,9 @@ const apiConfig = {
       contactNew: '/contacts/new',
       horairesAll: '/horaires/all',
       horairesDetails: '/horaires/',
-      horaireNew: '/horaires/new'
+      horaireNew: '/horaires/new',
+      userAll: '/users/all',
+      userProfile: '/users/me'
     }
   }
 }

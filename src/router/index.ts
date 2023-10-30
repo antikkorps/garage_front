@@ -109,12 +109,18 @@ const router = createRouter({
       path: '/dashboard/users/new',
       name: 'user-new',
       component: () => import('../views/DashboardUserNewView.vue'),
-      beforeEnter: requireAuth
+      beforeEnter: [requireAuth, roleGuard(['ADMIN'])]
     },
     {
       path: '/dashboard/users/:id',
       name: 'user-details',
       component: () => import('../views/DashboardUserDetailsView.vue'),
+      beforeEnter: [requireAuth, roleGuard(['ADMIN'])]
+    },
+    {
+      path: '/dashboard/profile',
+      name: 'user-profile',
+      component: () => import('../views/DashboardUserProfileView.vue'),
       beforeEnter: requireAuth
     },
     {
