@@ -6,12 +6,14 @@ import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 import { state } from '@/stores/state'
 import router from '@/router'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const userDetails = ref<UserDetails[]>([])
 
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.userDetails
-const userProfileQuery = `${baseUrl}${endpoint}`
+const userDetailsQuery = `${baseUrl}${endpoint}`
 
 interface UserDetails {
   id: Number
@@ -23,7 +25,7 @@ interface UserDetails {
   updatedAt: String
 }
 
-const getUserProfileById = async () => {
+const getUserProfileById = async (id: String) => {
   if (!loggedIn.value) {
     router.push('/login')
     return
@@ -36,8 +38,9 @@ const getUserProfileById = async () => {
   }
 
   try {
-    const response = await axios.get(userProfileQuery, config)
+    const response = await axios.get(`${userDetailsQuery}${id}`, config)
     userDetails.value = response.data
+    console.log(`${userDetailsQuery}${id}`)
     console.log(response.data)
   } catch (error) {
     console.error("Erreur lors de la récupération des informations de l'utilisateur :", error)
@@ -46,7 +49,7 @@ const getUserProfileById = async () => {
 
 onMounted(() => {
   checkLoggedIn()
-  getUserProfileById()
+  getUserProfileById(route.params.id.toString())
 })
 </script>
 <template>
@@ -56,7 +59,9 @@ onMounted(() => {
       <div class="detailsContainer">
         <div class="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">Profil Utilisateur</h3>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Profil de : {{ userDetails.firstName }} {{ userDetails.lastName }}
+            </h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">
               Details et informations à propos de l'utilisateur.
             </p>
@@ -66,13 +71,13 @@ onMounted(() => {
               <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Prénom</dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ userDetails.firstName }}
+                  <input type="text" class="input_text" v-model="userDetails.firstName" />
                 </dd>
               </div>
               <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Nom</dt>
                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ userDetails.lastName }}
+                  <input type="text" class="input_text" v-model="userDetails.lastName" />
                 </dd>
               </div>
               <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
