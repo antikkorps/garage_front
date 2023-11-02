@@ -15,4 +15,12 @@ const logOutUser = () => {
   loggedIn.value = false
 }
 
-export { loggedIn, checkLoggedIn, logOutUser }
+const formatDate = (date: Date) => {
+  const d = new Date(date)
+  const year = d.getFullYear().toString()
+  const month = (d.getMonth() + 1).toString().padStart(2, '0')
+  const day = d.getDate().toString().padStart(2, '0')
+  return `${day}/${month}/${year}`
+}
+
+export { loggedIn, checkLoggedIn, logOutUser, formatDate }

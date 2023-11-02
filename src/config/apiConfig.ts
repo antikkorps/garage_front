@@ -19,6 +19,7 @@ const apiConfig = {
       horairesDetails: '/horaires/',
       horaireNew: '/horaires/new',
       userAll: '/users/all',
+      userDetails: '/users/',
       userProfile: '/users/me'
     }
   }

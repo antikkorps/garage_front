@@ -1,69 +1,65 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRouter, RouterLink } from "vue-router";
-import { state } from "@/stores/state";
-import { logOutUser } from "@/stores/reusable";
+import { ref, onMounted } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { state } from '@/stores/state'
+import { logOutUser } from '@/stores/reusable'
 
-const optionsAvecListeDeroulante = ref([]);
+const optionsAvecListeDeroulante = ref([])
 
 const toggleDeroulante = (option: HTMLElement) => {
-  const deroulante = option.querySelector(".deroulante");
+  const deroulante = option.querySelector('.deroulante')
   if (deroulante) {
-    deroulante.classList.toggle("hidden");
+    deroulante.classList.toggle('hidden')
   }
-};
+}
 
 const toggleSidebar = () => {
-  state.showSidebar = !state.showSidebar;
+  state.showSidebar = !state.showSidebar
   optionsAvecListeDeroulante.value.forEach((option: HTMLElement) => {
-    const deroulante = option.querySelector(".deroulante");
+    const deroulante = option.querySelector('.deroulante')
     if (deroulante) {
-      deroulante.classList.add("hidden");
+      deroulante.classList.add('hidden')
     }
-  });
-};
+  })
+}
 
-const router = useRouter();
+const router = useRouter()
 
 const handleRouteChange = () => {
-  state.showSidebar = false; // Fermer la barre latérale lorsque la navigation a lieu
-};
+  state.showSidebar = false // Fermer la barre latérale lorsque la navigation a lieu
+}
 
 const handleLogout = () => {
-  logOutUser();
-  router.push("/");
-};
+  logOutUser()
+  router.push('/')
+}
 
 onMounted(() => {
   optionsAvecListeDeroulante.value = Array.from(
-    document.querySelectorAll(".optionAvecListeDeroulante")
-  );
+    document.querySelectorAll('.optionAvecListeDeroulante')
+  )
 
   optionsAvecListeDeroulante.value.forEach((option: HTMLElement) => {
-    option.addEventListener("click", () => {
-      toggleDeroulante(option);
-    });
-  });
+    option.addEventListener('click', () => {
+      toggleDeroulante(option)
+    })
+  })
 
-  router.afterEach(handleRouteChange); // Détecter les changements de route avec le routeur
-});
+  router.afterEach(handleRouteChange) // Détecter les changements de route avec le routeur
+})
 </script>
 <template>
   <!-- Top Navbar -->
-  <nav
-    class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex items-center justify-between"
-  >
+  <nav class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex items-center justify-between">
     <div>
-      <h1 class="text-white dark:text-white text-xl font-semibold">
-        Garage Parrot - Administration
-      </h1>
+      <RouterLink to="/dashboard">
+        <h1 class="text-white dark:text-white text-xl font-semibold">
+          Garage Parrot - Administration
+        </h1>
+      </RouterLink>
     </div>
     <div class="flex items-center space-x-4">
-      <button
-        v-if="!state.showSidebar"
-        class="text-white open_menu"
-        @click="toggleSidebar"
-      >
+      <button v-if="!state.showSidebar" class="text-white open_menu" @click="toggleSidebar">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -91,20 +87,22 @@ onMounted(() => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-6 h-6 text-white cursor-pointer"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-        />
-      </svg>
+      <RouterLink to="/dashboard/profile">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6 text-white cursor-pointer"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+          />
+        </svg>
+      </RouterLink>
     </div>
   </nav>
 
@@ -116,6 +114,27 @@ onMounted(() => {
     >
       <nav>
         <ul class="space-y-2">
+          <li class="optionAvecListeDeroulante text-white">
+            <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                />
+              </svg>
+
+              Accueil Admin
+            </RouterLink>
+          </li>
+
           <li class="optionAvecListeDeroulante">
             <div class="flex items-center justify-between p-2 hover:bg-gray-700">
               <div class="flex items-center">
@@ -256,19 +275,13 @@ onMounted(() => {
             </div>
             <ul class="deroulante ml-4 hidden">
               <li>
-                <RouterLink
-                  to="/dashboard/users"
-                  class="p-2 hover:bg-gray-700 flex items-center"
-                >
+                <RouterLink to="/dashboard/users" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des utilisateurs
                 </RouterLink>
               </li>
               <li>
-                <RouterLink
-                  to="/dashboard"
-                  class="p-2 hover:bg-gray-700 flex items-center"
-                >
+                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
                   Liste des rôles
                 </RouterLink>
@@ -365,6 +378,26 @@ onMounted(() => {
                 </RouterLink>
               </li>
             </ul>
+          </li>
+          <li class="optionAvecListeDeroulante text-white">
+            <RouterLink to="/" class="p-2 hover:bg-gray-700 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                />
+              </svg>
+
+              Retour au site
+            </RouterLink>
           </li>
           <li class="optionAvecListeDeroulante text-red-500">
             <RouterLink
