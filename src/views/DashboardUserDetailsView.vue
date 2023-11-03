@@ -120,8 +120,8 @@ onMounted(() => {
                   <dt class="text-sm font-medium text-gray-500">Role</dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     <select class="input_text" v-model="userDetails.role">
-                      <option value="ADMIN">ADMIN</option>
-                      <option value="USER">USER</option>
+                      <option value="ADMIN">Administrateur</option>
+                      <option value="USER">Utilisateur</option>
                     </select>
                   </dd>
                 </div>
