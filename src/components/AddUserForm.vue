@@ -162,6 +162,10 @@ const confirmationMessageClass = computed(() => {
           </div>
         </div>
       </div>
+      <router-link to="/dashboard/users">
+        <button class="buttonSecondary">Retour aux utilisateurs</button>
+      </router-link>
+
       <button type="submit" class="buttonPrimary">Ajouter</button>
       <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
         {{ confirmationMessage }}
