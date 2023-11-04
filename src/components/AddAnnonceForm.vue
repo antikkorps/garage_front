@@ -59,6 +59,9 @@ const addAnnonce = async () => {
   } catch (error) {
     console.error("Erreur lors de la création de l'annonces:", error)
     confirmationMessage.value = "Erreur lors de la création de l'annonce"
+    setTimeout(() => {
+      confirmationMessage.value = ''
+    }, 4000)
   }
 }
 

@@ -1,13 +1,49 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { state } from '@/stores/state'
+import apiConfig from '@/config/apiConfig'
+import axios from 'axios'
 
-//TODO: POST USER TO API
+const baseUrl = apiConfig.production.baseUrl
+const endpoint = apiConfig.production.endpoints.signup
+const signupQuery = `${baseUrl}${endpoint}`
 
+const email = ref('')
+const password = ref('')
+const passwordConfirmation = ref('')
 const confirmationMessage = ref('')
 
 const addUser = () => {
-  console.log('addUser')
+  if (password.value !== passwordConfirmation.value) {
+    confirmationMessage.value = 'Erreur: les mots de passe ne correspondent pas'
+    return
+  } else {
+    //axios request
+    const data = {
+      email: email.value,
+      password: password.value
+    }
+
+    axios
+      .post(signupQuery, data)
+      .then((response) => {
+        console.log(response)
+        email.value = ''
+        password.value = ''
+        passwordConfirmation.value = ''
+        confirmationMessage.value = 'Utilisateur ajouté avec succès'
+        setTimeout(() => {
+          confirmationMessage.value = ''
+        }, 4000)
+      })
+      .catch((error) => {
+        console.error(error)
+        confirmationMessage.value = "Erreur: impossible d'ajouter l'utilisateur"
+        setTimeout(() => {
+          confirmationMessage.value = ''
+        }, 4000)
+      })
+  }
 }
 
 const confirmationMessageClass = computed(() => {
@@ -16,7 +52,7 @@ const confirmationMessageClass = computed(() => {
 </script>
 <template>
   <div :class="['main_content relative', { 'lg:ml-64': state.showSidebar }]">
-    <form>
+    <form @submit.prevent="addUser">
       <div class="space-y-12 mt-5">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Créer Utilisateur</h2>
@@ -37,6 +73,7 @@ const confirmationMessageClass = computed(() => {
                     autocomplete="username"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="john.doe@gmail.com"
+                    v-model="email"
                   />
                 </div>
               </div>
@@ -59,6 +96,7 @@ const confirmationMessageClass = computed(() => {
                     autocomplete="password"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Saisissez le mot de passe"
+                    v-model="password"
                   />
                 </div>
               </div>
@@ -67,7 +105,9 @@ const confirmationMessageClass = computed(() => {
 
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-4">
-              <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
+              <label
+                for="passwordConfirmation"
+                class="block text-sm font-medium leading-6 text-gray-900"
                 >confirmer Mot de passe</label
               >
               <div class="mt-2">
@@ -76,11 +116,12 @@ const confirmationMessageClass = computed(() => {
                 >
                   <input
                     type="password"
-                    name="password"
-                    id="password"
-                    autocomplete="password"
+                    name="passwordConfirmation"
+                    id="passwordConfirmation"
+                    autocomplete="passwordConfirmation"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Saisissez à nouveau le mot de passe"
+                    v-model="passwordConfirmation"
                   />
                 </div>
               </div>
@@ -88,7 +129,7 @@ const confirmationMessageClass = computed(() => {
           </div>
         </div>
       </div>
-      <button type="submit" @click="addUser" class="buttonPrimary">Ajouter</button>
+      <button type="submit" class="buttonPrimary">Ajouter</button>
       <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
         {{ confirmationMessage }}
       </p>
