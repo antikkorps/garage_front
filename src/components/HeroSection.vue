@@ -6,11 +6,13 @@
           Trouvez votre nouvelle
           <span className="text-red-400"> voiture</span> qui vous correspond
         </h1>
-        <button
-          className="mx-auto mt-4 w-auto transform rounded-md bg-red-600 px-5 py-2 text-sm font-medium text-white transition-colors duration-300 hover:bg-red-500 focus:bg-red-600 focus:outline-none lg:w-auto"
-        >
-          C&apos;est ici pour la trouver
-        </button>
+        <RouterLink to="/annonces/all">
+          <button
+            className="mx-auto mt-4 w-auto transform rounded-md bg-red-600 px-5 py-2 text-sm font-medium text-white transition-colors duration-300 hover:bg-red-500 focus:bg-red-600 focus:outline-none lg:w-auto"
+          >
+            C&apos;est ici pour la trouver
+          </button>
+        </RouterLink>
         <div className="mx-auto my-10 flex sm:w-1/2">
           <!-- <InputGroup size="lg" className="mt-5 bg-white">
                 <Input placeholder="Trouvez votre véhicule" />
