@@ -20,6 +20,7 @@ interface Contact {
   name: string
   phone: string
   email: string
+  purpose: string
   message: string
 }
 
@@ -121,6 +122,12 @@ onMounted(() => {
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    Objet
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     Actions
                   </th>
                 </tr>
@@ -138,6 +145,9 @@ onMounted(() => {
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ contact.email }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    {{ contact.purpose }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ contact.message }}

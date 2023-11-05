@@ -4,6 +4,8 @@ import { state } from '@/stores/state'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
 
+//TODO: CLARIFY THE MESSAGE WHEN MAIL IS ALREADY USED
+
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.signup
 const signupQuery = `${baseUrl}${endpoint}`

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavbarMain from '@/components/NavbarMain.vue'
 import FooterSection from '@/components/FooterSection.vue'
+import ContactForm from '@/components/ContactForm.vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { state } from '@/stores/state'
@@ -32,6 +33,15 @@ const endpoint = apiConfig.production.endpoints.annonceDetails
 const annoncesQuery = `${baseUrl}${endpoint}`
 
 const route = useRoute()
+
+const showContactForm = ref(false)
+
+const toggleContactForm = () => {
+  if (!showContactForm.value) {
+    getSelectedAnnonces()
+  }
+  showContactForm.value = !showContactForm.value
+}
 
 interface Annonce {
   id: number
@@ -159,9 +169,14 @@ onMounted(() => {
             </dd>
           </div>
         </dl>
+        <div class="flex justify-center">
+          <button class="buttonPrimary mb-10" @click="toggleContactForm">Nous contacter</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <ContactForm v-if="showContactForm && annonce.id" :id="annonce.id" :title="annonce.title" />
 
   <FooterSection />
 </template>
