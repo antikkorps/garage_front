@@ -73,27 +73,29 @@ const confirmationMessageClass = computed(() => {
 })
 </script>
 <template>
-  <div :class="['main_content relative', { 'lg:ml-64': state.showSidebar }]">
-    <form @submit.prevent="addUser">
+  <div :class="['main_content relative max-w-3xl mx-auto px-4', { 'lg:ml-64': state.showSidebar }]">
+    <form @submit.prevent="addUser" class="w-full">
       <div class="space-y-12 mt-5">
         <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">Créer Utilisateur</h2>
+          <h2 class="text-base font-semibold leading-7 text-gray-900 text-center">
+            Créer Utilisateur
+          </h2>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
+          <div class="w-full md:w-[60%] mx-auto space-y-4">
+            <div class="w-full">
               <label for="email" class="block text-sm font-medium leading-6 text-gray-900"
                 >Email</label
               >
               <div class="mt-2">
                 <div
-                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 w-full"
                 >
                   <input
                     type="email"
                     name="email"
                     id="email"
                     autocomplete="email"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block flex-1 w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="john.doe@gmail.com"
                     v-model="email"
                     @input="validateEmail"
@@ -105,16 +107,14 @@ const confirmationMessageClass = computed(() => {
                 {{ emailError }}
               </p>
             </div>
-          </div>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
+            <div class="w-full">
               <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
                 >Mot de passe</label
               >
               <div class="mt-2">
                 <div
-                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
                 >
                   <input
                     type="password"
@@ -134,10 +134,8 @@ const confirmationMessageClass = computed(() => {
                 </p>
               </div>
             </div>
-          </div>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
+            <div class="w-full">
               <label
                 for="passwordConfirmation"
                 class="block text-sm font-medium leading-6 text-gray-900"
@@ -145,7 +143,7 @@ const confirmationMessageClass = computed(() => {
               >
               <div class="mt-2">
                 <div
-                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                  class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
                 >
                   <input
                     type="password"
@@ -162,14 +160,16 @@ const confirmationMessageClass = computed(() => {
           </div>
         </div>
       </div>
-      <router-link to="/dashboard/users">
-        <button class="buttonSecondary">Retour aux utilisateurs</button>
-      </router-link>
+      <div class="flex justify-center items-center my-8">
+        <router-link to="/dashboard/users">
+          <button class="buttonSecondary">Retour aux utilisateurs</button>
+        </router-link>
 
-      <button type="submit" class="buttonPrimary">Ajouter</button>
-      <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
-        {{ confirmationMessage }}
-      </p>
+        <button type="submit" class="buttonPrimary">Ajouter</button>
+        <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
+          {{ confirmationMessage }}
+        </p>
+      </div>
     </form>
   </div>
 </template>

@@ -101,6 +101,12 @@ onMounted(() => {
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    Rôle
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     Actions
                   </th>
                 </tr>
@@ -118,6 +124,9 @@ onMounted(() => {
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ user.email }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                    {{ user.role }}
                   </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <RouterLink
