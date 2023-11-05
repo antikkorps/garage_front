@@ -28,19 +28,20 @@ onMounted(() => {
 <template>
   <div class="mt-20">
     <h2 class="title_page">Résultat de votre recherche</h2>
-
-    <ul class="annoncesListContainer">
-      <li v-for="result in searchResults" :key="result.id">
-        <RouterLink :to="`/annonces/${result.id}`">
-          <CardAnnonceDisplayed :annonce="result">
-            <template #custom-button="{ annonce }">
-              <RouterLink :to="`/annonces/${annonce.id}`">
-                <button class="custom-button">Voir l'annonce</button>
-              </RouterLink>
-            </template>
-          </CardAnnonceDisplayed>
-        </RouterLink>
-      </li>
-    </ul>
+    <div class="w-full sm:w-1/3 flex justify-center">
+      <ul class="annoncesListContainer">
+        <li v-for="result in searchResults" :key="result.id">
+          <RouterLink :to="`/annonces/${result.id}`">
+            <CardAnnonceDisplayed :annonce="result">
+              <template #custom-button="{ annonce }">
+                <RouterLink :to="`/annonces/${annonce.id}`">
+                  <button class="custom-button">Voir l'annonce</button>
+                </RouterLink>
+              </template>
+            </CardAnnonceDisplayed>
+          </RouterLink>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>

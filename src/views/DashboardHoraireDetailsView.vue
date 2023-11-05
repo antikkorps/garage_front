@@ -20,12 +20,16 @@ const closingAmTime = ref('')
 const openingPmTime = ref('')
 const closingPmTime = ref('')
 const updateMessage = ref('')
+const ouvertureAm = ref(null)
+const ouverturePm = ref(null)
 
 interface HorairesDetails {
   id: number
   jourDeLaSemaine: String
+  ouvertureAm: Boolean
   openingAm: String
   closingAm: String
+  ouverturePm: Boolean
   openingPm: String
   closingPm: String
 }
@@ -45,6 +49,8 @@ const getHorairesOfTheDaybyId = async (id: String) => {
   try {
     const response = await axios.get(`${horairesDetailsQuery}${id}`, config)
     horaireDetails.value = response.data
+    ouvertureAm.value = horaireDetails.value.ouvertureAm
+    ouverturePm.value = horaireDetails.value.ouverturePm
     openingAmTime.value = formatISOStringToTime(horaireDetails.value.openingAm)
     closingAmTime.value = formatISOStringToTime(horaireDetails.value.closingAm)
     openingPmTime.value = formatISOStringToTime(horaireDetails.value.openingPm)
@@ -88,8 +94,10 @@ const updateHorairesOfTheDay = async () => {
   }
 
   const payload = {
+    ouvertureAm: ouvertureAm.value,
     openingAm: openingAmISOString,
     closingAm: closingAmISOString,
+    ouverturePm: ouverturePm.value,
     openingPm: openingPmISOString,
     closingPm: closingPmISOString
   }
@@ -136,6 +144,26 @@ onMounted(() => {
 
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-4">
+              <label for="ouvertureAm" class="block text-sm font-medium leading-6 text-gray-900"
+                >Garage Ouvert le matin ?</label
+              >
+              <div class="mt-2 flex flex-row">
+                <input
+                  type="checkbox"
+                  name="ouvertureAm"
+                  id="ouvertureAm"
+                  autocomplete="ouvertureAm"
+                  class="checkbox mx-4"
+                  v-model="ouvertureAm"
+                />
+                <div v-if="ouvertureAm">oui</div>
+                <div v-else>non</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
               <label for="openingAm" class="block text-sm font-medium leading-6 text-gray-900"
                 >Ouverture Matin</label
               >
@@ -174,6 +202,26 @@ onMounted(() => {
                     v-model="closingAmTime"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label for="ouverturePm" class="block text-sm font-medium leading-6 text-gray-900"
+                >Garage Ouvert l'après-midi ?</label
+              >
+              <div class="mt-2 flex flex-row">
+                <input
+                  type="checkbox"
+                  name="ouverturePm"
+                  id="ouverturePm"
+                  autocomplete="ouverturePm"
+                  class="checkbox mx-4"
+                  v-model="ouverturePm"
+                />
+                <div v-if="ouverturePm">oui</div>
+                <div v-else>non</div>
               </div>
             </div>
           </div>

@@ -18,8 +18,10 @@ const horairesDetailsQuery = `${baseUrl}${details}`
 interface Horaires {
   id: number
   jourDeLaSemaine: String
+  ouvertureAm: Boolean
   openingAm: String
   closingAm: String
+  ouverturePm: Boolean
   openingPm: String
   closingPm: String
 }
@@ -93,7 +95,19 @@ onMounted(() => {
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
+                    Ouverture Matin
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
                     Matin
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Ouverture Après-midi
                   </th>
                   <th
                     scope="col"
@@ -117,13 +131,35 @@ onMounted(() => {
                   <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ horaire.jourDeLaSemaine }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                    {{ extractHoursAndMinutes(horaire.openingAm) }} -
-                    {{ extractHoursAndMinutes(horaire.closingAm) }}
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700 text-center">
+                    <input
+                      class="checkbox_disabled"
+                      type="checkbox"
+                      v-model="horaire.ouvertureAm"
+                      disabled
+                    />
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                    {{ extractHoursAndMinutes(horaire.openingPm) }} -
-                    {{ extractHoursAndMinutes(horaire.closingPm) }}
+                    <div v-if="!horaire.ouvertureAm">Fermé</div>
+                    <div v-else>
+                      {{ extractHoursAndMinutes(horaire.openingAm) }} -
+                      {{ extractHoursAndMinutes(horaire.closingAm) }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700 text-center">
+                    <input
+                      class="checkbox_disabled"
+                      type="checkbox"
+                      v-model="horaire.ouverturePm"
+                      disabled
+                    />
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                    <div v-if="!horaire.ouverturePm">Fermé</div>
+                    <div v-else>
+                      {{ extractHoursAndMinutes(horaire.openingPm) }} -
+                      {{ extractHoursAndMinutes(horaire.closingPm) }}
+                    </div>
                   </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <RouterLink

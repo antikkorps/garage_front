@@ -10,8 +10,10 @@ const horairesQuery = `${baseUrl}${endpoint}`
 interface Horaire {
   id: number
   jourDeLaSemaine: string
+  ouvertureAm: boolean
   openingAm: string
   closingAm: string
+  ouverturePm: boolean
   openingPm: string
   closingPm: string
 }
@@ -70,8 +72,14 @@ const sortedHoraires = computed(() => {
       <tbody>
         <tr v-for="horaire in sortedHoraires" :key="horaire.id">
           <td>{{ horaire.jourDeLaSemaine }}</td>
-          <td>{{ horaire.openingAm }} - {{ horaire.closingAm }}</td>
-          <td>{{ horaire.openingPm }} - {{ horaire.closingPm }}</td>
+          <td>
+            <div v-if="horaire.ouvertureAm">{{ horaire.openingAm }} - {{ horaire.closingAm }}</div>
+            <div v-else>Fermé</div>
+          </td>
+          <td>
+            <div v-if="horaire.ouverturePm">{{ horaire.openingPm }} - {{ horaire.closingPm }}</div>
+            <div v-else>Fermé</div>
+          </td>
         </tr>
       </tbody>
     </table>
