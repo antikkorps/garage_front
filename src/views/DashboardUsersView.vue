@@ -11,7 +11,9 @@ const users = ref<Users[]>([])
 
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.userAll
+const UserDetails = apiConfig.production.endpoints.userDetails
 const usersQuery = `${baseUrl}${endpoint}`
+const deleteUserQuery = `${baseUrl}${UserDetails}`
 
 interface Users {
   id: Number
@@ -46,8 +48,25 @@ const sortUsersById = () => {
   users.value.sort((a, b) => a.id - b.id)
 }
 
-const deleteUser = () => {
-  console.log('delete user')
+const deleteUser = async (userId) => {
+  if (!loggedIn.value) {
+    router.push('/login')
+    return
+  }
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+    }
+  }
+
+  try {
+    await axios.delete(`${deleteUserQuery}${userId}`, config)
+    const updatedUsers = users.value.filter((user) => user.id !== userId)
+    users.value = updatedUsers
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'utilisateur :", error)
+  }
 }
 
 onMounted(() => {
@@ -126,7 +145,8 @@ onMounted(() => {
                     {{ user.email }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                    {{ user.role }}
+                    <div v-if="user.role === 'ADMIN'">Administrateur</div>
+                    <div v-else>Utilisateur</div>
                   </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <RouterLink

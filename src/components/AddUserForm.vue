@@ -166,10 +166,10 @@ const confirmationMessageClass = computed(() => {
         </router-link>
 
         <button type="submit" class="buttonPrimary">Ajouter</button>
-        <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
-          {{ confirmationMessage }}
-        </p>
       </div>
+      <p class="mt-4 text-center" v-if="confirmationMessage" :class="confirmationMessageClass">
+        {{ confirmationMessage }}
+      </p>
     </form>
   </div>
 </template>
