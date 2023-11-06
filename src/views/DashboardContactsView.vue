@@ -32,7 +32,7 @@ const getAllContacts = async () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}` // Assurez-vous d'ajuster la clé de stockage du jeton si nécessaire.
+      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
     }
   }
 
@@ -57,7 +57,7 @@ const deleteContact = async (contactId: number) => {
   }
 
   try {
-    await axios.delete(`${contactsDetailsQuery}/${contactId}`, config)
+    await axios.delete(`${contactsDetailsQuery}${contactId}`, config)
 
     getAllContacts()
   } catch (error) {
@@ -116,12 +116,6 @@ onMounted(() => {
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Message
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
                     Objet
                   </th>
                   <th
@@ -149,12 +143,12 @@ onMounted(() => {
                   <td class="px-6 py-4 whitespace-nowrap">
                     {{ contact.purpose }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    {{ contact.message }}
-                  </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <RouterLink
-                      to="/dashboard/contacts/${:id}"
+                      :to="{
+                        name: 'dashboard-contacts-details',
+                        params: { id: contact.id }
+                      }"
                       class="text-indigo-600 hover:text-indigo-900"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -13,7 +13,7 @@ const apiConfig = {
       annonceDetails: '/annonces/',
       imageUploadEndpoint: '/images/upload',
       contactsAll: '/contacts/all',
-      contactDetails: '/contacts',
+      contactDetails: '/contacts/',
       contactNew: '/contacts/new',
       horairesAll: '/horaires/all',
       horairesDetails: '/horaires/',
