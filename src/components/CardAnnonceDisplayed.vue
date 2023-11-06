@@ -15,12 +15,14 @@ const { annonce } = defineProps(['annonce'])
       />
     </RouterLink>
     <div class="p-6">
-      <h5 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+      <h5
+        class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 line-clamp-1"
+      >
         {{ annonce.title }}
       </h5>
-      <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
+      <!-- <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200 line-clamp-2">
         {{ annonce.description }}
-      </p>
+      </p> -->
       <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">{{ annonce.price }} €</p>
 
       <RouterLink :to="`/annonces/${annonce.id}`">
