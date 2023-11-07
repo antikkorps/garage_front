@@ -75,7 +75,7 @@ onMounted(() => {
 <template>
   <NavbarMain />
   <div class="main_content">
-    <div class="flex flex-auto w-full sm:w-3/4 mt-20 px-1 md:px-40 justify-center">
+    <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
       <div class="mt-20 border-t border-gray-100">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
           {{ annonce.title }}
