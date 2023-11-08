@@ -51,7 +51,10 @@ interface Annonce {
   price: number
   kilometrage: number
   yearofcirculation: number
-  image: string
+  imageCover: string
+  imageOne: string
+  imageTwo: string
+  imageThree: string
   published: boolean
   featured: boolean
   author: object
@@ -77,6 +80,11 @@ onMounted(() => {
   <div class="main_content">
     <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
       <div class="mt-20 border-t border-gray-100">
+        <img
+          v-if="annonce.imageCover"
+          :src="annonce.imageCover"
+          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        />
         <h3 class="text-base font-semibold leading-7 text-gray-900">
           {{ annonce.title }}
         </h3>
