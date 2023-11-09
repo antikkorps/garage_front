@@ -22,7 +22,10 @@ const annonce = ref<Annonce>({
   price: 0,
   kilometrage: 0,
   yearofcirculation: 0,
-  image: '',
+  imageCover: '',
+  imageOne: '',
+  imageTwo: '',
+  imageThree: '',
   published: false,
   featured: false,
   author: {}

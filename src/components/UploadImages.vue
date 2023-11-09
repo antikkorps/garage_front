@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UploadImagesGallery from './UploadImagesGallery.vue'
+import { useImagesStore } from '../stores/useimagesStore'
 
 import { ref, onMounted, defineEmits } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
@@ -18,6 +19,8 @@ const coverImage = ref<string | null>(null)
 const coverInput = ref<HTMLInputElement | null>(null)
 const galleryImages = ref<GalleryImage[]>([{ url: null }, { url: null }, { url: null }])
 const galleryIndex = ref<number | undefined>(undefined)
+
+const imagesStore = useImagesStore()
 
 const uploadImage = async (file: File) => {
   try {
@@ -39,6 +42,7 @@ const uploadImage = async (file: File) => {
       }
     } else {
       coverImage.value = imageUrl
+      imagesStore.setImageCover(imageUrl)
     }
     emits(
       'galleryImagesUpdated',

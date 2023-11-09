@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
+import { useImagesStore } from '../stores/useimagesStore'
 
 import axios from 'axios'
 
 const uploadFileStackUrl = import.meta.env.VITE_FILESTACK_URL
 const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
 
-const galleryImages = ref<GalleryImage[]>([])
-const galleryIndex = ref<number | undefined>(undefined)
 const imageUrlRef = ref<string | null>(null)
 
-interface GalleryImage {
-  url: string | null
-}
-
+const imagesStore = useImagesStore()
+console.log('store', imagesStore)
 const { imageData, index } = defineProps(['imageData', 'index'])
 
 const handleUpload = (event: Event) => {
@@ -28,7 +25,18 @@ const handleUpload = (event: Event) => {
 
 const resetImage = () => {
   if (index.value !== undefined) {
-    galleryIndex.value = index.value
+    // galleryIndex.value = index.value
+    switch (index.value) {
+      case 0:
+        imagesStore.setImageOne('')
+        break
+      case 1:
+        imagesStore.setImageTwo('')
+        break
+      case 2:
+        imagesStore.setImageThree('')
+        break
+    }
   }
   imageUrlRef.value = null
 }
@@ -45,9 +53,17 @@ const uploadImageForGallery = async (file: File) => {
   const imageUrl = response.data.url
   imageUrlRef.value = imageUrl
   console.log(imageUrl)
-  if (galleryIndex.value !== undefined) {
-    if (galleryIndex.value < galleryImages.value.length) {
-      galleryImages.value[galleryIndex.value] = { url: imageUrl }
+  if (index.value !== undefined) {
+    switch (index.value) {
+      case 0:
+        imagesStore.setImageOne(imageUrl)
+        break
+      case 1:
+        imagesStore.setImageTwo(imageUrl)
+        break
+      case 2:
+        imagesStore.setImageThree(imageUrl)
+        break
     }
   }
 }
