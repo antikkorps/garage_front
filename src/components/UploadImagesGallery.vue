@@ -24,8 +24,10 @@ const handleUpload = (event: Event) => {
 }
 
 const resetImage = () => {
+  if (imageUrlRef.value !== null) {
+    imageUrlRef.value = null
+  }
   if (index.value !== undefined) {
-    // galleryIndex.value = index.value
     switch (index.value) {
       case 0:
         imagesStore.setImageOne('')
@@ -36,9 +38,11 @@ const resetImage = () => {
       case 2:
         imagesStore.setImageThree('')
         break
+      default:
+        console.log("default dans la valeur de l'index")
+        break
     }
   }
-  imageUrlRef.value = null
 }
 
 const uploadImageForGallery = async (file: File) => {
@@ -53,8 +57,9 @@ const uploadImageForGallery = async (file: File) => {
   const imageUrl = response.data.url
   imageUrlRef.value = imageUrl
   console.log(imageUrl)
-  if (index.value !== undefined) {
-    switch (index.value) {
+  console.log(index)
+  if (index !== undefined) {
+    switch (index) {
       case 0:
         imagesStore.setImageOne(imageUrl)
         break
@@ -64,7 +69,11 @@ const uploadImageForGallery = async (file: File) => {
       case 2:
         imagesStore.setImageThree(imageUrl)
         break
+      default:
+        console.log("default dans la valeur de l'index")
+        break
     }
+    console.log('store', imagesStore)
   }
 }
 </script>

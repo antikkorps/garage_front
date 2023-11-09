@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { PhotoIcon } from '@heroicons/vue/24/solid'
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
+import { useImagesStore } from '../stores/useimagesStore'
 
 import UploadImages from './UploadImages.vue'
 
@@ -18,17 +18,28 @@ const formData = ref({
   brand: '',
   published: false,
   featured: false,
-  imageCover: '',
-  imageOne: '',
-  imageTwo: '',
-  imageThree: ''
+  imageCover: null as string | null,
+  imageOne: null as string | null,
+  imageTwo: null as string | null,
+  imageThree: null as string | null
 })
 
+const { index } = defineProps(['index'])
 const confirmationMessage = ref('')
+const imagesStore = useImagesStore()
 
 const addAnnonce = async () => {
   try {
     const token = localStorage.getItem('jwt_token')
+    const imageCover = imagesStore.imageCover
+    const imageOne = imagesStore.imageOne
+    const imageTwo = imagesStore.imageTwo
+    const imageThree = imagesStore.imageThree
+
+    formData.value.imageCover = imageCover
+    formData.value.imageOne = imageOne
+    formData.value.imageTwo = imageTwo
+    formData.value.imageThree = imageThree
     const postedAnnonce = JSON.stringify({ ...formData.value })
     console.log("détail de l'annonce postée", postedAnnonce)
     await axios.post(baseUrl + endpoint, postedAnnonce, {
@@ -210,7 +221,7 @@ const confirmationMessageClass = computed(() => {
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="col-span-full">
-            <UploadImages @galleryImagesUpdated="updateGalleryImages" />
+            <UploadImages :index="index" @galleryImagesUpdated="updateGalleryImages" />
           </div>
         </div>
 
