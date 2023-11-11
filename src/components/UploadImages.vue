@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UploadImagesGallery from './UploadImagesGallery.vue'
-import { useImagesStore } from '../stores/useimagesStore'
+import { useImagesStore } from '../stores/useImagesStore'
 
 import { ref, onMounted, defineEmits } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
@@ -121,3 +121,4 @@ onMounted(() => {
     </div>
   </div>
 </template>
+../stores/useImagesStore

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
-import { useImagesStore } from '../stores/useimagesStore'
+import { useImagesStore } from '../stores/useImagesStore'
 
 import axios from 'axios'
 
@@ -111,3 +111,4 @@ const uploadImageForGallery = async (file: File) => {
     </div>
   </div>
 </template>
+../stores/useImagesStore

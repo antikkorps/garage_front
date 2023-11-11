@@ -7,11 +7,18 @@ const { annonce } = defineProps(['annonce'])
   <div
     class="img_container mx-3 mt-6 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900 sm:shrink-0 sm:grow sm:basis-0"
   >
-    <RouterLink to="/services">
+    <RouterLink :to="`/annonces/${annonce.id}`">
       <img
+        v-if="annonce.imageCover"
         class="rounded-t-lg"
-        src="https://tecdn.b-cdn.net/img/new/standard/city/041.webp"
-        alt="Hollywood Sign on The Hill"
+        :src="annonce.imageCover"
+        alt="cover_image"
+      />
+      <img
+        v-else
+        class="rounded-t-lg"
+        src="/src/assets/images/image_fallback.png"
+        alt="cover_image"
       />
     </RouterLink>
     <div class="p-6">

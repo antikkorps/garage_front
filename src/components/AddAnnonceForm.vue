@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
-import { useImagesStore } from '../stores/useimagesStore'
+import { useImagesStore } from '../stores/useImagesStore'
 
 import UploadImages from './UploadImages.vue'
 
@@ -289,3 +289,4 @@ const confirmationMessageClass = computed(() => {
     </form>
   </div>
 </template>
+../stores/useImagesStore
