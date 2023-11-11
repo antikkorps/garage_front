@@ -12,6 +12,7 @@ import {
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
+import { useSearchQueriesStore } from '@/stores/useSearchQueriesStore'
 
 interface Annonce {
   id: number
@@ -32,6 +33,7 @@ const allAnnonces = apiConfig.production.endpoints.annoncesAll
 const annonces = ref<{ id: number; title: string }[]>([])
 const availableYearsOfCirculation = ref<number[]>([])
 
+const searchStore = useSearchQueriesStore()
 const searchQuery = ref('')
 const selectedBrands = ref<string[]>([])
 const availableBrands = ref<string[]>([])

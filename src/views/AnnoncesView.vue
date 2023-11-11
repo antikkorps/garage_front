@@ -37,7 +37,8 @@ interface Annonce {
 const getAllAnnonces = async () => {
   try {
     const response = await axios.get(annoncesQuery)
-    annonces.value = response.data
+    annonces.value = response.data.filter((annonce: Annonce) => annonce.published)
+    updateSearchResults(annonces.value)
   } catch (error) {
     console.error('Erreur lors de la récupération des annonces :', error)
   }
@@ -52,8 +53,27 @@ const searchResults = ref<Annonce[]>([])
 const updateSearchResults = (results: Annonce[]) => {
   searchResults.value = results
 }
-watch(searchResults, () => {
+
+const filteredResults = ref<Annonce[]>([])
+const searchQuery = ref('')
+
+const updateFilteredResults = () => {
+  if (searchQuery.value.trim() === '') {
+    // If the trimmed search query is empty, show all results
+    filteredResults.value = searchResults.value
+  } else {
+    // Use case-insensitive and trimmed comparison
+    const lowerCaseTrimmedSearchQuery = searchQuery.value.trim().toLowerCase()
+    filteredResults.value = searchResults.value.filter(
+      (annonce) =>
+        annonce.title.toLowerCase().includes(lowerCaseTrimmedSearchQuery) && annonce.published
+    )
+  }
+}
+
+watch([searchQuery, searchResults], () => {
   console.log('searchResults in parent:', searchResults.value)
+  updateFilteredResults()
 })
 </script>
 <template>
@@ -61,14 +81,18 @@ watch(searchResults, () => {
   <div>
     <h1 class="title_page">L'ensemble de nos véhicules</h1>
 
-    <SearchAside />
+    <SearchAside @update:searchResults="updateSearchResults" />
 
     <div class="flex justify-center my-10">
       <div
-        v-if="searchResults"
+        v-if="filteredResults.length > 0"
         class="grid-cols-1 sm:grid md:grid-cols-4 w-full sm:w-3/4 place-content-evenly"
       >
-        <CardAnnonceDisplayed v-for="annonce in annonces" :key="annonce.id" :annonce="annonce" />
+        <CardAnnonceDisplayed
+          v-for="annonce in filteredResults"
+          :key="annonce.id"
+          :annonce="annonce"
+        />
       </div>
       <div v-else>Aucun résultat trouvé.</div>
     </div>
