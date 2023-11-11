@@ -70,9 +70,15 @@ const router = createRouter({
       beforeEnter: requireAuth
     },
     {
+      path: '/dashboard/annonces/:id',
+      name: 'dashboard-annonces-details',
+      component: () => import('../views/DashboardAnnonceDetailsView.vue'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/dashboard/annonces/new',
       name: 'annonce-new',
-      component: () => import('../views/AnnonceNewView.vue'),
+      component: () => import('../views/DashboardAnnonceNewView.vue'),
       beforeEnter: requireAuth
     },
     {
