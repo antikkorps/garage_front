@@ -11,6 +11,8 @@ const loginUrl = baseUrl + loginEndpoint
 const email = ref('')
 const password = ref('')
 const remember = ref(false)
+const loginError = ref(false)
+const loginErrorMessage = ref('')
 
 const handleLogin = async () => {
   try {
@@ -27,9 +29,21 @@ const handleLogin = async () => {
       localStorage.setItem('jwt_token', token)
     } else {
       console.error('Les informations de connexion sont erronées.')
+      loginError.value = true
+      loginErrorMessage.value = 'Les informations de connexion sont erronées.'
+      setTimeout(() => {
+        loginError.value = false
+        loginErrorMessage.value = ''
+      }, 3000)
     }
   } catch (error) {
     console.error('Erreur lors de la connexion :', error)
+    loginError.value = true
+    loginErrorMessage.value = 'Erreur lors de la connexion.'
+    setTimeout(() => {
+      loginError.value = false
+      loginErrorMessage.value = ''
+    }, 3000)
   }
 }
 </script>
@@ -123,6 +137,7 @@ const handleLogin = async () => {
                 >Sign up</a
               >
             </p> -->
+            <p class="text-red-600" v-if="loginError">{{ loginErrorMessage }}</p>
           </form>
         </div>
       </div>
