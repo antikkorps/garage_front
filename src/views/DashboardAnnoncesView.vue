@@ -119,8 +119,14 @@ onMounted(() => {
                   />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Voir</a>
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900 ml-4">Éditer</a>
+                  <RouterLink
+                    :to="{
+                      name: 'dashboard-annonces-details',
+                      params: { id: annonce.id }
+                    }"
+                    class="text-indigo-600 hover:text-indigo-900 ml-4 cursor-pointer"
+                    >Éditer</RouterLink
+                  >
                   <a href="#" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                 </td>
               </tr>
