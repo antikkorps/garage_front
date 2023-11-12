@@ -37,8 +37,7 @@ const routes = [
   { path: '/about', name: 'about', label: 'A Propos' },
   { path: '/services', name: 'services', label: 'Services' },
   { path: '/annonces/all', name: 'annonces', label: 'Nos véhicules' },
-  { path: '/contact', name: 'contact', label: 'Contact' },
-  { path: '/dashboard', name: 'admin', label: 'Admin' }
+  { path: '/contact', name: 'contact', label: 'Contact' }
 ]
 </script>
 
@@ -119,6 +118,16 @@ const routes = [
                   'underline underline-offset-8': props.currentPage === route.name
                 }"
                 >{{ route.label }}</RouterLink
+              >
+            </li>
+            <li v-if="loggedIn">
+              <RouterLink
+                to="/dashboard"
+                class="navLinks"
+                :class="{
+                  'underline underline-offset-8': props.currentPage === 'admin'
+                }"
+                >Admin</RouterLink
               >
             </li>
           </ul>
