@@ -11,19 +11,19 @@ const dashboardItems = [
   },
   {
     title: 'Horaires',
-    src: 'https://picsum.photos/id/250/200/300',
+    src: 'https://picsum.photos/id/175/200/300',
     description: 'Gérer les horaires',
     link: '/dashboard/horaires'
   },
   {
     title: 'Utilisateurs',
-    src: 'https://picsum.photos/id/252/200/300',
+    src: 'https://picsum.photos/id/342/200/300',
     description: 'Gérer les utilisateurs',
     link: '/dashboard/users'
   },
   {
     title: 'Contacts',
-    src: 'https://picsum.photos/id/253/200/300',
+    src: 'https://picsum.photos/id/403/200/300',
     description: 'Gérer les contacts',
     link: '/dashboard/contacts'
   }
