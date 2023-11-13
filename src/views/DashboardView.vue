@@ -37,7 +37,7 @@ const dashboardItems = [
       <main class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard du garage Parrot</h1>
         <p>Ici vous pouvez gérer les annonces, les photos, les utilisateurs et les rôles.</p>
-        <div class="flex flex-row justify-evenly w-full">
+        <div class="flex flex-col sm:flex-row w-full justify-center mx-auto">
           <div
             v-for="dashboardItem in dashboardItems"
             class="img_container mx-3 mt-6 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900 sm:shrink-0 sm:grow sm:basis-0"

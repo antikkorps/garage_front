@@ -109,8 +109,9 @@ onMounted(() => {
   <!-- Sidebar -->
   <transition name="sidebar-slide" mode="out-in">
     <aside
-      :class="['sidebar bg-gray-800 text-white w-64 p-4', { hidden: !state.showSidebar }]"
+      :class="['sidebar bg-gray-800 h-full text-white w-32 p-4', { hidden: !state.showSidebar }]"
       key="sidebar"
+      v-show="state.showSidebar"
     >
       <nav>
         <ul class="space-y-2">
@@ -440,7 +441,7 @@ onMounted(() => {
   float: left;
   z-index: 100;
   transition: all 0.4s ease;
-  min-height: 93vh;
+  min-height: 100vh;
 }
 @media screen and (min-width: 768px) {
   .sidebar {
@@ -454,6 +455,6 @@ onMounted(() => {
 }
 .sidebar-slide-enter,
 .sidebar-slide-leave-to {
-  margin-left: -300px;
+  margin-left: -15vw;
 }
 </style>
