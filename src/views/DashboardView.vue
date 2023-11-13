@@ -44,11 +44,7 @@ const dashboardItems = [
             :key="dashboardItem.title"
           >
             <RouterLink :to="`${dashboardItem.link}`">
-              <img
-                class="rounded-t-lg"
-                src="https://picsum.photos/id/24/200/300"
-                alt="Illustration_card"
-              />
+              <img class="rounded-t-lg" :src="dashboardItem.src" alt="Illustration_card" />
             </RouterLink>
             <div class="p-6">
               <h5
