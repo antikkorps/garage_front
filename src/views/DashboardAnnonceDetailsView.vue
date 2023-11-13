@@ -18,6 +18,7 @@ interface Annonce {
   id: number
   title: string
   description: string
+  brand: string
   price: number
   kilometrage: number
   yearofcirculation: number
@@ -33,6 +34,7 @@ const formData = ref<Annonce>({
   id: 0,
   title: '',
   description: '',
+  brand: '',
   price: 0,
   kilometrage: 0,
   yearofcirculation: 0,
@@ -59,18 +61,20 @@ const getAnnonceById = async () => {
   }
   try {
     const response = await axios.get(`${annoncebyIdQuery}${id}`, config)
-    annonce.value = response.data
-    console.log(annonce.value)
+    formData.value = response.data
+    console.log(formData.value)
   } catch (error) {
     console.error("Erreur lors de la récupération de l'annonce :", error)
   }
 }
 
 const deleteAnnonce = async (id: number) => {
-  try {
-    await axios.delete(`${annoncebyIdQuery}${id}`)
-  } catch (error) {
-    console.error("Erreur lors de la suppression de l'annonce :", error)
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')) {
+    try {
+      await axios.delete(`${annoncebyIdQuery}${id}`)
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'annonce :", error)
+    }
   }
 }
 
@@ -89,7 +93,7 @@ onMounted(() => {
 
 <template>
   <SidebarAdmin />
-  <div class="grid mt-10">
+  <div class="grid my-10">
     <form class="w-full sm:w-1/3 justify-self-center" @submit.prevent>
       <div class="space-y-5">
         <div class="border-b border-gray-900/10 pb-5">
@@ -220,9 +224,30 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="col-span-full">
-            <UploadImages :index="index" @galleryImagesUpdated="updateGalleryImages" />
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Images</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Gérez les images de votre annonce.</p>
+
+          <div class="mt-6 flex flex-column sm:flex-row">
+            <div
+              v-for="imageField in ['imageCover', 'imageOne', 'imageTwo', 'imageThree']"
+              :key="imageField"
+            >
+              <div class="relative mx-5">
+                <img
+                  :src="formData[imageField]"
+                  alt="Image"
+                  class="w-full h-40 object-cover rounded-md"
+                />
+                <button
+                  type="button"
+                  @click="showFileInput(imageField)"
+                  class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
+                >
+                  Modifier
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -282,7 +307,7 @@ onMounted(() => {
       <div class="mt-6 flex items-center justify-end gap-x-6">
         <RouterLink to="/dashboard/annonces"
           ><button type="button" class="text-sm font-semibold leading-6 text-gray-900">
-            Cancel
+            Revenir à la liste
           </button></RouterLink
         >
         <button
@@ -293,7 +318,7 @@ onMounted(() => {
           Supprimer
         </button>
         <button type="submit" @click="updateAnnonce(annonce.id, formData)" class="buttonPrimary">
-          Ajouter
+          Mettre à jour
         </button>
       </div>
     </form>
