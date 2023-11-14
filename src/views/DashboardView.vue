@@ -31,8 +31,8 @@ const dashboardItems = [
 </script>
 
 <template>
-  <div>
-    <SidebarAdmin />
+  <SidebarAdmin />
+  <div class="mt-20">
     <div :class="['relative ', { 'ml-64': state.showSidebar }]">
       <main class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Bienvenue sur le Dashboard du garage Parrot</h1>
