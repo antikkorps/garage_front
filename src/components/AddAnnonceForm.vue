@@ -88,7 +88,7 @@ const confirmationMessageClass = computed(() => {
 </script>
 
 <template>
-  <div class="grid mt-10">
+  <div class="grid mt-15">
     <form class="w-full sm:w-1/3 justify-self-center" @submit.prevent>
       <div class="space-y-5">
         <div class="border-b border-gray-900/10 pb-5">

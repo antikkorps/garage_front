@@ -50,7 +50,9 @@ onMounted(() => {
 </script>
 <template>
   <!-- Top Navbar -->
-  <nav class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex items-center justify-between">
+  <nav
+    class="bg-gray-600 border-gray-600 dark:bg-gray-900 p-4 flex z-[101] fixed top-0 w-full items-center justify-between"
+  >
     <div>
       <RouterLink to="/dashboard">
         <h1 class="text-white dark:text-white text-xl font-semibold">
@@ -109,7 +111,10 @@ onMounted(() => {
   <!-- Sidebar -->
   <transition name="sidebar-slide" mode="out-in">
     <aside
-      :class="['sidebar bg-gray-800 h-full text-white w-32 p-4', { hidden: !state.showSidebar }]"
+      :class="[
+        'sidebar md:block fixed top-20 bg-gray-800 h-full text-white w-[60%] md:w-[15vw] p-4 sm:top-14',
+        { hidden: !state.showSidebar }
+      ]"
       key="sidebar"
       v-show="state.showSidebar"
     >
@@ -444,9 +449,9 @@ onMounted(() => {
   min-height: 100vh;
 }
 @media screen and (min-width: 768px) {
-  .sidebar {
-    width: 15vw;
-  }
+  // .sidebar {
+  //   width: 15vw;
+  // }
 }
 
 .sidebar-slide-enter-active,

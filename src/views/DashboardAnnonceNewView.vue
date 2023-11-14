@@ -5,9 +5,7 @@ import AddAnnonceForm from '@/components/AddAnnonceForm.vue'
 </script>
 
 <template>
-  <div>
-    <SidebarAdmin />
-    <AddAnnonceForm />
-    <FooterSection />
-  </div>
+  <SidebarAdmin />
+  <AddAnnonceForm />
+  <FooterSection />
 </template>
