@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import UploadImages from '@/components/UploadImages.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { loggedIn, checkLoggedIn } from '@/stores/reusable'
@@ -17,6 +16,10 @@ const annoncebyIdQuery = `${baseUrl}${endpoint}`
 const route = useRoute()
 const router = useRouter()
 const annonce = ref<Annonce | null>(null)
+const imageUrl = ref<string | null>(null)
+const fileInputRef = ref<HTMLInputElement | null>(null)
+const showFileInputField = ref(false)
+const confirmationMessage = ref<string | null>(null)
 
 interface Annonce {
   id: number
@@ -51,6 +54,7 @@ const formData = ref<Annonce>({
 })
 const index = ref<number>(0)
 const id = route.params.id
+console.log("id de l'annonce : ", id)
 
 const getAnnonceById = async () => {
   if (!id) {
@@ -90,12 +94,63 @@ const updateAnnonce = async (id: number, formData: Annonce) => {
   }
 }
 
-const handleFileChange = async () => {
-  const fileInput = $refs.fileInput as HTMLInputElement
+const showFileInput = (imageField: string, showInputField: boolean) => {
+  const fileInput = fileInputRef.value
 
-  if (fileInput.files && fileInput.files[0]) {
+  if (fileInput) {
+    if (showInputField) {
+      showFileInputField.value = true
+    } else {
+      fileInput.click()
+    }
   }
 }
+
+const handleFileChange = async () => {
+  const fileInput = fileInput as HTMLInputElement
+
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0]
+    await uploadFileToFilestack(file)
+    if (index.value !== undefined) {
+      if (index.value < formData.value.length) {
+        formData.value[imageField] = { url: imageUrl.value }
+      }
+    } else {
+      formData.value.imageCover = imageUrl
+      imagesStore.setImageCover(imageUrl)
+    }
+  }
+}
+
+const uploadFileToFilestack = async (file: File) => {
+  try {
+    const formData = new FormData()
+    formData.append('fileUpload', file)
+    const headers = {
+      'Content-Type': 'multipart/form-data'
+    }
+
+    const response = await axios.post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
+      headers
+    })
+
+    imageUrl.value = response.data.url
+
+    if (index.value !== undefined) {
+      if (index.value < formData.value.length) {
+        formData.value[index.value] = { url: imageUrl }
+      }
+    } else {
+      formData.value.imageCover = imageUrl
+      imagesStore.setImageCover(imageUrl)
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'upload :", error)
+    throw error
+  }
+}
+
 onMounted(() => {
   getAnnonceById()
 })
@@ -251,16 +306,24 @@ onMounted(() => {
                 />
                 <button
                   type="button"
-                  @click="showFileInput(imageField)"
+                  @click="showFileInput(imageField, true)"
+                  class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
+                >
+                  Ajouter
+                </button>
+                <button
+                  type="button"
+                  @click="showFileInput(imageField, false)"
                   class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
                 >
                   Modifier
                 </button>
                 <input
+                  v-if="showFileInputField"
                   type="file"
-                  ref="fileInput"
+                  ref="fileInputRef"
                   style="display: none"
-                  @change="handleFileChange(imageField)"
+                  @change="handleFileChange()"
                 />
               </div>
             </div>
@@ -328,12 +391,12 @@ onMounted(() => {
         >
         <button
           type="submit"
-          @click="deleteAnnonce(annonce.id)"
+          @click="deleteAnnonce(formData.id)"
           class="text-sm font-semibold leading-6 text-red-600"
         >
           Supprimer
         </button>
-        <button type="submit" @click="updateAnnonce(annonce.id, formData)" class="buttonPrimary">
+        <button type="submit" @click="updateAnnonce(formData.id, formData)" class="buttonPrimary">
           Mettre à jour
         </button>
       </div>
