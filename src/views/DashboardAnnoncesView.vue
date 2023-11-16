@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue'
-import { loggedIn, checkLoggedIn } from '@/stores/reusable'
 import { state } from '@/stores/state'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
@@ -13,8 +12,6 @@ const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesAll
 const deleteEndpoint = apiConfig.production.endpoints.annonceDetails
 const annoncesQuery = `${baseUrl}${endpoint}`
-
-const router = useRouter()
 
 interface Annonce {
   id: number
