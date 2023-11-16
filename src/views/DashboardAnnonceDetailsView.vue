@@ -6,7 +6,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { loggedIn, checkLoggedIn } from '@/stores/reusable'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
+import { useImagesStore } from '@/stores/useImagesStore'
 
+const uploadFileStackUrl = import.meta.env.VITE_FILESTACK_URL
+const fileStackApiKey = import.meta.env.VITE_FILESTACK_API_KEY
+const imagesStore = useImagesStore()
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annonceDetails
 const annoncebyIdQuery = `${baseUrl}${endpoint}`
@@ -80,12 +84,18 @@ const deleteAnnonce = async (id: number) => {
 
 const updateAnnonce = async (id: number, formData: Annonce) => {
   try {
-    await axios.put(`${annoncebyIdQuery}${id}`, formData)
+    await axios.patch(`${annoncebyIdQuery}${id}`, formData)
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'annonce :", error)
   }
 }
 
+const handleFileChange = async () => {
+  const fileInput = $refs.fileInput as HTMLInputElement
+
+  if (fileInput.files && fileInput.files[0]) {
+  }
+}
 onMounted(() => {
   getAnnonceById()
 })
@@ -246,6 +256,12 @@ onMounted(() => {
                 >
                   Modifier
                 </button>
+                <input
+                  type="file"
+                  ref="fileInput"
+                  style="display: none"
+                  @change="handleFileChange(imageField)"
+                />
               </div>
             </div>
           </div>

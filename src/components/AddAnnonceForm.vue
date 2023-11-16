@@ -48,7 +48,7 @@ const addAnnonce = async () => {
         Authorization: `Bearer ${token}`
       }
     })
-    // Réinitialisez les listes pour de futures annonces
+
     formData.value = {
       title: '',
       description: '',
