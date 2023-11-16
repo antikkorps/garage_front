@@ -88,6 +88,17 @@ onMounted(() => {
           :src="annonce.imageCover"
           class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
         />
+        <img
+          v-else
+          src="https://via.placeholder.com/150"
+          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+        />
+
+        <div class="galleryContainer">
+          <img v-if="annonce.imageOne" :src="annonce.imageOne" class="imageGallery" />
+          <img v-if="annonce.imageTwo" :src="annonce.imageTwo" class="imageGallery" />
+          <img v-if="annonce.imageThree" :src="annonce.imageThree" class="imageGallery" />
+        </div>
         <h3 class="text-base font-semibold leading-7 text-gray-900">
           {{ annonce.title }}
         </h3>
