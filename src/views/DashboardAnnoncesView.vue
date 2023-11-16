@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
+import { loggedIn, checkLoggedIn } from '@/stores/reusable'
 import { state } from '@/stores/state'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
@@ -10,7 +11,10 @@ const annonces = ref<Annonce[]>([])
 
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesAll
+const deleteEndpoint = apiConfig.production.endpoints.annonceDetails
 const annoncesQuery = `${baseUrl}${endpoint}`
+
+const router = useRouter()
 
 interface Annonce {
   id: number
@@ -31,6 +35,28 @@ const getAllAnnonces = async () => {
     annonces.value = response.data
   } catch (error) {
     console.error('Erreur lors de la récupération des annonces :', error)
+  }
+}
+
+const deleteAnnonce = async (id: number) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+    }
+  }
+
+  try {
+    await axios.delete(`${baseUrl}${deleteEndpoint}${id}`, config)
+    annonces.value = annonces.value.filter((annonce) => annonce.id !== id)
+    getAllAnnonces()
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'annonce :", error)
+  }
+}
+
+const confirmDelete = (id: number) => {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')) {
+    deleteAnnonce(id)
   }
 }
 
@@ -141,7 +167,10 @@ onMounted(() => {
                         />
                       </svg>
                     </RouterLink>
-                    <a href="#" class="text-red-600 hover:text-red-900 ml-4"
+                    <a
+                      href="#"
+                      class="text-red-600 hover:text-red-900 ml-4"
+                      @click.prevent="confirmDelete(annonce.id)"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

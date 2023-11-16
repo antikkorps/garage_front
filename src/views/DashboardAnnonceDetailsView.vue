@@ -106,23 +106,36 @@ const showFileInput = (imageField: string, showInputField: boolean) => {
   }
 }
 
-const handleFileChange = async () => {
-  const fileInput = fileInput as HTMLInputElement
+const handleFileChange = async (imageField: string) => {
+  const fileInput = fileInputRef.value as HTMLInputElement
 
   if (fileInput.files && fileInput.files[0]) {
     const file = fileInput.files[0]
     await uploadFileToFilestack(file)
-    if (index.value !== undefined) {
-      if (index.value < formData.value.length) {
-        formData.value[imageField] = { url: imageUrl.value }
-      }
+    if (imageUrl.value === null) {
+      return
     } else {
-      formData.value.imageCover = imageUrl
-      imagesStore.setImageCover(imageUrl)
+      switch (imageField) {
+        case 'imageCover':
+          imagesStore.setImageCover(imageUrl.value)
+          break
+        case 'imageOne':
+          imagesStore.setImageOne(imageUrl.value)
+          break
+        case 'imageTwo':
+          imagesStore.setImageTwo(imageUrl.value)
+          break
+        case 'imageThree':
+          imagesStore.setImageThree(imageUrl.value)
+          break
+        default:
+          break
+      }
     }
+
+    ;(formData.value as any)[imageField] = imageUrl.value
   }
 }
-
 const uploadFileToFilestack = async (file: File) => {
   try {
     const formData = new FormData()
