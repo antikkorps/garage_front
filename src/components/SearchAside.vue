@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, watchEffect, onMounted, computed } from 'vue'
 import {
   Disclosure,
   DisclosureButton,
@@ -30,17 +30,30 @@ interface Annonce {
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.annoncesQuery
 const allAnnonces = apiConfig.production.endpoints.annoncesAll
-const annonces = ref<{ id: number; title: string }[]>([])
+const annonces = ref<Annonce[]>([])
 const availableYearsOfCirculation = ref<number[]>([])
 
 const searchStore = useSearchQueriesStore()
 const searchQuery = ref('')
+const price = ref<number[]>([])
 const selectedBrands = ref<string[]>([])
 const availableBrands = ref<string[]>([])
 const selectedKilometerRange = ref('')
 const selectedYears = ref<number[]>([])
-const searchResults = ref([])
+const searchResults = ref<Annonce[]>([])
 const emit = defineEmits()
+const filters = {
+  price: [
+    { value: '0-14999', label: '€1.000 - €14.999', checked: false },
+    { value: '15000-19999', label: '€15.000 - €19.999', checked: false },
+    { value: '20000-24999', label: '€20.000 - €24.999', checked: false },
+    { value: '25000-', label: '€25.000+', checked: false }
+  ]
+}
+const sortOptions = [
+  { name: 'Nos coups de coeur', href: '#', current: false },
+  { name: 'Les plus récentes', href: '#', current: false }
+]
 
 const performSearch = async () => {
   try {
@@ -49,14 +62,22 @@ const performSearch = async () => {
     if (searchQuery.value) {
       searchUrl += `q=${searchQuery.value}&`
     }
-    if (selectedBrands.value.length > 0) {
-      searchUrl += `brands=${selectedBrands.value.join(',')}&`
+
+    if (price.value.length > 0) {
+      const [priceMin, priceMax] = price.value
+      searchUrl += `priceMin=${priceMin}&priceMax=${priceMax}&`
     }
+
+    if (selectedBrands.value.length > 0) {
+      searchUrl += `brand=${selectedBrands.value.join(',')}&`
+    }
+
     if (selectedKilometerRange.value) {
       searchUrl += `kilometerRange=${selectedKilometerRange.value}&`
     }
-    if (selectedYears.value) {
-      searchUrl += `year=${selectedYears.value}&`
+
+    if (selectedYears.value.length > 0) {
+      searchUrl += `yearofcirculation=${selectedYears.value.join(',')}&`
     }
 
     if (searchUrl.endsWith('&')) {
@@ -64,12 +85,19 @@ const performSearch = async () => {
     }
 
     const response = await axios.get(searchUrl)
+    console.log('url de la recherche', searchUrl)
+    // If there is a search query, filter the results based on the query
+    if (searchQuery.value) {
+      annonces.value = response.data.filter((annonce: Annonce) =>
+        annonce.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+      )
+    } else {
+      annonces.value = response.data
+    }
 
-    // Update annonces in search results
-    annonces.value = response.data
-    searchResults.value = response.data
+    searchResults.value = annonces.value
     console.log('searchResults', searchResults.value)
-    emit('update:searchResults', response.data)
+    emit('update:searchResults', searchResults.value)
   } catch (error) {
     console.error('Erreur lors de la recherche :', error)
   }
@@ -80,19 +108,6 @@ watch([searchQuery, selectedBrands, selectedKilometerRange, selectedYears], () =
   performSearch()
   console.log('searching for ' + searchQuery.value)
 })
-const filters = {
-  price: [
-    { value: '0', label: '€1.000 - €15.000', checked: false },
-    { value: '15.000', label: '€15.000 - €20.000', checked: false },
-    { value: '20.000', label: '€20.000 - €25.000', checked: false },
-    { value: '25.000', label: '€25.000+', checked: false }
-  ]
-}
-const sortOptions = [
-  { name: 'Les plus populaires', href: '#', current: true },
-  { name: 'Nos coups de coeur', href: '#', current: false },
-  { name: 'Les plus récentes', href: '#', current: false }
-]
 
 // Function to update the brand checkbox in filters
 const toggleBrandFilter = (value: string) => {
@@ -143,9 +158,69 @@ const toggleYearFilter = (year: number) => {
   }
 }
 
+const updatePriceFilter = (value: string) => {
+  const [priceMin, priceMax] = value.split('-').map(Number)
+  console.log(priceMin, priceMax)
+
+  const numericValue = priceMax !== undefined ? priceMax : Infinity
+
+  price.value = [priceMin, numericValue]
+  performSearch()
+}
+
+const isPriceFilterChecked = (value: string) => {
+  const [priceMin, priceMax] = value.split('-').map(Number)
+  const [currentPriceMin, currentPriceMax] = price.value
+
+  if (priceMax !== undefined) {
+    return priceMin === currentPriceMin && priceMax === currentPriceMax
+  }
+
+  return priceMin === currentPriceMin
+}
+
+const clearFilters = () => {
+  price.value = []
+  selectedBrands.value = []
+  selectedKilometerRange.value = ''
+  selectedYears.value = []
+
+  performSearch()
+}
+
+const activeFilterCount = computed(() => {
+  // Count the number of active filters
+  let count = 0
+
+  if (searchQuery.value) {
+    count++
+  }
+
+  if (price.value.length > 0) {
+    count++
+  }
+
+  if (selectedBrands.value.length > 0) {
+    count++
+  }
+
+  if (selectedKilometerRange.value) {
+    count++
+  }
+
+  if (selectedYears.value.length > 0) {
+    count += selectedYears.value.length
+  }
+
+  return count
+})
+
 onMounted(() => {
   fetchBrands()
   fetchYearsOfCirculation()
+  watchEffect(() => {
+    performSearch()
+  })
 })
 </script>
 
@@ -180,11 +255,17 @@ onMounted(() => {
                 class="mr-2 h-5 w-5 flex-none text-gray-400 group-hover:text-gray-500"
                 aria-hidden="true"
               />
-              2 Filters
+              {{
+                activeFilterCount === 0
+                  ? 'Filtrez votre recherche'
+                  : `${activeFilterCount} filtre${activeFilterCount > 1 ? 's' : ''}`
+              }}
             </DisclosureButton>
           </div>
           <div class="pl-6">
-            <button type="button" class="text-gray-500">Supprimer les filtres</button>
+            <button type="button" class="text-gray-500" @click="clearFilters">
+              Supprimer les filtres
+            </button>
           </div>
         </div>
       </div>
@@ -207,8 +288,8 @@ onMounted(() => {
                     :value="option.value"
                     type="checkbox"
                     class="h-4 w-4 flex-shrink-0 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    :checked="option.checked"
-                    v-model="price"
+                    :checked="isPriceFilterChecked(option.value)"
+                    @change="updatePriceFilter(option.value)"
                   />
                   <label :for="`price-${optionIdx}`" class="ml-3 min-w-0 flex-1 text-gray-600">{{
                     option.label
@@ -265,50 +346,6 @@ onMounted(() => {
           </div>
         </div>
       </DisclosurePanel>
-      <div class="col-start-1 row-start-1 py-4">
-        <div class="mx-auto flex max-w-7xl justify-end px-4 sm:px-6 lg:px-8">
-          <Menu as="div" class="relative inline-block">
-            <div class="flex">
-              <MenuButton
-                class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                classer
-                <ChevronDownIcon
-                  class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                  aria-hidden="true"
-                />
-              </MenuButton>
-            </div>
-
-            <transition
-              enter-active-class="transition ease-out duration-100"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95"
-            >
-              <MenuItems
-                class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <div class="py-1">
-                  <MenuItem v-for="option in sortOptions" :key="option.name" v-slot="{ active }">
-                    <a
-                      :href="option.href"
-                      :class="[
-                        option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                        active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm'
-                      ]"
-                      >{{ option.name }}</a
-                    >
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
-        </div>
-      </div>
     </Disclosure>
   </div>
 </template>
