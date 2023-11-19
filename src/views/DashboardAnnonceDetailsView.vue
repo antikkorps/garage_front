@@ -2,7 +2,6 @@
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { loggedIn, checkLoggedIn } from '@/stores/reusable'
 import axios from 'axios'
 import apiConfig from '@/config/apiConfig'
 import { useImagesStore } from '@/stores/useImagesStore'
@@ -17,9 +16,9 @@ const route = useRoute()
 const router = useRouter()
 const annonce = ref<Annonce | null>(null)
 const imageUrl = ref<string | null>(null)
-const fileInputRef = ref<HTMLInputElement | null>(null)
-const showFileInputField = ref(false)
+const fileInputRefs = ref<(HTMLInputElement | null)[]>(Array(4).fill(null))
 const confirmationMessage = ref<string | null>(null)
+const showFileInputField = ref([false, false, false, false])
 
 interface Annonce {
   id: number
@@ -52,7 +51,7 @@ const formData = ref<Annonce>({
   published: false,
   featured: false
 })
-const index = ref<number>(0)
+
 const id = route.params.id
 console.log("id de l'annonce : ", id)
 
@@ -62,13 +61,12 @@ const getAnnonceById = async () => {
     return
   }
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-    }
-  }
   try {
-    const response = await axios.get(`${annoncebyIdQuery}${id}`, config)
+    const response = await axios.get(`${annoncebyIdQuery}${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+      }
+    })
     formData.value = response.data
     console.log(formData.value)
   } catch (error) {
@@ -76,88 +74,87 @@ const getAnnonceById = async () => {
   }
 }
 
-const deleteAnnonce = async (id: number) => {
+const deleteAnnonce = async () => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+    }
+  }
   if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')) {
     try {
-      await axios.delete(`${annoncebyIdQuery}${id}`)
+      await axios.delete(`${annoncebyIdQuery}${id}`, config)
+      router.push('/dashboard/annonces')
     } catch (error) {
       console.error("Erreur lors de la suppression de l'annonce :", error)
     }
   }
 }
 
-const updateAnnonce = async (id: number, formData: Annonce) => {
+const updateAnnonce = async () => {
   try {
-    await axios.patch(`${annoncebyIdQuery}${id}`, formData)
+    await axios.patch(`${annoncebyIdQuery}${id}`, formData.value)
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'annonce :", error)
   }
 }
 
-const showFileInput = (imageField: string, showInputField: boolean) => {
-  const fileInput = fileInputRef.value
+const showFileInput = (index: number, showInputField: boolean) => {
+  const fileInput = fileInputRefs.value[index]
 
   if (fileInput) {
     if (showInputField) {
-      showFileInputField.value = true
+      showFileInputField.value[index] = true
     } else {
       fileInput.click()
     }
   }
 }
 
-const handleFileChange = async (imageField: string) => {
-  const fileInput = fileInputRef.value as HTMLInputElement
+const handleFileChange = async (index: number, imageField: string) => {
+  const fileInput = fileInputRefs.value[index] as HTMLInputElement
 
   if (fileInput.files && fileInput.files[0]) {
     const file = fileInput.files[0]
-    await uploadFileToFilestack(file)
-    if (imageUrl.value === null) {
-      return
-    } else {
+    try {
+      const imageUrl = await uploadFileToFilestack(file)
       switch (imageField) {
         case 'imageCover':
-          imagesStore.setImageCover(imageUrl.value)
+          imagesStore.setImageCover(imageUrl)
+          formData.value.imageCover = imageUrl
           break
         case 'imageOne':
-          imagesStore.setImageOne(imageUrl.value)
+          imagesStore.setImageOne(imageUrl)
+          formData.value.imageOne = imageUrl
           break
         case 'imageTwo':
-          imagesStore.setImageTwo(imageUrl.value)
+          imagesStore.setImageTwo(imageUrl)
+          formData.value.imageTwo = imageUrl
           break
         case 'imageThree':
-          imagesStore.setImageThree(imageUrl.value)
+          imagesStore.setImageThree(imageUrl)
+          formData.value.imageThree = imageUrl
           break
         default:
           break
       }
+    } catch (error) {
+      console.error("Erreur lors de l'upload :", error)
     }
-
-    ;(formData.value as any)[imageField] = imageUrl.value
   }
 }
-const uploadFileToFilestack = async (file: File) => {
+
+const uploadFileToFilestack = async (file: File): Promise<string> => {
   try {
     const formData = new FormData()
     formData.append('fileUpload', file)
-    const headers = {
-      'Content-Type': 'multipart/form-data'
-    }
 
     const response = await axios.post(`${uploadFileStackUrl}?key=${fileStackApiKey}`, formData, {
-      headers
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
 
-    imageUrl.value = response.data.url
-
-    if (index.value !== undefined) {
-      if (index.value < formData.value.length) {
-        formData.value[index.value] = { url: imageUrl }
-      }
-    } else {
-      formData.value.imageCover = imageUrl
-      imagesStore.setImageCover(imageUrl)
-    }
+    return response.data.url
   } catch (error) {
     console.error("Erreur lors de l'upload :", error)
     throw error
@@ -308,7 +305,7 @@ onMounted(() => {
 
           <div class="mt-6 flex flex-column sm:flex-row">
             <div
-              v-for="imageField in ['imageCover', 'imageOne', 'imageTwo', 'imageThree']"
+              v-for="(imageField, index) in ['imageCover', 'imageOne', 'imageTwo', 'imageThree']"
               :key="imageField"
             >
               <div class="relative mx-5">
@@ -318,25 +315,27 @@ onMounted(() => {
                   class="w-full h-40 object-cover rounded-md"
                 />
                 <button
+                  v-if="!imageField"
                   type="button"
-                  @click="showFileInput(imageField, true)"
+                  @click="showFileInput(index, true)"
                   class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
                 >
                   Ajouter
                 </button>
                 <button
+                  v-if="imageField"
                   type="button"
-                  @click="showFileInput(imageField, false)"
+                  @click="showFileInput(index, false)"
                   class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
                 >
                   Modifier
                 </button>
                 <input
-                  v-if="showFileInputField"
+                  v-if="showFileInputField[index]"
                   type="file"
-                  ref="fileInputRef"
+                  :ref="(el) => (fileInputRefs.value[index] = el)"
                   style="display: none"
-                  @change="handleFileChange()"
+                  @change="handleFileChange(index, imageField)"
                 />
               </div>
             </div>
@@ -402,17 +401,18 @@ onMounted(() => {
             Revenir à la liste
           </button></RouterLink
         >
-        <button
-          type="submit"
-          @click="deleteAnnonce(formData.id)"
-          class="text-sm font-semibold leading-6 text-red-600"
-        >
-          Supprimer
-        </button>
+
         <button type="submit" @click="updateAnnonce(formData.id, formData)" class="buttonPrimary">
           Mettre à jour
         </button>
       </div>
     </form>
+    <button
+      type="submit"
+      @click="deleteAnnonce(formData.id)"
+      class="text-sm font-semibold leading-6 text-red-600"
+    >
+      Supprimer
+    </button>
   </div>
 </template>
