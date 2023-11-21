@@ -45,3 +45,12 @@ npm run test:e2e
 ```sh
 npm run lint
 ```
+
+## ENV Variables
+
+please add a .env.local file to the root of the project with the following variables:
+
+VITE_FILESTACK_URL=YOUR_URL
+VITE_FILESTACK_API_KEY=YOUR_API_KEY
+
+or copy the .env.example file, rename it .env.local and fill in the values
