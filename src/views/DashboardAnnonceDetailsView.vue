@@ -15,8 +15,7 @@ const annoncebyIdQuery = `${baseUrl}${endpoint}`
 const route = useRoute()
 const router = useRouter()
 const annonce = ref<Annonce | null>(null)
-const imageUrl = ref<string | null>(null)
-const fileInputRefs = ref<(HTMLInputElement | null)[]>(Array(4).fill(null))
+const fileInputRefs = ref([])
 const confirmationMessage = ref<string | null>(null)
 const showFileInputField = ref([false, false, false, false])
 
@@ -28,10 +27,10 @@ interface Annonce {
   price: number
   kilometrage: number
   yearofcirculation: number
-  imageCover: string
-  imageOne: string
-  imageTwo: string
-  imageThree: string
+  imageCover?: string
+  imageOne?: string
+  imageTwo?: string
+  imageThree?: string
   published: boolean
   featured: boolean
 }
@@ -51,7 +50,6 @@ const formData = ref<Annonce>({
   published: false,
   featured: false
 })
-
 const id = route.params.id
 console.log("id de l'annonce : ", id)
 
@@ -91,51 +89,57 @@ const deleteAnnonce = async () => {
 }
 
 const updateAnnonce = async () => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+    }
+  }
+  const payload = {
+    title: formData.value.title,
+    description: formData.value.description,
+    brand: formData.value.brand,
+    price: formData.value.price,
+    kilometrage: formData.value.kilometrage,
+    yearofcirculation: formData.value.yearofcirculation,
+    imageCover: formData.value.imageCover,
+    imageOne: formData.value.imageOne,
+    imageTwo: formData.value.imageTwo,
+    imageThree: formData.value.imageThree,
+    published: formData.value.published,
+    featured: formData.value.featured
+  }
   try {
-    await axios.patch(`${annoncebyIdQuery}${id}`, formData.value)
+    await axios.patch(`${annoncebyIdQuery}${id}`, payload, config)
+    console.log('payload : ', payload)
+    confirmationMessage.value = 'Annonce mise à jour avec succès.'
+    setTimeout(() => {
+      confirmationMessage.value = null
+    }, 3000)
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'annonce :", error)
   }
 }
 
-const showFileInput = (index: number, showInputField: boolean) => {
-  const fileInput = fileInputRefs.value[index]
-
-  if (fileInput) {
-    if (showInputField) {
-      showFileInputField.value[index] = true
-    } else {
-      fileInput.click()
-    }
-  }
-}
-
 const handleFileChange = async (index: number, imageField: string) => {
+  console.log('handleFileChange start')
   const fileInput = fileInputRefs.value[index] as HTMLInputElement
 
-  if (fileInput.files && fileInput.files[0]) {
+  console.log('fileInput', fileInput)
+  if (fileInput && fileInput.files && fileInput.files[0]) {
     const file = fileInput.files[0]
+
     try {
+      console.log('Before uploadFileToFilestack')
       const imageUrl = await uploadFileToFilestack(file)
-      switch (imageField) {
-        case 'imageCover':
-          imagesStore.setImageCover(imageUrl)
-          formData.value.imageCover = imageUrl
-          break
-        case 'imageOne':
-          imagesStore.setImageOne(imageUrl)
-          formData.value.imageOne = imageUrl
-          break
-        case 'imageTwo':
-          imagesStore.setImageTwo(imageUrl)
-          formData.value.imageTwo = imageUrl
-          break
-        case 'imageThree':
-          imagesStore.setImageThree(imageUrl)
-          formData.value.imageThree = imageUrl
-          break
-        default:
-          break
+      console.log('After uploadFileToFilestack', imageUrl)
+
+      // Update formData with the new image URL
+      formData[imageField] = imageUrl
+
+      // Refresh the image source dynamically
+      const imageElement = fileInput.nextElementSibling as HTMLImageElement
+      if (imageElement) {
+        imageElement.src = imageUrl
       }
     } catch (error) {
       console.error("Erreur lors de l'upload :", error)
@@ -145,6 +149,7 @@ const handleFileChange = async (index: number, imageField: string) => {
 
 const uploadFileToFilestack = async (file: File): Promise<string> => {
   try {
+    console.log('uploadFileToFilestack start')
     const formData = new FormData()
     formData.append('fileUpload', file)
 
@@ -153,6 +158,8 @@ const uploadFileToFilestack = async (file: File): Promise<string> => {
         'Content-Type': 'multipart/form-data'
       }
     })
+
+    console.log('uploadFileToFilestack response', response.data)
 
     return response.data.url
   } catch (error) {
@@ -314,30 +321,13 @@ onMounted(() => {
                   alt="Image"
                   class="w-full h-40 object-cover rounded-md"
                 />
-                <button
-                  v-if="!imageField"
-                  type="button"
-                  @click="showFileInput(index, true)"
-                  class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
-                >
-                  Ajouter
-                </button>
-                <button
-                  v-if="imageField"
-                  type="button"
-                  @click="showFileInput(index, false)"
-                  class="absolute bottom-0 right-0 px-2 py-1 bg-gray-800 text-white text-sm"
-                >
-                  Modifier
-                </button>
-                <input
-                  v-if="showFileInputField[index]"
-                  type="file"
-                  :ref="(el) => (fileInputRefs.value[index] = el)"
-                  style="display: none"
-                  @change="handleFileChange(index, imageField)"
-                />
               </div>
+              <input
+                type="file"
+                :id="imageField"
+                :ref="fileInputRefs[index] as VNodeRef<HTMLInputElement>"
+                @change="handleFileChange(index, imageField)"
+              />
             </div>
           </div>
         </div>
@@ -402,14 +392,12 @@ onMounted(() => {
           </button></RouterLink
         >
 
-        <button type="submit" @click="updateAnnonce(formData.id, formData)" class="buttonPrimary">
-          Mettre à jour
-        </button>
+        <button type="submit" @click="updateAnnonce" class="buttonPrimary">Mettre à jour</button>
       </div>
     </form>
     <button
       type="submit"
-      @click="deleteAnnonce(formData.id)"
+      @click="deleteAnnonce()"
       class="text-sm font-semibold leading-6 text-red-600"
     >
       Supprimer
