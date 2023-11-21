@@ -50,6 +50,8 @@ npm run lint
 
 please add a .env.local file to the root of the project with the following variables:
 
+VITE_BASE_URL=YOUR_URL
+
 VITE_FILESTACK_URL=YOUR_URL
 VITE_FILESTACK_API_KEY=YOUR_API_KEY
 
