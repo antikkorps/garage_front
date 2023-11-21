@@ -8,8 +8,9 @@ import HorairesTable from '@/components/HorairesTable.vue'
     <div class="container mx-auto px-6 py-8">
       <div class="flex flex-col items-center text-center">
         <RouterLink to="/">
-          <h3 class="text-white">Garage Parrot</h3>
-          <img class="h-7 w-auto" src="https://merakiui.com/images/full-logo.svg" alt="" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >Garage Parrot</span
+          >
         </RouterLink>
 
         <div class="-mx-4 mt-6 flex flex-wrap justify-center">
