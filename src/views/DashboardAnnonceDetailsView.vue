@@ -19,7 +19,7 @@ const fileInputRefs = ref([])
 const confirmationMessage = ref<string | null>(null)
 const showFileInputField = ref([false, false, false, false])
 
-interface Annonce {
+interface Annonce extends ImageFields {
   id: number
   title: string
   description: string
@@ -27,12 +27,15 @@ interface Annonce {
   price: number
   kilometrage: number
   yearofcirculation: number
+  published: boolean
+  featured: boolean
+}
+
+interface ImageFields {
   imageCover?: string
   imageOne?: string
   imageTwo?: string
   imageThree?: string
-  published: boolean
-  featured: boolean
 }
 
 const formData = ref<Annonce>({
@@ -117,32 +120,48 @@ const updateAnnonce = async () => {
     }, 3000)
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'annonce :", error)
+    confirmationMessage.value = "Erreur lors de la mise à jour de l'annonce."
   }
 }
 
-const handleFileChange = async (index: number, imageField: string) => {
-  console.log('handleFileChange start')
-  const fileInput = fileInputRefs.value[index] as HTMLInputElement
+const handleFileChange = async (index: number, event: Event) => {
+  console.log('handleFileChange start with index : ', index)
+  const input = event.target as HTMLInputElement
 
-  console.log('fileInput', fileInput)
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    const file = fileInput.files[0]
+  // Assume fileInputRefs.value[index] is the correct input element
+  const fileInput = input.files?.[0]
 
-    try {
-      console.log('Before uploadFileToFilestack')
-      const imageUrl = await uploadFileToFilestack(file)
-      console.log('After uploadFileToFilestack', imageUrl)
+  console.log('file input ', fileInput)
 
-      // Update formData with the new image URL
-      formData[imageField] = imageUrl
+  if (fileInput) {
+    const file = fileInput
 
-      // Refresh the image source dynamically
-      const imageElement = fileInput.nextElementSibling as HTMLImageElement
-      if (imageElement) {
-        imageElement.src = imageUrl
+    // Upload to filestack to get the URL
+    const filestackUrl = await uploadFileToFilestack(file)
+
+    if (index >= 0 && index < fileInputRefs.value.length) {
+      // Use a loop index variable (let i = 0) instead of 'for index in fileInputRefs'
+      for (let i = 0; i < fileInputRefs.value.length; i++) {
+        if (i === index) {
+          // Update the corresponding form data field based on the index
+          switch (index) {
+            case 0:
+              formData.value.imageCover = filestackUrl
+              break
+            case 1:
+              formData.value.imageOne = filestackUrl
+              break
+            case 2:
+              formData.value.imageTwo = filestackUrl
+              break
+            case 3:
+              formData.value.imageThree = filestackUrl
+              break
+            default:
+              break
+          }
+        }
       }
-    } catch (error) {
-      console.error("Erreur lors de l'upload :", error)
     }
   }
 }
@@ -325,8 +344,8 @@ onMounted(() => {
               <input
                 type="file"
                 :id="imageField"
-                :ref="fileInputRefs[index] as VNodeRef<HTMLInputElement>"
-                @change="handleFileChange(index, imageField)"
+                :ref="fileInputRefs as HTMLInputElement"
+                @change="handleFileChange(index)"
               />
             </div>
           </div>
