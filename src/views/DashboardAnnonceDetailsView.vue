@@ -15,9 +15,8 @@ const annoncebyIdQuery = `${baseUrl}${endpoint}`
 const route = useRoute()
 const router = useRouter()
 const annonce = ref<Annonce | null>(null)
-const fileInputRefs = ref([])
 const confirmationMessage = ref<string | null>(null)
-const showFileInputField = ref([false, false, false, false])
+const confirmationMessageClass = ref<string | null>(null)
 
 interface Annonce extends ImageFields {
   id: number
@@ -115,6 +114,7 @@ const updateAnnonce = async () => {
     await axios.patch(`${annoncebyIdQuery}${id}`, payload, config)
     console.log('payload : ', payload)
     confirmationMessage.value = 'Annonce mise à jour avec succès.'
+    confirmationMessageClass.value = 'text-green-600'
     setTimeout(() => {
       confirmationMessage.value = null
     }, 3000)
@@ -126,42 +126,37 @@ const updateAnnonce = async () => {
 
 const handleFileChange = async (index: number, event: Event) => {
   console.log('handleFileChange start with index : ', index)
+
+  if (!event) {
+    console.error('Event is undefined or null.')
+    return
+  }
+
   const input = event.target as HTMLInputElement
+  console.log('input : ', input)
+  console.log('file : ', input.files?.[0])
+  const file = input.files?.[0]
+  console.log('file : ', file)
 
-  // Assume fileInputRefs.value[index] is the correct input element
-  const fileInput = input.files?.[0]
-
-  console.log('file input ', fileInput)
-
-  if (fileInput) {
-    const file = fileInput
-
+  if (input.files && input.files.length > 0) {
     // Upload to filestack to get the URL
     const filestackUrl = await uploadFileToFilestack(file)
 
-    if (index >= 0 && index < fileInputRefs.value.length) {
-      // Use a loop index variable (let i = 0) instead of 'for index in fileInputRefs'
-      for (let i = 0; i < fileInputRefs.value.length; i++) {
-        if (i === index) {
-          // Update the corresponding form data field based on the index
-          switch (index) {
-            case 0:
-              formData.value.imageCover = filestackUrl
-              break
-            case 1:
-              formData.value.imageOne = filestackUrl
-              break
-            case 2:
-              formData.value.imageTwo = filestackUrl
-              break
-            case 3:
-              formData.value.imageThree = filestackUrl
-              break
-            default:
-              break
-          }
-        }
-      }
+    switch (index) {
+      case 0:
+        formData.value.imageCover = filestackUrl
+        break
+      case 1:
+        formData.value.imageOne = filestackUrl
+        break
+      case 2:
+        formData.value.imageTwo = filestackUrl
+        break
+      case 3:
+        formData.value.imageThree = filestackUrl
+        break
+      default:
+        break
     }
   }
 }
@@ -329,24 +324,34 @@ onMounted(() => {
           <h2 class="text-base font-semibold leading-7 text-gray-900">Images</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">Gérez les images de votre annonce.</p>
 
-          <div class="mt-6 flex flex-column sm:flex-row">
+          <div class="mt-6">
             <div
               v-for="(imageField, index) in ['imageCover', 'imageOne', 'imageTwo', 'imageThree']"
               :key="imageField"
             >
-              <div class="relative mx-5">
+              <div class="relative flex">
                 <img
                   :src="formData[imageField]"
                   alt="Image"
                   class="w-full h-40 object-cover rounded-md"
                 />
               </div>
-              <input
-                type="file"
-                :id="imageField"
-                :ref="fileInputRefs as HTMLInputElement"
-                @change="handleFileChange(index)"
-              />
+              <div class="flex flex-col">
+                <label
+                  :for="imageField"
+                  class="relative text-gray-900 mt-4 text-base font-semibold leading-8"
+                  ><template v-if="imageField === 'imageCover'"> Image de couverture </template>
+                  <template v-else-if="imageField === 'imageOne'"> Image 1 </template>
+                  <template v-else-if="imageField === 'imageTwo'"> Image 2 </template>
+                  <template v-else> Image 3 </template></label
+                >
+                <input
+                  type="file"
+                  :id="imageField"
+                  @change="handleFileChange(index, $event)"
+                  class="my-4"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -417,9 +422,9 @@ onMounted(() => {
     <button
       type="submit"
       @click="deleteAnnonce()"
-      class="text-sm font-semibold leading-6 text-red-600"
+      class="text-sm font-semibold leading-6 text-red-600 mt-10 mb-15"
     >
-      Supprimer
+      Supprimer cette annonce
     </button>
   </div>
 </template>
