@@ -1,65 +1,65 @@
 <script setup lang="ts">
-import SidebarAdmin from '@/components/SidebarAdmin.vue'
-import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import { state } from '@/stores/state'
-import axios from 'axios'
-import apiConfig from '@/config/apiConfig'
+import SidebarAdmin from "@/components/SidebarAdmin.vue";
+import { RouterLink } from "vue-router";
+import { ref, onMounted } from "vue";
+import { state } from "@/stores/state";
+import axios from "axios";
+import apiConfig from "@/config/apiConfig";
 
-const annonces = ref<Annonce[]>([])
+const annonces = ref<Annonce[]>([]);
 
-const baseUrl = apiConfig.production.baseUrl
-const endpoint = apiConfig.production.endpoints.annoncesAll
-const deleteEndpoint = apiConfig.production.endpoints.annonceDetails
-const annoncesQuery = `${baseUrl}${endpoint}`
+const baseUrl = apiConfig.production.baseUrl;
+const endpoint = apiConfig.production.endpoints.annoncesAll;
+const deleteEndpoint = apiConfig.production.endpoints.annonceDetails;
+const annoncesQuery = `${baseUrl}${endpoint}`;
 
 interface Annonce {
-  id: number
-  title: string
-  description: string
-  price: number
-  kilometrage: number
-  yearofcirculation: number
-  image: string
-  published: boolean
-  featured: boolean
-  author: object
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  kilometrage: number;
+  yearofcirculation: number;
+  image: string;
+  published: boolean;
+  featured: boolean;
+  author: object;
 }
 
 const getAllAnnonces = async () => {
   try {
-    const response = await axios.get(annoncesQuery)
-    annonces.value = response.data
+    const response = await axios.get(annoncesQuery);
+    annonces.value = response.data;
   } catch (error) {
-    console.error('Erreur lors de la récupération des annonces :', error)
+    console.error("Erreur lors de la récupération des annonces :", error);
   }
-}
+};
 
 const deleteAnnonce = async (id: number) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-    }
-  }
+      Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+    },
+  };
 
   try {
-    await axios.delete(`${baseUrl}${deleteEndpoint}${id}`, config)
-    annonces.value = annonces.value.filter((annonce) => annonce.id !== id)
-    getAllAnnonces()
+    await axios.delete(`${baseUrl}${deleteEndpoint}${id}`, config);
+    annonces.value = annonces.value.filter((annonce) => annonce.id !== id);
+    getAllAnnonces();
   } catch (error) {
-    console.error("Erreur lors de la suppression de l'annonce :", error)
+    console.error("Erreur lors de la suppression de l'annonce :", error);
   }
-}
+};
 
 const confirmDelete = (id: number) => {
-  if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')) {
-    deleteAnnonce(id)
+  if (confirm("Êtes-vous sûr de vouloir supprimer cette annonce?")) {
+    deleteAnnonce(id);
   }
-}
+};
 
 onMounted(() => {
-  getAllAnnonces()
-})
+  getAllAnnonces();
+});
 </script>
 
 <template>
@@ -67,10 +67,12 @@ onMounted(() => {
     <SidebarAdmin />
     <div :class="['main_content relative', { 'lg:ml-64': state.showSidebar }]">
       <div class="container place-content-center grid grid-cols-1">
-        <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">Liste des Annonces</h2>
+        <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">
+          Liste des Annonces
+        </h2>
         <div v-if="annonces" class="relative overflow-x-auto">
           <table
-            class="divide-y divide-gray-200 w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            class="divide-y divide-gray-200 w-full text-sm text-left text-gray-500 dark:text-gray-500"
           >
             <thead
               class="bg-gray-200 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400"
@@ -146,7 +148,7 @@ onMounted(() => {
                     <RouterLink
                       :to="{
                         name: 'dashboard-annonces-details',
-                        params: { id: annonce.id }
+                        params: { id: annonce.id },
                       }"
                       class="text-indigo-600 hover:text-indigo-900 cursor-pointer"
                       ><svg
@@ -237,7 +239,7 @@ onMounted(() => {
 .checkbox_disable {
   opacity: 0.4;
 }
-[type='checkbox']:checked {
+[type="checkbox"]:checked {
   background-color: black;
 }
 </style>
