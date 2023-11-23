@@ -56,3 +56,5 @@ VITE_FILESTACK_URL=YOUR_URL
 VITE_FILESTACK_API_KEY=YOUR_API_KEY
 
 or copy the .env.example file, rename it .env.local and fill in the values
+
+NB: Contrairement à ce que j'ai indiqué dans le dossier la mise à jour des images a été corrigée et fonctionne correctement.
