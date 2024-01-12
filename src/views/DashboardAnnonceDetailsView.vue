@@ -422,7 +422,7 @@ onMounted(() => {
     <button
       type="submit"
       @click="deleteAnnonce()"
-      class="text-sm font-semibold leading-6 text-red-600 mt-10 mb-15"
+      class="text-sm font-semibold leading-6 text-red-600 mt-10 mb-28"
     >
       Supprimer cette annonce
     </button>
