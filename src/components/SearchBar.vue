@@ -15,12 +15,12 @@ const router = useRouter()
 let searchTimeout: NodeJS.Timeout | null = null
 
 const searchCar = async () => {
-  // Annuler le délai précédent s'il existe
+  // check for timeout
   if (searchTimeout !== null) {
     clearTimeout(searchTimeout)
   }
 
-  // Définir un nouveau délai d'une seconde (1000 millisecondes)
+  // new timeout (1000 milliseconds)
   searchTimeout = setTimeout(async () => {
     try {
       console.log('searching for ' + q.value)
