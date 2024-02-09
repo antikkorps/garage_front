@@ -30,6 +30,7 @@ const searchCar = async () => {
       router.push({ name: 'search', query: { q: q.value } })
     } catch (error) {
       console.error('Erreur lors de la recherche des annonces:', error)
+      //TODO treat the error in the front
     }
   }, 1000)
 }
