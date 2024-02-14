@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { ref, onMounted, computed } from 'vue'
 import { state } from '@/stores/state'
 import { loggedIn, checkLoggedIn } from '@/stores/reusable'

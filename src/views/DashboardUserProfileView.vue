@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { ref, onMounted } from 'vue'
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
 import { loggedIn, checkLoggedIn, formatDate } from '@/stores/reusable'

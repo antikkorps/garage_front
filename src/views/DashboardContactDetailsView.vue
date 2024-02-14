@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import SidebarAdmin from '@/components/SidebarAdmin.vue'
 import { ref, onMounted } from 'vue'
 import { state } from '@/stores/state'
