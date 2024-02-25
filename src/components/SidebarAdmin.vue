@@ -234,13 +234,13 @@ onMounted(() => {
               <li>
                 <a href="#" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Liste des media
+                  Liste des media (A suppr)
                 </a>
               </li>
               <li>
                 <a href="#" class="p-2 hover:bg-gray-700 flex items-center">
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Ajouter un media
+                  Ajouter un media (A suppr)
                 </a>
               </li>
             </ul>
