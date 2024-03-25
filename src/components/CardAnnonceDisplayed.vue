@@ -5,10 +5,10 @@ const { annonce } = defineProps(['annonce'])
 </script>
 <template>
   <div
-    class="img_container mx-3 mt-6 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900 sm:shrink-0 sm:grow sm:basis-0"
+    class="relative overflow-hidden img_container mx-3 mt-6 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900 sm:shrink-0 sm:grow sm:basis-0"
   >
-    <div class="bg-yellow-400 p-4 rounded-md shadow-md">
-      <p class="text-sm font-semibold text-gray-800">📢 Annonce importante :</p>
+    <div class="absolute top-0 left-0 transform -rotate-33 bg-yellow-400 p-4 rounded-md shadow-md">
+      <p class="text-sm font-semibold text-gray-800">📢 Annonce à l'affiche</p>
     </div>
     <RouterLink :to="`/annonces/${annonce.id}`">
       <img
