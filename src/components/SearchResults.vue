@@ -28,11 +28,11 @@ onMounted(() => {
 <template>
   <div class="mt-20">
     <h2 class="title_page">Résultat de votre recherche</h2>
-    <div
-      class="w-full sm:w-1/2 justify-center mx-auto md:grid md:grid-cols-2 md:place-content-evenly"
-    >
-      <ul class="annoncesListContainer">
-        <li v-for="result in searchResults" :key="result.id">
+    <div class="">
+      <div
+        class="annoncesListContainer w-full sm:w-1/2 justify-center mx-auto md:grid md:grid-cols-2 md:place-content-evenly"
+      >
+        <div v-for="result in searchResults" :key="result.id">
           <RouterLink :to="`/annonces/${result.id}`">
             <CardAnnonceDisplayed :annonce="result">
               <template #custom-button="{ annonce }">
@@ -42,8 +42,8 @@ onMounted(() => {
               </template>
             </CardAnnonceDisplayed>
           </RouterLink>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
