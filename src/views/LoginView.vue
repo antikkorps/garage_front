@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import LoginForm from '@/components/LoginForm.vue'
 </script>
 <template>
-  <div class="flex justify-center items-center h-screen mx-auto">
+  <div>
     <LoginForm />
   </div>
 </template>
