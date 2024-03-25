@@ -71,7 +71,7 @@ onMounted(() => {
     <div class="listContainer">
       <div :class="['main_content relative', { 'lg:ml-16': state.showSidebar }]">
         <div class="container place-content-center grid grid-cols-1">
-          <h2 class="text-gray-700 text-center text-2xl sm:text-4xl sm:py-4">Horaires du garage</h2>
+          <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">Horaires du garage</h2>
           <div v-if="horaires" class="relative overflow-x-auto">
             <table
               class="divide-y divide-gray-200 w-full text-sm text-left text-gray-500 dark:text-gray-400"
