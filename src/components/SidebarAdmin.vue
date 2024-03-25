@@ -112,7 +112,7 @@ onMounted(() => {
   <transition name="sidebar-slide" mode="out-in">
     <aside
       :class="[
-        'sidebar md:block fixed top-10 bg-gray-800 h-full text-white w-[60%] md:w-[15vw] p-4 sm:top-14',
+        'sidebar md:block fixed top-11 bg-gray-800 h-full text-white w-[60%] md:w-[15vw] p-4 sm:top-14',
         { hidden: !state.showSidebar }
       ]"
       key="sidebar"
