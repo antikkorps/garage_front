@@ -128,19 +128,19 @@ onMounted(() => {
               </thead>
               <tbody class="bg-white divide-y divide-gray-200" v-if="contacts.length">
                 <tr v-for="contact in contacts" :key="contact.id">
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ contact.id }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ contact.name }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ contact.phone }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ contact.email }}
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                     {{ contact.purpose }}
                   </td>
                   <td class="flex px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
