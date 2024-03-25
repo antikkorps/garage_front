@@ -48,6 +48,16 @@ const router = createRouter({
       component: () => import('../views/ServicesView.vue')
     },
     {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('../views/PrivacyView.vue')
+    },
+    {
+      path: '/cookies_policy',
+      name: 'cookies_policy',
+      component: () => import('../views/CookiesView.vue')
+    },
+    {
       path: '/annonces/all',
       name: 'annonces',
       component: () => import('../views/AnnoncesView.vue')

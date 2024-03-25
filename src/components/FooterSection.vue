@@ -42,7 +42,7 @@ import HorairesTable from '@/components/HorairesTable.vue'
             class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-red-500 dark:text-gray-300 dark:hover:text-red-400"
             aria-label="Reddit"
           >
-            Privacy
+            Mentions Légales
           </RouterLink>
 
           <RouterLink
@@ -59,7 +59,7 @@ import HorairesTable from '@/components/HorairesTable.vue'
 
       <div class="flex flex-col items-center sm:flex-row sm:justify-between">
         <p class="text-sm text-gray-500 dark:text-gray-300">
-          © Copyright 2023. Tout droit réservé.
+          © Copyright 2024. Tout droit réservé.
         </p>
 
         <div class="-mx-2 flex">
