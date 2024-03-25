@@ -7,7 +7,7 @@ const currentPage = 'about'
 <template>
   <NavbarMain :current-page="currentPage" />
   <div class="about dark:bg-gray-900 dark:text-white">
-    <div class="sm:w-1/2 flex flex-col justify-center mx-auto">
+    <div class="sm:w-1/2 flex flex-col justify-center mx-3 sm:mx-auto">
       <h1 class="title_page">A propos du garage</h1>
       <div class="presentation my-10">
         <p>
