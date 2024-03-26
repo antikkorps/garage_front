@@ -75,7 +75,9 @@ const performSearch = async () => {
     }
 
     if (selectedYears.value.length > 0) {
-      searchUrl += `yearofcirculation=${selectedYears.value.join(',')}&`
+      for (let year of selectedYears.value) {
+        searchUrl += `yearofcirculation=${encodeURIComponent(year)}&`
+      }
     }
 
     if (searchUrl.endsWith('&')) {
