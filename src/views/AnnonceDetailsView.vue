@@ -97,9 +97,15 @@ onMounted(() => {
         </a>
 
         <div class="galleryContainer">
-          <img v-if="annonce.imageOne" :src="annonce.imageOne" class="imageGallery" />
-          <img v-if="annonce.imageTwo" :src="annonce.imageTwo" class="imageGallery" />
-          <img v-if="annonce.imageThree" :src="annonce.imageThree" class="imageGallery" />
+          <a :href="annonce.imageOne" target="_blank"
+            ><img v-if="annonce.imageOne" :src="annonce.imageOne" class="imageGallery"
+          /></a>
+          <a :href="annonce.imageTwo" target="_blank"
+            ><img v-if="annonce.imageTwo" :src="annonce.imageTwo" class="imageGallery"
+          /></a>
+          <a :href="annonce.imageThree" target="_blank"
+            ><img v-if="annonce.imageThree" :src="annonce.imageThree" class="imageGallery"
+          /></a>
         </div>
         <h3 class="text-base font-semibold leading-7 text-gray-900">
           {{ annonce.title }}
