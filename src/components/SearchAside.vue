@@ -175,6 +175,16 @@ const isPriceFilterChecked = (value: string) => {
   return priceMin === currentPriceMin
 }
 
+const isFilterSelected = () => {
+  return (
+    searchQuery.value ||
+    price.value.length > 0 ||
+    selectedBrands.value.length > 0 ||
+    selectedKilometerRange.value ||
+    selectedYears.value.length > 0
+  )
+}
+
 const clearFilters = () => {
   price.value = []
   selectedBrands.value = []
@@ -260,7 +270,12 @@ onMounted(() => {
             </DisclosureButton>
           </div>
           <div class="pl-6">
-            <button type="button" class="text-gray-500" @click="clearFilters">
+            <button
+              type="button"
+              class="text-gray-500"
+              v-if="isFilterSelected()"
+              @click="clearFilters"
+            >
               Supprimer les filtres
             </button>
           </div>
