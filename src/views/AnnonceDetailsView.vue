@@ -83,16 +83,18 @@ onMounted(() => {
   <div class="main_content">
     <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
       <div class="mt-20 border-t border-gray-100 flex flex-col justify-start items-center">
-        <img
-          v-if="annonce.imageCover"
-          :src="annonce.imageCover"
-          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-        />
-        <img
-          v-else
-          src="https://via.placeholder.com/150"
-          class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-        />
+        <a href="annonce.imageCover" target="_blank"
+          ><img
+            v-if="annonce.imageCover"
+            :src="annonce.imageCover"
+            class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+          />
+          <img
+            v-else
+            src="https://via.placeholder.com/150"
+            class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
+          />
+        </a>
 
         <div class="galleryContainer">
           <img v-if="annonce.imageOne" :src="annonce.imageOne" class="imageGallery" />
