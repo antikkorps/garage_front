@@ -65,7 +65,9 @@ const performSearch = async () => {
     }
 
     if (selectedBrands.value.length > 0) {
-      searchUrl += `brand=${selectedBrands.value.join(',')}&`
+      for (let brand of selectedBrands.value) {
+        searchUrl += `brand=${encodeURIComponent(brand)}&`
+      }
     }
 
     if (selectedKilometerRange.value) {
