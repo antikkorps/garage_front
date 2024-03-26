@@ -83,7 +83,7 @@ onMounted(() => {
   <div class="main_content">
     <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
       <div class="mt-20 border-t border-gray-100 flex flex-col justify-start items-center">
-        <a href="annonce.imageCover" target="_blank"
+        <a :href="annonce.imageCover" target="_blank"
           ><img
             v-if="annonce.imageCover"
             :src="annonce.imageCover"
