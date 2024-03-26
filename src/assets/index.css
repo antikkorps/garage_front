@@ -76,7 +76,7 @@
   }
   /* IMAGE FROM GALLERY */
   .imageGallery {
-    @apply object-cover w-1/3 object-center rounded-lg px-1 py-4;
+    @apply block object-cover w-1/3 object-center rounded-lg px-1 py-4;
   }
 
   /* INPUT TEXT */
