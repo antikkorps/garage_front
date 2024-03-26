@@ -26,6 +26,6 @@
 }
 
 .heroText {
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(5px);
 }
 </style>
