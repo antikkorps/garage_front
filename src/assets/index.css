@@ -72,7 +72,7 @@
 
   /* GALLERY CONTAINER */
   .galleryContainer {
-    @apply flex flex-row flex-wrap items-center justify-center;
+    @apply grid sm:grid-cols-3 items-center justify-center;
   }
   /* IMAGE FROM GALLERY */
   .imageGallery {
