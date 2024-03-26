@@ -50,10 +50,6 @@ const filters = {
     { value: '25000-', label: '€25.000+', checked: false }
   ]
 }
-const sortOptions = [
-  { name: 'Nos coups de coeur', href: '#', current: false },
-  { name: 'Les plus récentes', href: '#', current: false }
-]
 
 const performSearch = async () => {
   try {
@@ -216,6 +212,7 @@ const activeFilterCount = computed(() => {
 })
 
 onMounted(() => {
+  clearFilters()
   fetchBrands()
   fetchYearsOfCirculation()
   watchEffect(() => {
