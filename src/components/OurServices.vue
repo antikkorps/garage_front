@@ -55,11 +55,10 @@ import { RouterLink } from 'vue-router'
         </a>
         <div class="p-6">
           <h5 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-            Card title
+            Entretien de votre véhicule
           </h5>
           <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            This is a longer card with supporting text below as a natural lead-in to additional
-            content.
+            Un entretien simple et rapide. Vous ne vous occupez de rien, nous nous occupons de tout.
           </p>
         </div>
       </div>
@@ -75,11 +74,10 @@ import { RouterLink } from 'vue-router'
         </a>
         <div class="p-6">
           <h5 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-            Card title
+            Des véhicules d'occasion de qualité
           </h5>
           <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            This is a longer card with supporting text below as a natural lead-in to additional
-            content. This content is a little bit longer.
+            Avec nos occasions soigneusement sélectionnées, trouvez rapidement votre futur véhicule.
           </p>
         </div>
       </div>
