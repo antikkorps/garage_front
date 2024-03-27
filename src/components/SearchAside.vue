@@ -86,7 +86,6 @@ const performSearch = async () => {
 
     const response = await axios.get(searchUrl)
     console.log('url de la recherche', searchUrl)
-    // If there is a search query, filter the results based on the query
     if (searchQuery.value) {
       annonces.value = response.data.filter((annonce: Annonce) =>
         annonce.title.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -133,7 +132,6 @@ const fetchBrands = async () => {
   }
 }
 
-// Function to update the yearOfCirculation checkbox in filters
 const fetchYearsOfCirculation = async () => {
   try {
     const response = await axios.get(`${baseUrl}${allAnnonces}`)
