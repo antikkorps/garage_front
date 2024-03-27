@@ -26,8 +26,7 @@ const toggleSidebar = () => {
 const router = useRouter()
 
 const handleRouteChange = () => {
-  state.showSidebar = false // Fermer la barre latérale lorsque la navigation a lieu
-}
+  state.showSidebar = false
 
 const handleLogout = () => {
   logOutUser()
@@ -239,9 +238,12 @@ onMounted(() => {
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/dashboard" class="p-2 hover:bg-gray-700 flex items-center">
+                <RouterLink
+                  to="/dashboard/users/new"
+                  class="p-2 hover:bg-gray-700 flex items-center"
+                >
                   <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                  Liste des rôles
+                  Ajouter utilisateur
                 </RouterLink>
               </li>
             </ul>
