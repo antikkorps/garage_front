@@ -5,7 +5,7 @@ import FooterSection from '@/components/FooterSection.vue'
 const currentPage = 'about'
 </script>
 <template>
-  <div class="h-screen">
+  <div class="h-screen absolute">
     <NavbarMain :current-page="currentPage" />
     <div class="about dark:bg-gray-900 dark:text-white">
       <div class="sm:w-1/2 flex flex-col justify-center mx-3 px-3 sm:mx-auto">
@@ -26,7 +26,7 @@ const currentPage = 'about'
         </div>
       </div>
     </div>
-    <FooterSection />
+    <FooterSection class="relative bottom-0" />
   </div>
 </template>
 
