@@ -81,7 +81,7 @@ onMounted(() => {
 <template>
   <NavbarMain />
 
-  <div class="w-1/2 sm:w-1/2 pt-32 mx-auto justify-center">
+  <div class="w-1/2 sm:w-1/2 mt-32 mx-auto justify-center">
     <RouterLink to="/annonces/all" class="text-blue-500 text-center">
       <div class="buttonPrimary sm:w-1/3 flex flex-row justify-center">
         <span
@@ -106,7 +106,7 @@ onMounted(() => {
 
   <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
     <div class="main_content">
-      <div class="mt-20 border-t border-gray-100 flex flex-col justify-start items-center">
+      <div class="mt-10 border-t border-gray-100 flex flex-col justify-start items-center">
         <a :href="annonce.imageCover" target="_blank"
           ><img
             v-if="annonce.imageCover"
