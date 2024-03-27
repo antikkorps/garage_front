@@ -27,6 +27,7 @@ const router = useRouter()
 
 const handleRouteChange = () => {
   state.showSidebar = false
+}
 
 const handleLogout = () => {
   logOutUser()
@@ -363,7 +364,7 @@ onMounted(() => {
             <RouterLink
               to="/"
               class="p-2 hover:bg-gray-700 flex items-center"
-              onclick="handleLogout"
+              @click="handleLogout"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
