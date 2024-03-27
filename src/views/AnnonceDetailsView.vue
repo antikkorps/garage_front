@@ -80,8 +80,32 @@ onMounted(() => {
 </script>
 <template>
   <NavbarMain />
-  <div class="main_content">
-    <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
+
+  <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
+    <div class="main_content">
+      <div class="w-1/3 pt-10">
+        <RouterLink to="/annonces/all" class="text-blue-500 text-center">
+          <div class="buttonPrimary flex flex-row">
+            <span
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5 8.25 12l7.5-7.5"
+                /></svg
+            ></span>
+            Retour aux annonces
+          </div>
+        </RouterLink>
+      </div>
+
       <div class="mt-20 border-t border-gray-100 flex flex-col justify-start items-center">
         <a :href="annonce.imageCover" target="_blank"
           ><img
