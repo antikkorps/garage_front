@@ -106,12 +106,12 @@ onMounted(() => {
 
   <div class="w-full sm:w-full md:w-3/4 xl:w-1/3 lg:w-2/3 mx-auto px-4">
     <div class="main_content">
-      <div class="mt-10 border-t border-gray-100 flex flex-col justify-start items-center">
+      <div class="border-t border-gray-100 flex flex-col justify-start items-center">
         <a :href="annonce.imageCover" target="_blank"
           ><img
             v-if="annonce.imageCover"
             :src="annonce.imageCover"
-            class="py-6 sm:grid sm:grid-cols-1 sm:gap-4 w-full"
+            class="pb-4 sm:grid sm:grid-cols-1 sm:gap-4 w-full"
           />
           <img
             v-else
