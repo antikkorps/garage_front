@@ -125,9 +125,9 @@ const fetchBrands = async () => {
     const annonces: Annonce[] = response.data
     const brands = Array.from(new Set(annonces.map((annonce) => annonce.brand)))
 
+    brands.sort((a, b) => a.localeCompare(b))
+
     availableBrands.value = brands
-    console.log('les marques', brands)
-    console.log('les annonces', annonces)
   } catch (error) {
     console.error('Erreur lors de la récupération des marques :', error)
   }
