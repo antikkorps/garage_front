@@ -4,8 +4,6 @@ import { state } from '@/stores/state'
 import apiConfig from '@/config/apiConfig'
 import axios from 'axios'
 
-//TODO: CLARIFY THE MESSAGE WHEN MAIL IS ALREADY USED
-
 const baseUrl = apiConfig.production.baseUrl
 const endpoint = apiConfig.production.endpoints.signup
 const signupQuery = `${baseUrl}${endpoint}`
@@ -61,11 +59,17 @@ const addUser = () => {
         }, 4000)
       })
       .catch((error) => {
-        console.error(error)
-        confirmationMessage.value = "Erreur: impossible d'ajouter l'utilisateur"
-        setTimeout(() => {
-          confirmationMessage.value = ''
-        }, 4000)
+        if (error.response && error.response.status === 409) {
+          confirmationMessage.value = 'Erreur: cet email est déjà utilisé'
+          setTimeout(() => {
+            confirmationMessage.value = ''
+          }, 4000)
+        } else {
+          confirmationMessage.value = "Erreur: impossible d'ajouter l'utilisateur"
+          setTimeout(() => {
+            confirmationMessage.value = ''
+          }, 4000)
+        }
       })
   }
 }
