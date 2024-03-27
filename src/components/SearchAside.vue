@@ -142,8 +142,9 @@ const fetchYearsOfCirculation = async () => {
       new Set(annonces.map((annonce) => annonce.yearofcirculation))
     )
 
+    yearsOfCirculation.sort((a, b) => b - a)
+
     availableYearsOfCirculation.value = yearsOfCirculation
-    console.log('les années de circulation', yearsOfCirculation)
   } catch (error) {
     console.error('Erreur lors de la récupération des années de circulation :', error)
   }
