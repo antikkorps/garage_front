@@ -286,10 +286,10 @@ onMounted(() => {
             Mettre à jour
           </button>
         </div>
+        <p class="text-center mt-5" :class="messageClass" v-if="updateMessage">
+          {{ updateMessage }}
+        </p>
       </form>
-      <p class="text-center mt-5" :class="messageClass" v-if="updateMessage">
-        {{ updateMessage }}
-      </p>
     </div>
   </div>
 </template>
