@@ -89,7 +89,7 @@ onMounted(() => {
     <SidebarAdmin />
     <div class="listContainer px-5">
       <div :class="['main_content relative', { 'lg:ml-16': state.showSidebar }]">
-        <div class="container place-content-center grid grid-cols-3">
+        <div class="container flex flex-col w-1/3 justify-center">
           <h2 class="text-gray-500 text-center text-2xl sm:text-4xl sm:py-4">
             Demandes de contact de {{ contact?.name }}
           </h2>
