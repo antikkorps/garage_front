@@ -164,45 +164,47 @@ onMounted(() => {
               </div>
             </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label for="openingAm" class="block text-sm font-medium leading-6 text-gray-900"
-                  >Ouverture Matin</label
-                >
-                <div class="mt-2">
-                  <div
-                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+            <div v-if="ouvertureAM">
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="openingAm" class="block text-sm font-medium leading-6 text-gray-900"
+                    >Ouverture Matin</label
                   >
-                    <input
-                      type="time"
-                      name="openingAm"
-                      id="openingAm"
-                      autocomplete="openingAm"
-                      class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      v-model="openingAmTime"
-                    />
+                  <div class="mt-2">
+                    <div
+                      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+                    >
+                      <input
+                        type="time"
+                        name="openingAm"
+                        id="openingAm"
+                        autocomplete="openingAm"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        v-model="openingAmTime"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label for="closingAm" class="block text-sm font-medium leading-6 text-gray-900"
-                  >Fermeture Matin</label
-                >
-                <div class="mt-2">
-                  <div
-                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="closingAm" class="block text-sm font-medium leading-6 text-gray-900"
+                    >Fermeture Matin</label
                   >
-                    <input
-                      type="time"
-                      name="closingAm"
-                      id="closingAm"
-                      autocomplete="closingAm"
-                      class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      v-model="closingAmTime"
-                    />
+                  <div class="mt-2">
+                    <div
+                      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+                    >
+                      <input
+                        type="time"
+                        name="closingAm"
+                        id="closingAm"
+                        autocomplete="closingAm"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        v-model="closingAmTime"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -228,45 +230,47 @@ onMounted(() => {
               </div>
             </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label for="openingPm" class="block text-sm font-medium leading-6 text-gray-900"
-                  >Ouverture Après-midi</label
-                >
-                <div class="mt-2">
-                  <div
-                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+            <div v-if="ouverturePm">
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="openingPm" class="block text-sm font-medium leading-6 text-gray-900"
+                    >Ouverture Après-midi</label
                   >
-                    <input
-                      type="time"
-                      name="openingPm"
-                      id="openingPm"
-                      autocomplete="openingPm"
-                      class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      v-model="openingPmTime"
-                    />
+                  <div class="mt-2">
+                    <div
+                      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+                    >
+                      <input
+                        type="time"
+                        name="openingPm"
+                        id="openingPm"
+                        autocomplete="openingPm"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        v-model="openingPmTime"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label for="closingPm" class="block text-sm font-medium leading-6 text-gray-900"
-                  >Fermeture Après-midi</label
-                >
-                <div class="mt-2">
-                  <div
-                    class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="closingPm" class="block text-sm font-medium leading-6 text-gray-900"
+                    >Fermeture Après-midi</label
                   >
-                    <input
-                      type="time"
-                      name="closingPm"
-                      id="closingPm"
-                      autocomplete="closingPm"
-                      class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      v-model="closingPmTime"
-                    />
+                  <div class="mt-2">
+                    <div
+                      class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-600 sm:max-w-md"
+                    >
+                      <input
+                        type="time"
+                        name="closingPm"
+                        id="closingPm"
+                        autocomplete="closingPm"
+                        class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        v-model="closingPmTime"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
