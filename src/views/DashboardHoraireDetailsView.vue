@@ -164,7 +164,7 @@ onMounted(() => {
               </div>
             </div>
 
-            <div v-if="ouvertureAM">
+            <div v-show="ouvertureAM">
               <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
                   <label for="openingAm" class="block text-sm font-medium leading-6 text-gray-900"
@@ -230,7 +230,7 @@ onMounted(() => {
               </div>
             </div>
 
-            <div v-if="ouverturePm">
+            <div v-show="ouverturePm">
               <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
                   <label for="openingPm" class="block text-sm font-medium leading-6 text-gray-900"
