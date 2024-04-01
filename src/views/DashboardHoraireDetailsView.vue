@@ -111,7 +111,7 @@ const updateHorairesOfTheDay = async () => {
     }, 5000)
   } catch (error) {
     console.error('Erreur lors de la mise à jour des horaires :', error)
-    updateMessage.value = "La mise à jour des horaires n'a pas réussi"
+    updateMessage.value = "La mise à jour des horaires n'a pas réussi, veuillez essayer à nouveau"
     setTimeout(() => {
       updateMessage.value = ''
     }, 5000)
