@@ -43,16 +43,17 @@ onMounted(() => {
 
 const sortedHoraires = computed(() => {
   return horaires.value.slice().sort((a, b) => {
-    const joursDeLaSemaine = [
-      'Lundi',
-      'Mardi',
-      'Mercredi',
-      'Jeudi',
-      'Vendredi',
-      'Samedi',
-      'Dimanche'
-    ]
-    return joursDeLaSemaine.indexOf(a.jourDeLaSemaine) - joursDeLaSemaine.indexOf(b.jourDeLaSemaine)
+    // const joursDeLaSemaine = [
+    //   'Lundi',
+    //   'Mardi',
+    //   'Mercredi',
+    //   'Jeudi',
+    //   'Vendredi',
+    //   'Samedi',
+    //   'Dimanche'
+    // ]
+    // return joursDeLaSemaine.indexOf(a.jourDeLaSemaine) - joursDeLaSemaine.indexOf(b.jourDeLaSemaine)
+    return a.id - b.id
   })
 })
 </script>
